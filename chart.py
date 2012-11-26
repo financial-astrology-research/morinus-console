@@ -180,6 +180,21 @@ class Place:
 
 
 class Asp:
+
+    aspect_astrodinas = [
+        10, # a0
+        2, # a3
+        2, # a4
+        3, # a6
+        2, # a7
+        6, # a9
+        4, # a12
+        2, # a13
+        2, # a14
+        2, # a15
+        10, # a18
+    ]
+    
     def __init__(self):
         self.typ = Chart.NONE
         self.dif = 0.0
@@ -189,6 +204,9 @@ class Asp:
         self.parallel = Chart.NONE
         self.exact = False
 
+class PlanetAspects:
+    def __init__(self):
+        self.aspects = []
 
 class Chart:
     """Represents a horoscope"""
@@ -889,6 +907,11 @@ class Chart:
             # TODO: implement mutual reception by exaltation
             # TODO: implement status of the lord and aspect to current planet
 
+            #################################
+            # Aspects from it's dignities
+            #################################
+            self.astrodinas[pid] += self.calcAspectsFromDignity(pid)
+
             #############
             # In it's joy
             #############
@@ -899,7 +922,6 @@ class Chart:
             ######################
             # above of the horizon
             ######################
-
             if self.planets.planets[pid].abovehorizon:
                 # score +1 if planet is above horizon
                 self.astrodinas[pid] += 1
@@ -907,9 +929,24 @@ class Chart:
             ##########################################
             # debilitations that decrease planet power
             ##########################################
-
             decrease_factor = self.calcPlanetDebility(pid)
-            self.astrodinas[pid] = self.astrodinas[pid] / decrease_factor
+            self.astrodinas[pid] = round(self.astrodinas[pid] / decrease_factor, 1)
+
+    def calcAspectsFromDignity(self, pid):
+        '''Calculate receiving aspects from it's own dignities'''
+
+        given_astrodinas = 0
+        planet_aspects = self.getPlanetAspects(pid)
+        planet_doms = [i for i in range(len(self.options.dignities[pid][0])) if self.options.dignities[pid][0][i] == True]
+        planet_exals = [i for i in range(len(self.options.dignities[pid][1])) if self.options.dignities[pid][1][i] == True]
+        planet_dignities = planet_doms + planet_exals
+
+        for aspect in planet_aspects.aspects:
+            aspect_sign = self.planets.planets[aspect.pid].sign
+            if aspect_sign in planet_dignities:
+                given_astrodinas += self.calcAspectAstrodinas(aspect)
+
+        return given_astrodinas
 
     def calcPlanetSign(self):
         '''Calculates the sign position of the chart planets'''
@@ -917,7 +954,7 @@ class Chart:
         # counter of number of planets that are in specific sign
         self.signs_planets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-        for pid in range(astrology.SE_PLUTO+1):
+        for pid in range(astrology.SE_MEAN_NODE+1):
             lona = self.planets.planets[pid].data[0]
             sign = int(lona/Chart.SIGN_DEG)
             self.planets.planets[pid].sign = sign
@@ -1246,23 +1283,25 @@ class Chart:
         }
 
         # get the aspects of our planet
-        aspects = self.getPlanetAspects(pid)
+        planet_aspects = self.getPlanetAspects(pid)
 
         # build the strong_aspect array
-        for aspect in aspects:
+        for aspect in planet_aspects.aspects:
             planet_name = planets[aspect.pid]
             strong_aspect[planet_name]['n'] = aspects_keys[aspect.typ]
+            strong_aspect[planet_name]['aid'] = aspect.typ
             strong_aspect[planet_name]['t'] = aspect.appltxt + aspect.extxt
             strong_aspect[planet_name]['dex'] = aspect.dexter
             strong_aspect[planet_name]['ad'] = self.astrodinas[aspect.pid]
             strong_aspect[planet_name]['d'] = round(aspect.aspdif, 1)
-            strong_aspect[planet_name]['s'] = self.calculateAspectAstrodinas(strong_aspect[planet_name])
+            strong_aspect[planet_name]['s'] = self.astrodinas[aspect.pid] + self.calcAspectAstrodinas(aspect)
             #print '%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[asplanet_id], self.aspmatrix[j][i].typ, dif, appltxt, partxt[plel], extxt)
 
         return strong_aspect
 
     def getPlanetAspects(self, pid):
-        aspects = []
+        planet_aspects = PlanetAspects()
+
         for i in range(self.planets.PLANETS_NUM-1):
             for j in range(1, self.planets.PLANETS_NUM-1):
                 aspect = copy.deepcopy(self.aspmatrix[j][i])
@@ -1300,38 +1339,21 @@ class Chart:
                     else:
                         aspect.aspdif = self.aspmatrix[j][i].aspdif
 
-                    aspects.append(aspect)
+                    planet_aspects.aspects.append(aspect)
 
-        return aspects
+        return planet_aspects
 
 
-    def calculateAspectAstrodinas(self, aspect):
+    def calcAspectAstrodinas(self, aspect):
         '''Score how strong is an aspect depending on the type of aspect and the dinities of that planet'''
-        aspect_astrodinas = {
-            'a0' : 10,
-            'a3' : 2,
-            'a4' : 2,
-            'a6' : 3,
-            'a7' : 2,
-            'a9' : 6,
-            'a12' : 4,
-            'a13' : 2,
-            'a14' : 2,
-            'a15' : 2,
-            'a18' : 10,
-        }
 
-        if aspect['t'] in ['S']:
+        if aspect.appltxt in ['S']:
             # reduce the distributable astrodinas by 2 when aspect is separative and more weaker
-            distribute_astrodinas = aspect_astrodinas[aspect['n']] / 2
+            distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ] / 2
         else:
-            distribute_astrodinas = aspect_astrodinas[aspect['n']]
+            distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ]
 
         # distribute astrodinas depending the distance of the aspect. The more exact the aspect
         # more receive.
-        distance_aspect_astrodinas = distribute_astrodinas / math.exp(float(aspect['d'])/5)
-
-        # calculate final score
-        score = (aspect['ad'] + distance_aspect_astrodinas)
-
-        return round(score, 1)
+        given_astrodinas = distribute_astrodinas / math.exp(float(aspect.aspdif)/5)
+        return round(given_astrodinas, 1)
