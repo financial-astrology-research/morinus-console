@@ -930,7 +930,7 @@ class Chart:
             # debilitations that decrease planet power
             ##########################################
             decrease_factor = self.calcPlanetDebility(pid)
-            self.astrodinas[pid] = round(self.astrodinas[pid] / decrease_factor, 1)
+            self.astrodinas[pid] = round(self.astrodinas[pid] * decrease_factor, 1)
 
     def calcAspectsFromDignity(self, pid):
         '''Calculate receiving aspects from it's own dignities'''
@@ -967,13 +967,16 @@ class Chart:
 
         # decrease astrodinas powerful
         if self.isInExile(pid):
-            decrease_factor += 2
+            # 30 percent
+            decrease_factor -= 0.30
 
         if self.isInFall(pid):
-            decrease_factor += 2
+            # 30 percent
+            decrease_factor -= 0.30
 
         if self.isRetrograde(pid):
-            decrease_factor += 1
+            # 20 percent
+            decrease_factor -= 0.20
 
         return decrease_factor
 
@@ -1294,7 +1297,7 @@ class Chart:
             strong_aspect[planet_name]['dex'] = aspect.dexter
             strong_aspect[planet_name]['ad'] = self.astrodinas[aspect.pid]
             strong_aspect[planet_name]['d'] = round(aspect.aspdif, 1)
-            strong_aspect[planet_name]['s'] = self.astrodinas[aspect.pid] + self.calcAspectAstrodinas(aspect)
+            strong_aspect[planet_name]['s'] = self.calcAspectAstrodinas(aspect, self.astrodinas[aspect.pid])
             #print '%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[asplanet_id], self.aspmatrix[j][i].typ, dif, appltxt, partxt[plel], extxt)
 
         return strong_aspect
@@ -1344,16 +1347,16 @@ class Chart:
         return planet_aspects
 
 
-    def calcAspectAstrodinas(self, aspect):
-        '''Score how strong is an aspect depending on the type of aspect and the dinities of that planet'''
+    def calcAspectAstrodinas(self, aspect, planet_power = 0):
+        '''Score how strong is an aspect depending on the orb.'''
 
-        if aspect.appltxt in ['S']:
-            # reduce the distributable astrodinas by 2 when aspect is separative and more weaker
-            distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ] / 2
+        if aspect.appltxt in ['S', 'SE']:
+            # reduce the distributable astrodinas when aspect is separative and more weaker
+            decay_cons = 2
         else:
-            distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ]
+            # when aspect is aplicative or exact the decay is less proportional to the orb
+            decay_cons = 5
 
-        # distribute astrodinas depending the distance of the aspect. The more exact the aspect
-        # more receive.
-        given_astrodinas = distribute_astrodinas / math.exp(float(aspect.aspdif)/5)
+        distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ] + planet_power
+        given_astrodinas = distribute_astrodinas / math.exp(float(aspect.aspdif) / decay_cons)
         return round(given_astrodinas, 1)
