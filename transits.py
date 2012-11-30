@@ -309,7 +309,8 @@ class Transits:
                         tr.sign = int(lon/chart.Chart.SIGN_DEG)
                         tr.date = '%d-%d-%d' % (time1.year, time1.month, time1.day)
                         tr.time = time1.time
-                        tr.score = chart.Asp.aspect_astrodinas[tr.aspect] + chrt2.astrodinas[tr.plt]
+                        prop_planet_power = chrt2.calcProportionalAstrodinas(tr.aspect, chrt2.astrodinas[tr.plt])
+                        tr.score = chart.Asp.aspect_astrodinas[tr.aspect] + prop_planet_power
 
                         return tr
                 

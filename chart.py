@@ -1357,6 +1357,19 @@ class Chart:
             # when aspect is aplicative or exact the decay is less proportional to the orb
             decay_cons = 5
 
-        distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ] + planet_power
+        # get the proportional planet power based on the aspect it forms
+        prop_planet_power = self.calcProportionalAstrodinas(aspect.typ, planet_power)
+        # sum the power of the aspect plus power of the planet
+        distribute_astrodinas = Asp.aspect_astrodinas[aspect.typ] + prop_planet_power
+        # distribute the power proportional to the orb of the aspect
         given_astrodinas = distribute_astrodinas / math.exp(float(aspect.aspdif) / decay_cons)
+
         return round(given_astrodinas, 1)
+
+    def calcProportionalAstrodinas(self, aspect_type, given_astrodinas):
+        '''Calculate the proportion of power of planet astrodinas depending the potential of the aspect it forms'''
+        # Total power must be proportional to the scale of the aspect
+        # considering the maximum value as the totally power and getting the
+        # proportion of the current aspect because in effect a conjuction will
+        # be much strong than a semisextile.
+        return given_astrodinas / (max(Asp.aspect_astrodinas) / Asp.aspect_astrodinas[aspect_type])
