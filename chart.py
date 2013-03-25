@@ -1272,17 +1272,17 @@ class Chart:
         partxt = ('none', 'parallel', 'contrap')
         aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
         strong_aspect = {
-            'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'ME' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'VE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'MA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'JU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'SA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
-            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0},
+            'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'ME' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'VE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'MA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'JU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'SA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
         }
 
         # get the aspects of our planet
@@ -1298,6 +1298,7 @@ class Chart:
             strong_aspect[planet_name]['ad'] = self.astrodinas[aspect.pid]
             strong_aspect[planet_name]['d'] = round(aspect.aspdif, 1)
             strong_aspect[planet_name]['s'] = self.calcAspectAstrodinas(aspect, self.astrodinas[aspect.pid])
+            strong_aspect[planet_name]['sig'] = self.planets.planets[aspect.pid].sign
             #print '%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[asplanet_id], self.aspmatrix[j][i].typ, dif, appltxt, partxt[plel], extxt)
 
         return strong_aspect
