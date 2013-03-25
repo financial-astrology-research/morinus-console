@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 
+import astrology
 import chart
 import pickle
-import pprint
 import options
 import transits
-import pickle
 import util
-import transits
 from inspect import getmembers
 from pprint import pprint
 from printr import printr
@@ -20,16 +18,16 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
     ascmc = ['Asc', 'MC']
 
     print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tS\tRT\t" \
-        "SU\tSUD\tSUS\tSUT\t" \
-        "MO\tMOD\tMOS\tMOT\t" \
-        "ME\tMED\tMES\tMET\t" \
-        "VE\tVED\tVES\tVET\t" \
-        "MA\tMAD\tMAS\tMAT\t" \
-        "JU\tJUD\tJUS\tJUT\t" \
-        "SA\tSAD\tSAS\tSAT\t" \
-        "UR\tURD\tURS\tURT\t" \
-        "NE\tNED\tNES\tNET\t" \
-        "PL\tPLD\tPLS\tPLT"
+        "SU\tSUZ\tSUD\tSUS\tSUT\t" \
+        "MO\tMOZ\tMOD\tMOS\tMOT\t" \
+        "ME\tMEZ\tMED\tMES\tMET\t" \
+        "VE\tVEZ\tVED\tVES\tVET\t" \
+        "MA\tMAZ\tMAD\tMAS\tMAT\t" \
+        "JU\tJUZ\tJUD\tJUS\tJUT\t" \
+        "SA\tSAZ\tSAD\tSAS\tSAT\t" \
+        "UR\tURZ\tURD\tURS\tURT\t" \
+        "NE\tNEZ\tNED\tNES\tNET\t" \
+        "PL\tPLZ\tPLD\tPLS\tPLT"
 
     for tr in ls:
         out = []
@@ -47,7 +45,12 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
         out.append('%s\t%d:%02d:%02d\t%s\t%s\t%s\tH%d\tH%d\t%s\t%d\t%d' % (tr.date, d, m, s, planets[tr.plt], aspects_keys[tr.aspect], obj_keys[tr.obj], tr.house+1, tr.house2+1, signs[tr.sign], tr.score, tr.pltretr))
 
         for planet in planets:
-            out.append('\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
+            if isinstance(tr.aspects[planet]['sig'], int):
+                sign = signs[tr.aspects[planet]['sig']]
+            else:
+                sign = ''
+
+            out.append('\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], sign, tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
 
         print ''.join(out)
 
