@@ -2,8 +2,9 @@
 
 import astrology
 import chart
-import pickle
 import options
+import pickle
+import placedb
 import transits
 import util
 from inspect import getmembers
@@ -17,17 +18,18 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
     signs = ['AR', 'TA', 'GE', 'CN', 'LE', 'VI', 'LI', 'SC', 'SA', 'CA', 'AQ', 'PI']
     ascmc = ['Asc', 'MC']
 
-    print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tS\tRT\t" \
-        "SU\tSULO\tSUD\tSUS\tSUT\t" \
-        "MO\tMOLO\tMOD\tMOS\tMOT\t" \
-        "ME\tMELO\tMED\tMES\tMET\t" \
-        "VE\tVELO\tVED\tVES\tVET\t" \
-        "MA\tMALO\tMAD\tMAS\tMAT\t" \
-        "JU\tJULO\tJUD\tJUS\tJUT\t" \
-        "SA\tSALO\tSAD\tSAS\tSAT\t" \
-        "UR\tURLO\tURD\tURS\tURT\t" \
-        "NE\tNELO\tNED\tNES\tNET\t" \
-        "PL\tPLLO\tPLD\tPLS\tPLT"
+    print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\t" \
+        "ASC1\tMC1\tDES1\tASC2\tMC2\tDES2\tS\t" \
+        "SU\tSULO\tSULA\tSUSP\tSUD\tSUS\tSUT\t" \
+        "MO\tMOLO\tMOLA\tMOSP\tMOD\tMOS\tMOT\t" \
+        "ME\tMELO\tMELA\tMESP\tMED\tMES\tMET\t" \
+        "VE\tVELO\tVELA\tVESP\tVED\tVES\tVET\t" \
+        "MA\tMALO\tMALA\tMASP\tMAD\tMAS\tMAT\t" \
+        "JU\tJULO\tJULA\tJUSP\tJUD\tJUS\tJUT\t" \
+        "SA\tSALO\tSALA\tSASP\tSAD\tSAS\tSAT\t" \
+        "UR\tURLO\tURLA\tURSP\tURD\tURS\tURT\t" \
+        "NE\tNELO\tNELA\tNESP\tNED\tNES\tNET\t" \
+        "PL\tPLLO\tPLLA\tPLSP\tPLD\tPLS\tPLT"
 
     for tr in ls:
         out = []
@@ -42,14 +44,16 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
         else:
             continue
 
-        out.append('%s\t%d:%02d:%02d\t%s\t%s\t%s\tH%d\tH%d\t%s\t%d\t%d' % (tr.date, d, m, s, planets[tr.plt], aspects_keys[tr.aspect], obj_keys[tr.obj], tr.house+1, tr.house2+1, signs[tr.sign], tr.score, tr.pltretr))
+        out.append('%s\t%d:%02d:%02d\t%s\t%s\t%s\tH%d\tH%d\t%s\t%d\t%d\t%.2f\t%d\t' % (tr.date, d, m, s, planets[tr.plt], aspects_keys[tr.aspect], obj_keys[tr.obj], tr.house+1, tr.house2+1, signs[tr.sign], tr.lon, tr.lat, tr.sp, tr.prlon))
+        # add the riseset times
+        out.append('%s\t%s\t%s\t%s\t%s\t%s\t%d' % (tr.riseset1[0], tr.riseset1[1], tr.riseset1[2], tr.riseset2[0], tr.riseset2[1], tr.riseset2[2], tr.score));
 
         for planet in planets:
             #if isinstance(tr.aspects[planet]['sig'], int):
                 #sign = signs[tr.aspects[planet]['sig']]
             #else:
                 #sign = ''
-            out.append('\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['lon'], tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
+            out.append('\t%s\t%s\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['lon'], tr.aspects[planet]['lat'], tr.aspects[planet]['sp'], tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
 
         print ''.join(out)
 
@@ -119,6 +123,12 @@ chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 # chrt.astrodinas()
 #chrt.printAspMatrix();
 trans = transits.Transits()
+# read places DB to get NY place
+pdb = placedb.PlaceDB()
+pdb.read()
+pdb.searchPlace('New York, USA')
+trans.extraPlace(pdb.search_result)
+
 
 for year in range(1995, 2015):
     for month in range(1,13):

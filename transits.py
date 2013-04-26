@@ -46,7 +46,10 @@ class Transits:
     def __init__(self):
         self.transits = []
         self.flags = Transits.NONE
+        self.extra_places = []
 
+    def extraPlace(self, place):
+        self.extra_places.append(place);
 
     def month(self, year, month, chrt, planet = -1, pos = None):
         self.flags = astrology.SEFLG_SPEED+astrology.SEFLG_SWIEPH
@@ -297,20 +300,31 @@ class Transits:
                         if typ != Transit.SIGN:
                             tr.aspect = a
 
-                        trantime = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, time1.second, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
-                        chrt2 = chart.Chart(chrt.name, chrt.male, trantime, chrt.place, chrt.htype, chrt.notes, chrt.options)
+                        trantime2 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, time1.second, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
+                        chrt2 = chart.Chart(chrt.name, chrt.male, trantime2, chrt.place, chrt.htype, chrt.notes, chrt.options)
                         # calculate astrodinas
                         chrt2.calculateAstrodinas()
-                        #exit()
+                        ny_place = self.extra_places[0]
+                        # calculate transit chart for NY
+                        trantime3 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, time1.second, chrt.time.bc, chrt.time.cal, chrt.time.zt, ny_place['tz']['sign'], ny_place['tz']['hour'], ny_place['tz']['minute'], chrt.time.daylightsaving, chrt.place)
+                        chrt3 = chart.Chart(chrt.name, chrt.male, trantime3, ny_place['place'], chrt.htype, chrt.notes, chrt.options)
                         tr.aspects = chrt2.strongAspects(tr.plt)
                         tr.house = chrt.houses.getHousePos(planet1.data[planets.Planet.LONG], chrt.options)
                         tr.house2 = chrt2.houses.getHousePos(chrt2.planets.planets[tr.plt].data[planets.Planet.LONG], chrt2.options)
-                        tr.day = time1.day
+                        # get lat, lon, speed
+                        tr.lon = lon
+                        tr.lat = chrt.planets.planets[tr.plt].data[planets.Planet.LAT]
+                        tr.sp = chrt.planets.planets[tr.plt].data[planets.Planet.SPLON]
+                        # radical planet lon
+                        tr.prlon = chrt2.planets.planets[tr.obj].data[planets.Planet.LONG]
                         tr.sign = int(lon/chart.Chart.SIGN_DEG)
+                        tr.day = time1.day
                         tr.date = '%d-%d-%d' % (time1.year, time1.month, time1.day)
                         tr.time = time1.time
                         prop_planet_power = chrt2.calcProportionalAstrodinas(tr.aspect, chrt2.astrodinas[tr.plt])
                         tr.score = chart.Asp.aspect_astrodinas[tr.aspect] + prop_planet_power
+                        tr.riseset1 = chrt2.riseset.planetRiseSet(tr.plt)
+                        tr.riseset2 = chrt3.riseset.planetRiseSet(tr.plt)
 
                         return tr
                 
