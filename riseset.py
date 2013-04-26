@@ -95,7 +95,7 @@ class RiseSet:
             for angle in range(numangles):
                 h,m,s = util.decToDeg(self.times[i][angle])
                 # apply the time zone
-                h = h - self.zh
+                #h = h - self.zh
                 print "%s: %s: %02d:%02d:%02d" % (pls.planets[i].name, txt[angle], h, m, s)
 
 
@@ -107,7 +107,7 @@ class RiseSet:
             for angle in range(numangles):
                 h, m, s = util.decToDeg(self.times[pid][angle])
                 # apply the time zone
-                h = h - self.zh
+                #h = h - self.zh
                 planet_riseset.append("%02d:%02d" % (h, m))
 
         return(planet_riseset)
