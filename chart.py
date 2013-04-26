@@ -353,7 +353,7 @@ class Chart:
             self.parts = arabicparts.ArabicParts(self.options.arabicparts, self.houses.ascmc, self.planets, self.houses, self.houses.cusps, self.fortune, self.syzygy, self.options)
             self.fixstars = fixstars.FixStars(self.time.jd, fsflag, self.options.fixstars, self.obl[0])
             self.midpoints = midpoints.MidPoints(self.planets)
-            self.riseset = riseset.RiseSet(self.time.jd, self.time.cal, self.place.lon, self.place.lat, self.place.altitude, self.planets)
+            self.riseset = riseset.RiseSet(self.time.jd, self.time.cal, self.time.zh, self.place.lon, self.place.lat, self.place.altitude, self.planets)
             self.zodpars = zodpars.ZodPars(self.planets, self.obl[0])
             self.antiscia = antiscia.Antiscia(self.planets.planets, self.houses.ascmc, self.fortune.fortune, self.obl[0], self.options.ayanamsha, self.ayanamsha)
             self.antzodpars = antzodpars.AntZodPars(self.antiscia.plantiscia, self.antiscia.plcontraant, self.obl[0])
@@ -1268,21 +1268,21 @@ class Chart:
 
 
     def strongAspects(self, pid):
-        planets = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NO')
+        planets_names = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NO')
         partxt = ('none', 'parallel', 'contrap')
         aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
         strong_aspect = {
-            'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'ME' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'VE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'MA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'JU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'SA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
-            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'sig' : None},
+            'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'ME' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'VE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'MA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'JU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'SA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
         }
 
         # get the aspects of our planet
@@ -1290,7 +1290,11 @@ class Chart:
 
         # build the strong_aspect array
         for aspect in planet_aspects.aspects:
-            planet_name = planets[aspect.pid]
+            # planet lon, lat and speed
+            lon = int(self.planets.planets[aspect.pid].data[planets.Planet.LONG])
+            lat = round(self.planets.planets[aspect.pid].data[planets.Planet.LAT], 1)
+            speed = round(self.planets.planets[aspect.pid].data[planets.Planet.SPLON], 2)
+            planet_name = planets_names[aspect.pid]
             strong_aspect[planet_name]['n'] = aspects_keys[aspect.typ]
             strong_aspect[planet_name]['aid'] = aspect.typ
             strong_aspect[planet_name]['t'] = aspect.appltxt + aspect.extxt
@@ -1298,7 +1302,9 @@ class Chart:
             strong_aspect[planet_name]['ad'] = self.astrodinas[aspect.pid]
             strong_aspect[planet_name]['d'] = round(aspect.aspdif, 1)
             strong_aspect[planet_name]['s'] = self.calcAspectAstrodinas(aspect, self.astrodinas[aspect.pid])
-            strong_aspect[planet_name]['sig'] = self.planets.planets[aspect.pid].sign
+            strong_aspect[planet_name]['lon'] = lon
+            strong_aspect[planet_name]['lat'] = lat
+            strong_aspect[planet_name]['sp'] = speed
             #print '%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[asplanet_id], self.aspmatrix[j][i].typ, dif, appltxt, partxt[plel], extxt)
 
         return strong_aspect
