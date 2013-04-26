@@ -18,16 +18,16 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
     ascmc = ['Asc', 'MC']
 
     print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tS\tRT\t" \
-        "SU\tSUZ\tSUD\tSUS\tSUT\t" \
-        "MO\tMOZ\tMOD\tMOS\tMOT\t" \
-        "ME\tMEZ\tMED\tMES\tMET\t" \
-        "VE\tVEZ\tVED\tVES\tVET\t" \
-        "MA\tMAZ\tMAD\tMAS\tMAT\t" \
-        "JU\tJUZ\tJUD\tJUS\tJUT\t" \
-        "SA\tSAZ\tSAD\tSAS\tSAT\t" \
-        "UR\tURZ\tURD\tURS\tURT\t" \
-        "NE\tNEZ\tNED\tNES\tNET\t" \
-        "PL\tPLZ\tPLD\tPLS\tPLT"
+        "SU\tSULO\tSUD\tSUS\tSUT\t" \
+        "MO\tMOLO\tMOD\tMOS\tMOT\t" \
+        "ME\tMELO\tMED\tMES\tMET\t" \
+        "VE\tVELO\tVED\tVES\tVET\t" \
+        "MA\tMALO\tMAD\tMAS\tMAT\t" \
+        "JU\tJULO\tJUD\tJUS\tJUT\t" \
+        "SA\tSALO\tSAD\tSAS\tSAT\t" \
+        "UR\tURLO\tURD\tURS\tURT\t" \
+        "NE\tNELO\tNED\tNES\tNET\t" \
+        "PL\tPLLO\tPLD\tPLS\tPLT"
 
     for tr in ls:
         out = []
@@ -45,12 +45,11 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
         out.append('%s\t%d:%02d:%02d\t%s\t%s\t%s\tH%d\tH%d\t%s\t%d\t%d' % (tr.date, d, m, s, planets[tr.plt], aspects_keys[tr.aspect], obj_keys[tr.obj], tr.house+1, tr.house2+1, signs[tr.sign], tr.score, tr.pltretr))
 
         for planet in planets:
-            if isinstance(tr.aspects[planet]['sig'], int):
-                sign = signs[tr.aspects[planet]['sig']]
-            else:
-                sign = ''
-
-            out.append('\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], sign, tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
+            #if isinstance(tr.aspects[planet]['sig'], int):
+                #sign = signs[tr.aspects[planet]['sig']]
+            #else:
+                #sign = ''
+            out.append('\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['lon'], tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
 
         print ''.join(out)
 
@@ -96,6 +95,20 @@ except IOError:
 opts = options.Options()
 # override orb for exact aspects to 3.0
 opts.exact = 3.0
+# The orbs of aspects and planets
+opts.orbis = [
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+ [9.0, 2.0, 2.0, 4.0, 2.0, 7.0, 7.0, 3.0, 2.0, 4.0, 9.0],
+]
 
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
@@ -107,10 +120,8 @@ chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 #chrt.printAspMatrix();
 trans = transits.Transits()
 
-for year in range(2001, 2014):
+for year in range(1995, 2015):
     for month in range(1,13):
         trans.month(year, month, chrt)
 
-#trans.printTransits(trans.transits)
 printTransits(trans.transits)
-#pprint.pprint(vars(chrt.planets));
