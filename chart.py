@@ -399,7 +399,6 @@ class Chart:
 
         self.fortune = fortune.Fortune(self.options.lotoffortune, self.houses.ascmc2, self.raequasc, self.planets, self.obl[0], self.place.lat, abovehor)
         self.calcPointAspMatrix(self.fortune.fortune[fortune.Fortune.LON], 0)
-        self.calcPointAspMatrix(130, 1)
 
 
     def isAboveHorizonWithOrb(self):
@@ -759,9 +758,9 @@ class Chart:
 
                 self.aspMatrixPoints[matrix_pos][i].dif = dif
 
-        for i in range(len(self.aspMatrixPoints[matrix_pos])):
-            if self.aspMatrixPoints[matrix_pos][i].typ > -1:
-                printr(self.aspMatrixPoints[matrix_pos][i])
+#        for i in range(len(self.aspMatrixPoints[matrix_pos])):
+            #if self.aspMatrixPoints[matrix_pos][i].typ > -1:
+                #printr(self.aspMatrixPoints[matrix_pos][i])
 
 
 
@@ -1284,22 +1283,22 @@ class Chart:
                     print '%s - %s: type=%d %s diff=%f  %s\n' % (planets[i], hname[j], self.aspmatrixH[j][i].typ, appltxt, self.aspmatrixH[j][i].dif, extxt)
 
 
-    def strongAspects(self, pid):
+    def strongAspects(self, pid, pr_lon):
         planets_names = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NO')
         partxt = ('none', 'parallel', 'contrap')
         aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
         strong_aspect = {
-            'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'ME' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'VE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'MA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'JU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'SA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
-            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0},
+            'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'ME' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'VE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'MA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'JU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'SA' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
         }
 
         # get the aspects of our planet
@@ -1323,6 +1322,27 @@ class Chart:
             strong_aspect[planet_name]['lat'] = lat
             strong_aspect[planet_name]['sp'] = speed
             #print '%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[asplanet_id], self.aspmatrix[j][i].typ, dif, appltxt, partxt[plel], extxt)
+
+        # calculate aspect matrix to the radical point
+        matrix_pos = 1
+        self.calcPointAspMatrix(pr_lon, matrix_pos)
+        for i in range(self.planets.PLANETS_NUM):
+            # ignore the transit planets aspects due are alredy
+            # as the main aspect
+            if i == pid:
+                continue
+            if self.aspMatrixPoints[matrix_pos][i].typ != Chart.NONE:
+                aspect = copy.deepcopy(self.aspMatrixPoints[matrix_pos][i])
+                if self.aspMatrixPoints[matrix_pos][i].aspdif > 180:
+                    aspect.aspdif = 360.0 - self.aspMatrixPoints[matrix_pos][i].aspdif
+                else:
+                    aspect.aspdif = self.aspMatrixPoints[matrix_pos][i].aspdif
+
+                # we are interested in the aspect that forms with radical point and the distance
+                # of the aspect
+                planet_name = planets_names[i]
+                strong_aspect[planet_name]['prt'] = aspects_keys[aspect.typ]
+                strong_aspect[planet_name]['prd'] = round(aspect.aspdif, 1)
 
         return strong_aspect
 

@@ -20,16 +20,16 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
 
     print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\t" \
         "ASC1\tMC1\tDES1\tASC2\tMC2\tDES2\tS\t" \
-        "SU\tSULO\tSULA\tSUSP\tSUD\tSUS\tSUT\t" \
-        "MO\tMOLO\tMOLA\tMOSP\tMOD\tMOS\tMOT\t" \
-        "ME\tMELO\tMELA\tMESP\tMED\tMES\tMET\t" \
-        "VE\tVELO\tVELA\tVESP\tVED\tVES\tVET\t" \
-        "MA\tMALO\tMALA\tMASP\tMAD\tMAS\tMAT\t" \
-        "JU\tJULO\tJULA\tJUSP\tJUD\tJUS\tJUT\t" \
-        "SA\tSALO\tSALA\tSASP\tSAD\tSAS\tSAT\t" \
-        "UR\tURLO\tURLA\tURSP\tURD\tURS\tURT\t" \
-        "NE\tNELO\tNELA\tNESP\tNED\tNES\tNET\t" \
-        "PL\tPLLO\tPLLA\tPLSP\tPLD\tPLS\tPLT"
+        "SU\tSUR\tSULO\tSULA\tSUSP\tSUD\tSURD\tSUS\tSUT\t" \
+        "MO\tMOR\tMOLO\tMOLA\tMOSP\tMOD\tMORD\tMOS\tMOT\t" \
+        "ME\tMER\tMELO\tMELA\tMESP\tMED\tMERD\tMES\tMET\t" \
+        "VE\tVER\tVELO\tVELA\tVESP\tVED\tVERD\tVES\tVET\t" \
+        "MA\tMAR\tMALO\tMALA\tMASP\tMAD\tMARD\tMAS\tMAT\t" \
+        "JU\tJUR\tJULO\tJULA\tJUSP\tJUD\tJURD\tJUS\tJUT\t" \
+        "SA\tSAR\tSALO\tSALA\tSASP\tSAD\tSARD\tSAS\tSAT\t" \
+        "UR\tURR\tURLO\tURLA\tURSP\tURD\tURRD\tURS\tURT\t" \
+        "NE\tNER\tNELO\tNELA\tNESP\tNED\tNERD\tNES\tNET\t" \
+        "PL\tPLR\tPLLO\tPLLA\tPLSP\tPLD\tPLRD\tPLS\tPLT"
 
     for tr in ls:
         out = []
@@ -53,7 +53,7 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
                 #sign = signs[tr.aspects[planet]['sig']]
             #else:
                 #sign = ''
-            out.append('\t%s\t%s\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['lon'], tr.aspects[planet]['lat'], tr.aspects[planet]['sp'], tr.aspects[planet]['d'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
+            out.append('\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['prt'], tr.aspects[planet]['lon'], tr.aspects[planet]['lat'], tr.aspects[planet]['sp'], tr.aspects[planet]['d'], tr.aspects[planet]['prd'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
 
         print ''.join(out)
 
@@ -130,8 +130,8 @@ pdb.searchPlace('New York, USA')
 trans.extraPlace(pdb.search_result)
 
 
-for year in range(1990, 2016):
-    for month in range(1,13):
+for year in range(1990, 1991):
+    for month in range(1,2):
         trans.month(year, month, chrt)
 
 printTransits(trans.transits)

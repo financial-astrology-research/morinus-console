@@ -308,15 +308,16 @@ class Transits:
                         # calculate transit chart for NY
                         trantime3 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, time1.second, chrt.time.bc, chrt.time.cal, chrt.time.zt, ny_place['tz']['sign'], ny_place['tz']['hour'], ny_place['tz']['minute'], chrt.time.daylightsaving, chrt.place)
                         chrt3 = chart.Chart(chrt.name, chrt.male, trantime3, ny_place['place'], chrt.htype, chrt.notes, chrt.options)
-                        tr.aspects = chrt2.strongAspects(tr.plt)
                         tr.house = chrt.houses.getHousePos(planet1.data[planets.Planet.LONG], chrt.options)
                         tr.house2 = chrt2.houses.getHousePos(chrt2.planets.planets[tr.plt].data[planets.Planet.LONG], chrt2.options)
                         # get lat, lon, speed
-                        tr.lon = lon
-                        tr.lat = chrt.planets.planets[tr.plt].data[planets.Planet.LAT]
-                        tr.sp = chrt.planets.planets[tr.plt].data[planets.Planet.SPLON]
+                        tr.lon = chrt2.planets.planets[tr.plt].data[planets.Planet.LONG]
+                        tr.lat = chrt2.planets.planets[tr.plt].data[planets.Planet.LAT]
+                        tr.sp = chrt2.planets.planets[tr.plt].data[planets.Planet.SPLON]
                         # radical planet lon
-                        tr.prlon = chrt2.planets.planets[tr.obj].data[planets.Planet.LONG]
+                        tr.prlon = chrt.planets.planets[tr.obj].data[planets.Planet.LONG]
+                        # get the aspects
+                        tr.aspects = chrt2.strongAspects(tr.plt, tr.prlon)
                         tr.sign = int(lon/chart.Chart.SIGN_DEG)
                         tr.day = time1.day
                         tr.date = '%d-%d-%d' % (time1.year, time1.month, time1.day)
