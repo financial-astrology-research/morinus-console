@@ -896,7 +896,7 @@ class GraphChart:
 		for i in range(planets.Planets.PLANETS_NUM-NODES):
 			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]):
 				continue
-			asp = self.chart.aspmatrixLoF[i]
+			asp = self.chart.aspmatrixLoF[0][i]
 			lon1 = self.chart.planets.planets[i].data[planets.Planet.LONG]
 			showasp = self.isShowAsp(asp.typ, lon1, lon2)
 			if showasp:
@@ -980,7 +980,7 @@ class GraphChart:
 		for i in range(planets.Planets.PLANETS_NUM-NODES):
 			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]):
 				continue
-			asp = self.chart.aspmatrixLoF[i]
+			asp = self.chart.aspmatrixLoF[0][i]
 			lon1 = self.chart.planets.planets[i].data[planets.Planet.LONG]
 			showasp = self.isShowAsp(asp.typ, lon1, lon2)
 			if showasp:

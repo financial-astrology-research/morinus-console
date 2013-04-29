@@ -398,7 +398,8 @@ class Chart:
             abovehor = self.abovehorizonwithorb
 
         self.fortune = fortune.Fortune(self.options.lotoffortune, self.houses.ascmc2, self.raequasc, self.planets, self.obl[0], self.place.lat, abovehor)
-        self.calcLoFAspMatrix()
+        self.calcPointAspMatrix(self.fortune.fortune[fortune.Fortune.LON], 0)
+        self.calcPointAspMatrix(130, 1)
 
 
     def isAboveHorizonWithOrb(self):
@@ -676,23 +677,34 @@ class Chart:
                     self.aspmatrixH[j][i].dif = dif
 
 
-        self.calcLoFAspMatrix()
+        self.calcPointAspMatrix(self.fortune.fortune[fortune.Fortune.LON], 0)
 
 
-    def calcLoFAspMatrix(self):
+    def calcPointAspMatrix(self, point_lon, matrix_pos):
         NODES = 2
-        lonlof = self.fortune.fortune[fortune.Fortune.LON]
-        self.aspmatrixLoF = [Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp(), Asp()] 
-    
+        # we have up to 10 rows in the matrix for custom points
+        self.aspMatrixPoints = [
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+            [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+        ]
+
         for i in range(self.planets.PLANETS_NUM):#Both nodes (conjunctio only)
             #We don't check parallel-contraparallel now
-            self.aspmatrixLoF[i].parallel = Chart.NONE 
+            self.aspMatrixPoints[matrix_pos][i].parallel = Chart.NONE 
 
             for a in range(Chart.ASPECT_NUM):
                 #only conjunctio in case of the nodes
                 if i >= self.planets.PLANETS_NUM-NODES and a > 0:
                     break
-                    
+
                 #Check aspects
                 orb = 0.0
                 if i < self.planets.PLANETS_NUM-1:
@@ -700,52 +712,57 @@ class Chart:
                 else:
                     orb = self.options.orbis[i-1][a]
 
-                val1 = lonlof+orb
-                val2 = lonlof-orb
+                val1 = point_lon+orb
+                val2 = point_lon-orb
 
                 if (self.inorbsinister(val1, val2, self.planets.planets[i].data[0], a)):
                     tmp = util.normalize(self.planets.planets[i].data[0]+Chart.Aspects[a])
-                    dif = math.fabs(tmp-lonlof)
-                    if self.aspmatrixLoF[i].typ == Chart.NONE or (self.aspmatrixLoF[i].typ != Chart.NONE and self.aspmatrixLoF[i].dif > dif):
-                        self.aspmatrixLoF[i].typ = a
-                        self.aspmatrixLoF[i].aspdif = dif
-                        self.aspmatrixLoF[i].sinister = True
-                        self.aspmatrixLoF[i].appl = tmp > lonlof #LoF's speed is like that of the Moon but if Sun-Moon then it goes backwards in the signs
+                    dif = math.fabs(tmp-point_lon)
+                    if self.aspMatrixPoints[matrix_pos][i].typ == Chart.NONE or (self.aspMatrixPoints[matrix_pos][i].typ != Chart.NONE and self.aspMatrixPoints[matrix_pos][i].dif > dif):
+                        self.aspMatrixPoints[matrix_pos][i].typ = a
+                        self.aspMatrixPoints[matrix_pos][i].aspdif = dif
+                        self.aspMatrixPoints[matrix_pos][i].sinister = True
+                        self.aspMatrixPoints[matrix_pos][i].appl = tmp > point_lon #LoF's speed is like that of the Moon but if Sun-Moon then it goes backwards in the signs
 
                         #Exact
-                        val1 = lonlof+self.options.exact
-                        val2 = lonlof-self.options.exact
+                        val1 = point_lon+self.options.exact
+                        val2 = point_lon-self.options.exact
 
                         if (self.inorbsinister(val1, val2, self.planets.planets[i].data[0], a)):
-                            self.aspmatrixLoF[i].exact = True 
+                            self.aspMatrixPoints[matrix_pos][i].exact = True 
                         else:   
-                            self.aspmatrixLoF[i].exact = False
+                            self.aspMatrixPoints[matrix_pos][i].exact = False
                 else:#negativ
                     if (self.inorbdexter(val1, val2, self.planets.planets[i].data[0], a)):
                         tmp = util.normalize(self.planets.planets[i].data[0]-Chart.Aspects[a])
-                        dif = math.fabs(tmp-lonlof)
-                        if self.aspmatrixLoF[i].typ == Chart.NONE or (self.aspmatrixLoF[i].typ != Chart.NONE and self.aspmatrixLoF[i].dif > dif):
-                            self.aspmatrixLoF[i].typ = a
-                            self.aspmatrixLoF[i].aspdif = dif
-                            self.aspmatrixLoF[i].appl = tmp > lonlof #LoF's spped is like that of the Moon but if Sun-Moon then it goes backwards in the signs
+                        dif = math.fabs(tmp-point_lon)
+                        if self.aspMatrixPoints[matrix_pos][i].typ == Chart.NONE or (self.aspMatrixPoints[matrix_pos][i].typ != Chart.NONE and self.aspMatrixPoints[matrix_pos][i].dif > dif):
+                            self.aspMatrixPoints[matrix_pos][i].typ = a
+                            self.aspMatrixPoints[matrix_pos][i].aspdif = dif
+                            self.aspMatrixPoints[matrix_pos][i].appl = tmp > point_lon #LoF's spped is like that of the Moon but if Sun-Moon then it goes backwards in the signs
 
                             #exact
-                            val1 = lonlof+self.options.exact
-                            val2 = lonlof-self.options.exact
+                            val1 = point_lon+self.options.exact
+                            val2 = point_lon-self.options.exact
 
                             if (self.inorbdexter(val1, val2, self.planets.planets[i].data[0], a)):
-                                self.aspmatrixLoF[i].exact = True 
+                                self.aspMatrixPoints[matrix_pos][i].exact = True 
                             else:   
-                                self.aspmatrixLoF[i].exact = False
+                                self.aspMatrixPoints[matrix_pos][i].exact = False
 
-                dif = self.planets.planets[i].data[0]-lonlof
-                if lonlof > self.planets.planets[i].data[0]:
-                    dif = lonlof-self.planets.planets[i].data[0]
+                dif = self.planets.planets[i].data[0]-point_lon
+                if point_lon > self.planets.planets[i].data[0]:
+                    dif = point_lon-self.planets.planets[i].data[0]
 
                 if dif > 180.0:
                     dif = 360.0-dif
 
-                self.aspmatrixLoF[i].dif = dif
+                self.aspMatrixPoints[matrix_pos][i].dif = dif
+
+        for i in range(len(self.aspMatrixPoints[matrix_pos])):
+            if self.aspMatrixPoints[matrix_pos][i].typ > -1:
+                printr(self.aspMatrixPoints[matrix_pos][i])
+
 
 
     def isApplPlanets(self, tmp, pl1, pl2):
