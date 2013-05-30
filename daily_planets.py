@@ -15,9 +15,9 @@ from pprint import pprint
 from printr import printr
 
 
-def dailyPlanets(chrt, end_year, end_month, end_day):
-    for year in range(chrt.time.year, end_year):
-        for month in range(chrt.time.month, end_month+1):
+def dailyPlanets(chrt, start_year, start_month, end_year, end_month):
+    for year in range(start_year, end_year):
+        for month in range(start_month, end_month+1):
             for day in range(1, 31):
                 if util.checkDate(year, month, day):
                     calculateDailyChart(chrt, year, month, day)
@@ -40,7 +40,8 @@ def printPlanetsData(chrt):
         lat = chrt.planets.planets[j].data[planets.Planet.LAT]
         speed = chrt.planets.planets[j].data[planets.Planet.SPLON]
         name = chrt.planets.planets[j].name
-        out.append("%d\t%d\t%.2f\t" % (lon, lat, speed))
+        riseset = chrt.riseset.planetRiseSet(j)
+        out.append("%d\t%d\t%.2f\t%s\t%s\t%s\t%s\t" % (lon, lat, speed, riseset[0], riseset[1], riseset[2], riseset[3]))
 
     print ''.join(out)
 
@@ -88,18 +89,17 @@ time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh,
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
 print "Date\t" \
-    "SULON\tSULAT\tSUSP\t" \
-    "MOLON\tMOLAT\tMOSP\t" \
-    "MELON\tMELAT\tMESP\t" \
-    "VELON\tVELAT\tVESP\t" \
-    "MALON\tMALAT\tMASP\t" \
-    "JULON\tJULAT\tJUSP\t" \
-    "SALON\tSALAT\tSASP\t" \
-    "URLON\tURLAT\tURSP\t" \
-    "NELON\tNELAT\tNESP\t" \
-    "PLLON\tPLLAT\tPLSP\t" \
-    "NNLON\tNNLAT\tNNSP\t" \
-    "SNLON\tSNLAT\tSNSP\t"
+    "SULON\tSULAT\tSUSP\tSUASC\tSUMC\tSUDESC\tSUIC\t" \
+    "MOLON\tMOLAT\tMOSP\tMOASC\tMOMC\tMODESC\tMOIC\t" \
+    "MELON\tMELAT\tMESP\tMEASC\tMEMC\tMEDESC\tMEIC\t" \
+    "VELON\tVELAT\tVESP\tVEASC\tVEMC\tVEDESC\tVEIC\t" \
+    "MALON\tMALAT\tMASP\tMAASC\tMAMC\tMADESC\tMAIC\t" \
+    "JULON\tJULAT\tJUSP\tJUASC\tJUMC\tJUDESC\tJUIC\t" \
+    "SALON\tSALAT\tSASP\tSAASC\tSAMC\tSADESC\tSAIC\t" \
+    "URLON\tURLAT\tURSP\tURASC\tURMC\tURDESC\tURIC\t" \
+    "NELON\tNELAT\tNESP\tNEASC\tNEMC\tNEDESC\tNEIC\t" \
+    "PLLON\tPLLAT\tPLSP\tPLASC\tPLMC\tPLDESC\tPLIC\t" \
+    "NNLON\tNNLAT\tNNSP\tNNASC\tNNMC\tNNDESC\tNNIC\t" \
+    "SNLON\tSNLAT\tSNSP\tSNASC\tSNMC\tSNDESC\tSNIC\t"
 
-
-dailyPlanets(chrt, 2014, 12, 31)
+dailyPlanets(chrt, 2000, 1, 2014, 12)
