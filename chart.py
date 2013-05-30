@@ -1284,7 +1284,7 @@ class Chart:
 
 
     def strongAspects(self, pid, pr_lon):
-        planets_names = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NO')
+        planets_names = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NN', 'NS')
         partxt = ('none', 'parallel', 'contrap')
         aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
         strong_aspect = {
@@ -1298,7 +1298,8 @@ class Chart:
             'UR' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
             'NE' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
             'PL' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
-            'NO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'NN' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
+            'NS' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
         }
 
         # get the aspects of our planet
