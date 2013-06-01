@@ -18,7 +18,7 @@ from printr import printr
 def dailyPlanets(chrt, start_year, start_month, end_year, end_month):
     for year in range(start_year, end_year):
         for month in range(start_month, end_month+1):
-            for day in range(1, 31):
+            for day in range(1, 32):
                 if util.checkDate(year, month, day):
                     calculateDailyChart(chrt, year, month, day)
                 else:

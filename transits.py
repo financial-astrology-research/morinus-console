@@ -57,7 +57,7 @@ class Transits:
             self.flags += astrology.SEFLG_TOPOCTR
 
         lastday = 1
-        for day in range(1, 31):
+        for day in range(1, 32):
             valid = util.checkDate(year, month, day)
             if valid:   
                 lastday = day
