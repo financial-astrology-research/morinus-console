@@ -18,8 +18,7 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
     signs = ['AR', 'TA', 'GE', 'CN', 'LE', 'VI', 'LI', 'SC', 'SA', 'CA', 'AQ', 'PI']
     ascmc = ['Asc', 'MC']
 
-    print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\t" \
-        "ASC1\tMC1\tDES1\tASC2\tMC2\tDES2\tS\t" \
+    print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\tS\t" \
         "SU\tSUR\tSULO\tSULA\tSUSP\tSUD\tSURD\tSUS\tSUT\t" \
         "MO\tMOR\tMOLO\tMOLA\tMOSP\tMOD\tMORD\tMOS\tMOT\t" \
         "ME\tMER\tMELO\tMELA\tMESP\tMED\tMERD\tMES\tMET\t" \
@@ -44,9 +43,8 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
         else:
             continue
 
-        out.append('%s\t%d:%02d:%02d\t%s\t%s\t%s\tH%d\tH%d\t%s\t%d\t%d\t%.2f\t%d\t' % (tr.date, d, m, s, planets[tr.plt], aspects_keys[tr.aspect], obj_keys[tr.obj], tr.house+1, tr.house2+1, signs[tr.sign], tr.lon, tr.lat, tr.sp, tr.prlon))
+        out.append('%s\t%d:%02d:%02d\t%s\t%s\t%s\tH%d\tH%d\t%s\t%d\t%d\t%.2f\t%d\t%d' % (tr.date, d, m, s, planets[tr.plt], aspects_keys[tr.aspect], obj_keys[tr.obj], tr.house+1, tr.house2+1, signs[tr.sign], tr.lon, tr.lat, tr.sp, tr.prlon, tr.score))
         # add the riseset times
-        out.append('%s\t%s\t%s\t%s\t%s\t%s\t%d' % (tr.riseset1[0], tr.riseset1[1], tr.riseset1[2], tr.riseset2[0], tr.riseset2[1], tr.riseset2[2], tr.score));
 
         for planet in planets:
             #if isinstance(tr.aspects[planet]['sig'], int):
@@ -57,7 +55,7 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
 
         print ''.join(out)
 
-fpath = "/Users/pablocc/Hors/USA Born.hor"
+fpath = "/Users/pablocc/Hors/EUR born.hor"
 
 chrt = None
 
@@ -101,17 +99,17 @@ opts = options.Options()
 opts.exact = 3.0
 # The orbs of aspects and planets
 opts.orbis = [
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
- [8.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 2.0, 3.0, 8.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
 ]
 
 # instance of place, time and chart generation
@@ -124,14 +122,13 @@ chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 #chrt.printAspMatrix();
 trans = transits.Transits()
 # read places DB to get NY place
-pdb = placedb.PlaceDB()
-pdb.read()
-pdb.searchPlace('New York, USA')
-trans.extraPlace(pdb.search_result)
+#pdb = placedb.PlaceDB()
+#pdb.read()
+#pdb.searchPlace('New York, USA')
+#trans.extraPlace(pdb.search_result)
 
-
-for year in range(1990, 1991):
-    for month in range(1,2):
+for year in range(1997, 2014):
+    for month in range(1,13):
         trans.month(year, month, chrt)
 
 printTransits(trans.transits)
