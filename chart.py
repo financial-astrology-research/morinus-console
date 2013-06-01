@@ -1344,6 +1344,13 @@ class Chart:
                 planet_name = planets_names[i]
                 strong_aspect[planet_name]['prt'] = aspects_keys[aspect.typ]
                 strong_aspect[planet_name]['prd'] = round(aspect.aspdif, 1)
+                # just in case that this fields was not filled before due no aspect
+                lon = int(self.planets.planets[i].data[planets.Planet.LONG])
+                lat = round(self.planets.planets[i].data[planets.Planet.LAT], 1)
+                speed = round(self.planets.planets[i].data[planets.Planet.SPLON], 2)
+                strong_aspect[planet_name]['lon'] = lon
+                strong_aspect[planet_name]['lat'] = lat
+                strong_aspect[planet_name]['sp'] = speed
 
         return strong_aspect
 
