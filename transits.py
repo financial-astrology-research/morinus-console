@@ -300,8 +300,8 @@ class Transits:
                         if typ != Transit.SIGN:
                             tr.aspect = a
 
-                        trantime2 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, time1.second, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
-                        chrt2 = chart.Chart(chrt.name, chrt.male, trantime2, chrt.place, chrt.htype, chrt.notes, chrt.options)
+                        trantime2 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, time1.second, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place, False)
+                        chrt2 = chart.Chart(chrt.name, chrt.male, trantime2, chrt.place, chrt.htype, chrt.notes, chrt.options, False)
                         # calculate astrodinas
                         chrt2.calculateAstrodinas()
                         tr.house = chrt.houses.getHousePos(planet1.data[planets.Planet.LONG], chrt.options)
