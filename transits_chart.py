@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+from datetime import datetime
+from inspect import getmembers
+from optparse import OptionParser
+from pprint import pprint
+from printr import printr
 import astrology
 import chart
 import options
@@ -7,28 +12,26 @@ import pickle
 import placedb
 import transits
 import util
-from inspect import getmembers
-from pprint import pprint
-from printr import printr
 
-def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
+def printTransits(ls, fh, aspecting_planet = -1, aspected_planet = -1):
     planets = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL')
     # used to map aspect position to aspect name
     aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
     signs = ['AR', 'TA', 'GE', 'CN', 'LE', 'VI', 'LI', 'SC', 'SA', 'CA', 'AQ', 'PI']
     ascmc = ['Asc', 'MC']
 
-    print "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\tS\t" \
-        "SU\tSUR\tSULO\tSULA\tSUSP\tSUD\tSURD\tSUS\tSUT\t" \
-        "MO\tMOR\tMOLO\tMOLA\tMOSP\tMOD\tMORD\tMOS\tMOT\t" \
-        "ME\tMER\tMELO\tMELA\tMESP\tMED\tMERD\tMES\tMET\t" \
-        "VE\tVER\tVELO\tVELA\tVESP\tVED\tVERD\tVES\tVET\t" \
-        "MA\tMAR\tMALO\tMALA\tMASP\tMAD\tMARD\tMAS\tMAT\t" \
-        "JU\tJUR\tJULO\tJULA\tJUSP\tJUD\tJURD\tJUS\tJUT\t" \
-        "SA\tSAR\tSALO\tSALA\tSASP\tSAD\tSARD\tSAS\tSAT\t" \
-        "UR\tURR\tURLO\tURLA\tURSP\tURD\tURRD\tURS\tURT\t" \
-        "NE\tNER\tNELO\tNELA\tNESP\tNED\tNERD\tNES\tNET\t" \
-        "PL\tPLR\tPLLO\tPLLA\tPLSP\tPLD\tPLRD\tPLS\tPLT"
+    header = "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\tS\t" \
+            "SU\tSUR\tSULO\tSULA\tSUSP\tSUD\tSURD\tSUS\tSUT\t" \
+            "MO\tMOR\tMOLO\tMOLA\tMOSP\tMOD\tMORD\tMOS\tMOT\t" \
+            "ME\tMER\tMELO\tMELA\tMESP\tMED\tMERD\tMES\tMET\t" \
+            "VE\tVER\tVELO\tVELA\tVESP\tVED\tVERD\tVES\tVET\t" \
+            "MA\tMAR\tMALO\tMALA\tMASP\tMAD\tMARD\tMAS\tMAT\t" \
+            "JU\tJUR\tJULO\tJULA\tJUSP\tJUD\tJURD\tJUS\tJUT\t" \
+            "SA\tSAR\tSALO\tSALA\tSASP\tSAD\tSARD\tSAS\tSAT\t" \
+            "UR\tURR\tURLO\tURLA\tURSP\tURD\tURRD\tURS\tURT\t" \
+            "NE\tNER\tNELO\tNELA\tNESP\tNED\tNERD\tNES\tNET\t" \
+            "PL\tPLR\tPLLO\tPLLA\tPLSP\tPLD\tPLRD\tPLS\tPLT"
+    fh.write(header + '\n')
 
     for tr in ls:
         out = []
@@ -53,7 +56,31 @@ def printTransits(ls, aspecting_planet = -1, aspected_planet = -1):
                 #sign = ''
             out.append('\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s' % (tr.aspects[planet]['n'], tr.aspects[planet]['prt'], tr.aspects[planet]['lon'], tr.aspects[planet]['lat'], tr.aspects[planet]['sp'], tr.aspects[planet]['d'], tr.aspects[planet]['prd'], tr.aspects[planet]['s'], tr.aspects[planet]['t']))
 
-        print ''.join(out)
+        fh.write(''.join(out) + '\n')
+
+
+# track the execution time
+startTime = datetime.now()
+print "Init process at: "
+print(startTime)
+
+# get params
+parser = OptionParser()
+(args_options, args) = parser.parse_args()
+
+if args and args[0]:
+    file_name = args[0]
+else:
+    print("Provide a transits file name.")
+    exit()
+
+try:
+   fh = open(file_name, 'w+')
+except IOError:
+   print "Error: can\'t find file %s" % (file_name)
+   exit()
+
+# open the file to save the transits
 
 fpath = "/Users/pablocc/Hors/EUR born.hor"
 
@@ -99,23 +126,25 @@ opts = options.Options()
 opts.exact = 3.0
 # The orbs of aspects and planets
 opts.orbis = [
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
- [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
 ]
+
+opts.riseset = False
 
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
-time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
-chrt = chart.Chart(name, male, time, place, htype, notes, opts)
+time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place, False)
+chrt = chart.Chart(name, male, time, place, htype, notes, opts, False)
 
 # calculate astrodinas
 # chrt.astrodinas()
@@ -128,7 +157,9 @@ trans = transits.Transits()
 #trans.extraPlace(pdb.search_result)
 
 for year in range(1997, 2014):
-    for month in range(1,13):
+    for month in range(1, 13):
         trans.month(year, month, chrt)
 
-printTransits(trans.transits)
+printTransits(trans.transits, fh)
+
+print(datetime.now()-startTime)
