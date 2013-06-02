@@ -347,6 +347,7 @@ class Chart:
         self.almutens = None
         mdsun = self.planets.planets[astrology.SE_SUN].speculums[0][planets.Planet.MD]
         sasun = self.planets.planets[astrology.SE_SUN].speculums[0][planets.Planet.SA]
+        self.antiscia = antiscia.Antiscia(self.planets.planets, self.houses.ascmc, self.fortune.fortune, self.obl[0], self.options.ayanamsha, self.ayanamsha)
         if self.full:
             self.munfortune = munfortune.MundaneFortune(self.houses.ascmc2, self.planets, self.obl[0], self.place.lat)
             self.syzygy = syzygy.Syzygy(self)
@@ -355,7 +356,6 @@ class Chart:
             self.midpoints = midpoints.MidPoints(self.planets)
             self.riseset = riseset.RiseSet(self.time.jd, self.time.cal, self.time.zh, self.place.lon, self.place.lat, self.place.altitude, self.planets)
             self.zodpars = zodpars.ZodPars(self.planets, self.obl[0])
-            self.antiscia = antiscia.Antiscia(self.planets.planets, self.houses.ascmc, self.fortune.fortune, self.obl[0], self.options.ayanamsha, self.ayanamsha)
             self.antzodpars = antzodpars.AntZodPars(self.antiscia.plantiscia, self.antiscia.plcontraant, self.obl[0])
             self.almutens = almutens.Almutens(self)
             if self.options.pdcustomer:
@@ -879,17 +879,13 @@ class Chart:
                 # score +1 for decan
                 self.astrodinas[pid] += 1
 
-            #######################
-            # ruler of day and hour
-            #######################
-            day_ruler = (1, 4, 2, 5, 3, 6, 0)
-            if day_ruler[self.time.ph.weekday] == pid:
+            ##############
+            # ruler of day
+            ##############
+            #day_ruler = (1, 4, 2, 5, 3, 6, 0)
+            #if day_ruler[self.time.ph.weekday] == pid:
                 # score +1 for day ruler
-                self.astrodinas[day_ruler[self.time.ph.weekday]] += 1
-
-            if self.time.ph.planetaryhour == pid:
-                # score +1 for hour ruler
-                self.astrodinas[self.time.ph.planetaryhour] += 1
+                #self.astrodinas[day_ruler[self.time.ph.weekday]] += 1
 
             ########################################################
             # dispositor of other planets by domicile and exaltation
@@ -1333,7 +1329,7 @@ class Chart:
             if i == pid:
                 continue
             if self.aspMatrixPoints[matrix_pos][i].typ != Chart.NONE:
-                aspect = copy.deepcopy(self.aspMatrixPoints[matrix_pos][i])
+                aspect = self.aspMatrixPoints[matrix_pos][i]
                 if self.aspMatrixPoints[matrix_pos][i].aspdif > 180:
                     aspect.aspdif = 360.0 - self.aspMatrixPoints[matrix_pos][i].aspdif
                 else:
@@ -1359,7 +1355,7 @@ class Chart:
 
         for i in range(self.planets.PLANETS_NUM-1):
             for j in range(1, self.planets.PLANETS_NUM-1):
-                aspect = copy.deepcopy(self.aspmatrix[j][i])
+                aspect = self.aspmatrix[j][i]
                 aspect.plel = 0
 
                 # Ignore if the aspect don't correspond to the interested planet
