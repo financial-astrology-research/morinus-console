@@ -183,18 +183,28 @@ class Asp:
 
     aspect_astrodinas = [
         10, # a0
-        2, # a3
-        2, # a4
-        3, # a6
-        2, # a7
-        6, # a9
-        4, # a12
-        2, # a13
-        2, # a14
-        2, # a15
-        10, # a18
+        2, # a30
+        2, # a45
+        3, # a60
+        2, # a70
+        6, # a90
+        4, # a120
+        2, # a130
+        2, # a140
+        2, # a150
+        10, # a180
+        2, #a18
+        2, #a33
+        2, #a36
+        2, #a40
+        2, #a51
+        2, #a80
+        2, #a103
+        2, #a108
+        2, #a154
+        2, #a160
     ]
-    
+
     def __init__(self):
         self.typ = Chart.NONE
         self.dif = 0.0
@@ -262,8 +272,8 @@ class Chart:
     CASUS = 3
     EXIL = 4
 
-    Aspects = [0.0, 30.0, 45.0, 60.0, 72.0, 90.0, 120.0, 135.0, 144.0, 150.0, 180.0]
-    ASPECT_NUM = 11
+    Aspects = [0.0, 30.0, 45.0, 60.0, 72.0, 90.0, 120.0, 135.0, 144.0, 150.0, 180.0, 18, 33, 36, 40, 51.5, 80, 103, 108, 154, 160]
+    ASPECT_NUM = 21
 
     TRANSURANUS = 0
     TRANSNEPTUNE = 1
@@ -1282,7 +1292,7 @@ class Chart:
     def strongAspects(self, pid, pr_lon):
         planets_names = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NN', 'NS')
         partxt = ('none', 'parallel', 'contrap')
-        aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
+        aspects_keys = self.options.aspects_keys
         strong_aspect = {
             'SU' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},
             'MO' : {'n' : '', 't' : '', 'd' : 0, 's' : 0, 'lon' : 0, 'lat' : 0, 'sp' : 0, 'prt' : '', 'prd' : 0},

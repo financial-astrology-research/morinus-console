@@ -16,22 +16,9 @@ import util
 def printTransits(ls, fh, aspecting_planet = -1, aspected_planet = -1):
     planets = ('SU', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL')
     # used to map aspect position to aspect name
-    aspects_keys = ['a0', 'a3', 'a4', 'a6', 'a7', 'a9', 'a12', 'a13', 'a14', 'a15', 'a18']
+    aspects_keys = opts.aspects_keys
     signs = ['AR', 'TA', 'GE', 'CN', 'LE', 'VI', 'LI', 'SC', 'SA', 'CA', 'AQ', 'PI']
     ascmc = ['Asc', 'MC']
-
-    header = "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\tS\t" \
-            "SU\tSUR\tSULO\tSULA\tSUSP\tSUD\tSURD\tSUS\tSUT\t" \
-            "MO\tMOR\tMOLO\tMOLA\tMOSP\tMOD\tMORD\tMOS\tMOT\t" \
-            "ME\tMER\tMELO\tMELA\tMESP\tMED\tMERD\tMES\tMET\t" \
-            "VE\tVER\tVELO\tVELA\tVESP\tVED\tVERD\tVES\tVET\t" \
-            "MA\tMAR\tMALO\tMALA\tMASP\tMAD\tMARD\tMAS\tMAT\t" \
-            "JU\tJUR\tJULO\tJULA\tJUSP\tJUD\tJURD\tJUS\tJUT\t" \
-            "SA\tSAR\tSALO\tSALA\tSASP\tSAD\tSARD\tSAS\tSAT\t" \
-            "UR\tURR\tURLO\tURLA\tURSP\tURD\tURRD\tURS\tURT\t" \
-            "NE\tNER\tNELO\tNELA\tNESP\tNED\tNERD\tNES\tNET\t" \
-            "PL\tPLR\tPLLO\tPLLA\tPLSP\tPLD\tPLRD\tPLS\tPLT"
-    fh.write(header + '\n')
 
     for tr in ls:
         out = []
@@ -126,20 +113,18 @@ opts = options.Options()
 opts.exact = 3.0
 # The orbs of aspects and planets
 opts.orbis = [
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
- [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+ [5.0, 3.0, 3.0, 3.0, 3.0, 5.0, 5.0, 3.0, 3.0, 3.0, 5.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
 ]
-
-opts.riseset = False
 
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
@@ -149,17 +134,30 @@ chrt = chart.Chart(name, male, time, place, htype, notes, opts, False)
 # calculate astrodinas
 # chrt.astrodinas()
 #chrt.printAspMatrix();
-trans = transits.Transits()
 # read places DB to get NY place
 #pdb = placedb.PlaceDB()
 #pdb.read()
 #pdb.searchPlace('New York, USA')
 #trans.extraPlace(pdb.search_result)
 
+header = "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\tS\t" \
+        "SU\tSUR\tSULO\tSULA\tSUSP\tSUD\tSURD\tSUS\tSUT\t" \
+        "MO\tMOR\tMOLO\tMOLA\tMOSP\tMOD\tMORD\tMOS\tMOT\t" \
+        "ME\tMER\tMELO\tMELA\tMESP\tMED\tMERD\tMES\tMET\t" \
+        "VE\tVER\tVELO\tVELA\tVESP\tVED\tVERD\tVES\tVET\t" \
+        "MA\tMAR\tMALO\tMALA\tMASP\tMAD\tMARD\tMAS\tMAT\t" \
+        "JU\tJUR\tJULO\tJULA\tJUSP\tJUD\tJURD\tJUS\tJUT\t" \
+        "SA\tSAR\tSALO\tSALA\tSASP\tSAD\tSARD\tSAS\tSAT\t" \
+        "UR\tURR\tURLO\tURLA\tURSP\tURD\tURRD\tURS\tURT\t" \
+        "NE\tNER\tNELO\tNELA\tNESP\tNED\tNERD\tNES\tNET\t" \
+        "PL\tPLR\tPLLO\tPLLA\tPLSP\tPLD\tPLRD\tPLS\tPLT"
+fh.write(header + '\n')
+
 for year in range(1997, 2014):
     for month in range(1, 13):
+        trans = transits.Transits()
         trans.month(year, month, chrt)
+        printTransits(trans.transits, fh)
 
-printTransits(trans.transits, fh)
-
+fh.close()
 print(datetime.now()-startTime)
