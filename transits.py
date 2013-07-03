@@ -128,9 +128,6 @@ class Transits:
             planet2 = planets.Planet(time2.jd, j, self.flags)
 
             for a in range(len(chart.Chart.Aspects)):
-                #skip minor aspects
-                if a == chart.Chart.QUINTILE or a == chart.Chart.SESQUIQUADRAT or a == chart.Chart.BIQUINTILE:
-                    continue
                 # look the transits in both directions except for conjuction and opposition
                 # which only one aspect exists.
                 for l in range(2):
