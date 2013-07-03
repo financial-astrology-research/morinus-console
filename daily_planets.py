@@ -41,7 +41,7 @@ def printPlanetsData(chrt):
         speed = chrt.planets.planets[j].data[planets.Planet.SPLON]
         name = chrt.planets.planets[j].name
         riseset = chrt.riseset.planetRiseSet(j)
-        out.append("%d\t%d\t%.2f\t%s\t%s\t%s\t%s\t" % (lon, lat, speed, riseset[0], riseset[1], riseset[2], riseset[3]))
+        out.append("%.2f\t%.2f\t%.3f\t%s\t%s\t%s\t%s\t" % (lon, lat, speed, riseset[0], riseset[1], riseset[2], riseset[3]))
 
     print ''.join(out)
 
@@ -102,4 +102,4 @@ print "Date\t" \
     "NNLON\tNNLAT\tNNSP\tNNASC\tNNMC\tNNDESC\tNNIC\t" \
     "SNLON\tSNLAT\tSNSP\tSNASC\tSNMC\tSNDESC\tSNIC\t"
 
-dailyPlanets(chrt, 2000, 1, 2014, 12)
+dailyPlanets(chrt, 1998, 1, 2014, 12)
