@@ -26,10 +26,10 @@ def dailyPlanets(chrt, start_year, start_month, end_year, end_month):
 
 
 def calculateDailyChart(chrt, year, month, day):
-    day_time = chart.Time(year, month, day, 0, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
-    day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
-    printPlanetsData(day_chart)
-
+    for hour in [2]:
+        day_time = chart.Time(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
+        day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
+        printPlanetsData(day_chart)
 
 def printPlanetsData(chrt):
     out = []
@@ -42,6 +42,12 @@ def printPlanetsData(chrt):
         name = chrt.planets.planets[j].name
         riseset = chrt.riseset.planetRiseSet(j)
         out.append("%.2f\t%.2f\t%.3f\t%s\t%s\t%s\t%s\t" % (lon, lat, speed, riseset[0], riseset[1], riseset[2], riseset[3]))
+
+    for asteroid in chrt.asteroids.asteroids:
+        lon = asteroid.data[planets.Planet.LONG]
+        lat = asteroid.data[planets.Planet.LAT]
+        speed = asteroid.data[planets.Planet.SPLON]
+        out.append("%.2f\t%.2f\t%.3f\t" % (lon, lat, speed))
 
     print ''.join(out)
 
@@ -83,6 +89,7 @@ except IOError:
     print "error loading the chart"
 
 opts = options.Options()
+astrology.swe_set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
 time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
@@ -100,6 +107,12 @@ print "Date\t" \
     "NELON\tNELAT\tNESP\tNEASC\tNEMC\tNEDESC\tNEIC\t" \
     "PLLON\tPLLAT\tPLSP\tPLASC\tPLMC\tPLDESC\tPLIC\t" \
     "NNLON\tNNLAT\tNNSP\tNNASC\tNNMC\tNNDESC\tNNIC\t" \
-    "SNLON\tSNLAT\tSNSP\tSNASC\tSNMC\tSNDESC\tSNIC\t"
+    "SNLON\tSNLAT\tSNSP\tSNASC\tSNMC\tSNDESC\tSNIC\t" \
+    "CELON\tCELAT\tCESP\t" \
+    "CHLON\tCHLAT\tCHSP\t" \
+    "JNLON\tJNLAT\tJNSP\t" \
+    "PALON\tPALAT\tPASP\t" \
+    "PHLON\tPHLAT\tPHSP\t" \
+    "VSLON\tVSLAT\tVSSP\t"
 
-dailyPlanets(chrt, 1998, 1, 2014, 12)
+dailyPlanets(chrt, 1950, 1, 2030, 12)

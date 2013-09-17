@@ -5,6 +5,7 @@ import antiscia
 import antzodpars
 import arabicparts
 import astrology
+import asteroids
 import copy
 import customerpd
 import datetime
@@ -340,6 +341,8 @@ class Chart:
             abovehor = self.abovehorizonwithorb
 
         self.fortune = fortune.Fortune(self.options.lotoffortune, self.houses.ascmc2, self.raequasc, self.planets, self.obl[0], self.place.lat, abovehor)
+        # calculate asteroids
+        self.asteroids = asteroids.Asteroids(self.time.jd, pflag)
 
         self.munfortune = None
         self.parts = None
