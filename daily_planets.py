@@ -26,10 +26,10 @@ def dailyPlanets(chrt, start_year, start_month, end_year, end_month):
 
 
 def calculateDailyChart(chrt, year, month, day):
-    for hour in [2]:
-        day_time = chart.Time(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
-        day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
-        printPlanetsData(day_chart)
+    hour = 2
+    day_time = chart.Time(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
+    day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
+    printPlanetsData(day_chart)
 
 def printPlanetsData(chrt):
     out = []
