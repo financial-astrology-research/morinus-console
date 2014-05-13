@@ -15,22 +15,62 @@ from pprint import pprint
 from printr import printr
 from sys import exit
 
+eclipses_cache = {}
 
-def dailyPlanets(chrt, start_year, start_month, end_year, end_month):
+def dailyPlanets(chrt, start_year, start_month, end_year, end_month, hour):
     for year in range(start_year, end_year):
         for month in range(start_month, end_month+1):
             for day in range(1, 32):
                 if util.checkDate(year, month, day):
-                    calculateDailyChart(chrt, year, month, day)
+                    day_chart = calculateDailyChart(chrt, year, month, day, hour)
+                    printPlanetsData(day_chart)
+                    calculateNearestSunEclipse(chrt, year, month, day, hour)
                 else:
                     break
 
+def calculateNearestSunEclipse(chrt, year, month, day, hour, minute = 0, second = 0):
+    out = []
+    time = hour + minute / 60.0 + second / 3600.0
+    tjd = astrology.swe_julday(year, month, day, time, astrology.SE_GREG_CAL)
+    # Calculate the global eclipse nearest to the specified date
+    retflag = astrology.swe_sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, True);
+    # Get date and eclipse type
+    ejd = retflag[1][0]
+    eclflag = retflag[0][0]
+    # Convert julian to gregorian date
+    eyear, emonth, eday, ejtime = astrology.swe_revjul(ejd, astrology.SE_GREG_CAL)
+    ehour, eminute, esecond = util.decToDeg(ejtime)
 
-def calculateDailyChart(chrt, year, month, day):
-    hour = 2
+    if (eclflag & astrology.SE_ECL_TOTAL):
+        ecltype = 'total'
+    elif (eclflag & astrology.SE_ECL_ANNULAR):
+        ecltype = 'annular'
+    elif (eclflag & astrology.SE_ECL_ANNULAR_TOTAL):
+        ecltype = 'anntotal'
+    elif (eclflag & astrology.SE_ECL_PARTIAL):
+        ecltype = 'partial'
+    else:
+        ecltype = '';
+
+    ecldate = 'GMT: %d-%d-%d %d:%d:%d' % (eyear, emonth, eday, ehour, eminute, esecond)
+
+    # Calculate the sun position for GMT
+    if eclipses_cache.has_key(ecldate):
+        lon = eclipses_cache[ecldate]
+    else:
+        day_time = chart.Time(eyear, emonth, eday, ehour, eminute, esecond, False, 0, 0, False, 0, 0, 0, chrt.place)
+        day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
+        lon = day_chart.planets.planets[astrology.SE_SUN].data[planets.Planet.LONG]
+        eclipses_cache[ecldate] = lon
+
+    # add to out buffer
+    out.append("%.2f\t%s\t" % (lon, ecltype))
+    # send out
+    print ''.join(out)
+
+def calculateDailyChart(chrt, year, month, day, hour):
     day_time = chart.Time(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
-    day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
-    printPlanetsData(day_chart)
+    return chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
 
 def printPlanetsData(chrt):
     out = []
@@ -116,6 +156,7 @@ print "Date\t" \
     "JNLON\tJNLAT\tJNDEC\tJNSP\t" \
     "PALON\tPALAT\tPADEC\tPASP\t" \
     "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
-    "VSLON\tVSLAT\tVSDEC\tVSSP\t"
+    "VSLON\tVSLAT\tVSDEC\tVSSP\t" \
+    "ECSU\tECSUT\t"
 
-dailyPlanets(chrt, 1930, 1, 2030, 12)
+dailyPlanets(chrt, 1930, 1, 2030, 12, 2)
