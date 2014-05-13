@@ -13,6 +13,7 @@ import transits
 from inspect import getmembers
 from pprint import pprint
 from printr import printr
+from sys import exit
 
 
 def dailyPlanets(chrt, start_year, start_month, end_year, end_month):
@@ -39,15 +40,17 @@ def printPlanetsData(chrt):
         lon = chrt.planets.planets[j].data[planets.Planet.LONG]
         lat = chrt.planets.planets[j].data[planets.Planet.LAT]
         speed = chrt.planets.planets[j].data[planets.Planet.SPLON]
-        name = chrt.planets.planets[j].name
-        riseset = chrt.riseset.planetRiseSet(j)
-        out.append("%.2f\t%.2f\t%.3f\t%s\t%s\t%s\t%s\t" % (lon, lat, speed, riseset[0], riseset[1], riseset[2], riseset[3]))
+        decl = chrt.planets.planets[j].dataEqu[1]
+        #name = chrt.planets.planets[j].name
+        #riseset = chrt.riseset.planetRiseSet(j)
+        out.append("%.2f\t%.2f\t%.3f\t%.2f\t" % (lon, lat, decl, speed))
 
     for asteroid in chrt.asteroids.asteroids:
         lon = asteroid.data[planets.Planet.LONG]
         lat = asteroid.data[planets.Planet.LAT]
         speed = asteroid.data[planets.Planet.SPLON]
-        out.append("%.2f\t%.2f\t%.3f\t" % (lon, lat, speed))
+        decl = asteroid.dataEqu[1]
+        out.append("%.2f\t%.2f\t%.3f\t%.2f\t" % (lon, lat, decl, speed))
 
     print ''.join(out)
 
@@ -89,30 +92,30 @@ except IOError:
     print "error loading the chart"
 
 opts = options.Options()
-astrology.swe_set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')
+astrology.swe_set_ephe_path('./SWEP/Ephem')
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
 time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
 print "Date\t" \
-    "SULON\tSULAT\tSUSP\tSUASC\tSUMC\tSUDESC\tSUIC\t" \
-    "MOLON\tMOLAT\tMOSP\tMOASC\tMOMC\tMODESC\tMOIC\t" \
-    "MELON\tMELAT\tMESP\tMEASC\tMEMC\tMEDESC\tMEIC\t" \
-    "VELON\tVELAT\tVESP\tVEASC\tVEMC\tVEDESC\tVEIC\t" \
-    "MALON\tMALAT\tMASP\tMAASC\tMAMC\tMADESC\tMAIC\t" \
-    "JULON\tJULAT\tJUSP\tJUASC\tJUMC\tJUDESC\tJUIC\t" \
-    "SALON\tSALAT\tSASP\tSAASC\tSAMC\tSADESC\tSAIC\t" \
-    "URLON\tURLAT\tURSP\tURASC\tURMC\tURDESC\tURIC\t" \
-    "NELON\tNELAT\tNESP\tNEASC\tNEMC\tNEDESC\tNEIC\t" \
-    "PLLON\tPLLAT\tPLSP\tPLASC\tPLMC\tPLDESC\tPLIC\t" \
-    "NNLON\tNNLAT\tNNSP\tNNASC\tNNMC\tNNDESC\tNNIC\t" \
-    "SNLON\tSNLAT\tSNSP\tSNASC\tSNMC\tSNDESC\tSNIC\t" \
-    "CELON\tCELAT\tCESP\t" \
-    "CHLON\tCHLAT\tCHSP\t" \
-    "JNLON\tJNLAT\tJNSP\t" \
-    "PALON\tPALAT\tPASP\t" \
-    "PHLON\tPHLAT\tPHSP\t" \
-    "VSLON\tVSLAT\tVSSP\t"
+    "SULON\tSULAT\tSUDEC\tSUSP\t" \
+    "MOLON\tMOLAT\tMODEC\tMOSP\t" \
+    "MELON\tMELAT\tMEDEC\tMESP\t" \
+    "VELON\tVELAT\tVEDEC\tVESP\t" \
+    "MALON\tMALAT\tMADEC\tMASP\t" \
+    "JULON\tJULAT\tJUDEC\tJUSP\t" \
+    "SALON\tSALAT\tSADEC\tSASP\t" \
+    "URLON\tURLAT\tURDEC\tURSP\t" \
+    "NELON\tNELAT\tNEDEC\tNESP\t" \
+    "PLLON\tPLLAT\tPLDEC\tPLSP\t" \
+    "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
+    "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
+    "CELON\tCELAT\tCEDEC\tCESP\t" \
+    "CHLON\tCHLAT\tCHDEC\tCHSP\t" \
+    "JNLON\tJNLAT\tJNDEC\tJNSP\t" \
+    "PALON\tPALAT\tPADEC\tPASP\t" \
+    "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
+    "VSLON\tVSLAT\tVSDEC\tVSSP\t"
 
-dailyPlanets(chrt, 1950, 1, 2030, 12)
+dailyPlanets(chrt, 1930, 1, 2030, 12)
