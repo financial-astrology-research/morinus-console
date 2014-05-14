@@ -8,6 +8,7 @@ import pprint
 import options
 import transits
 import pickle
+import sys
 import util
 import transits
 from inspect import getmembers
@@ -24,16 +25,28 @@ def dailyPlanets(chrt, start_year, start_month, end_year, end_month, hour):
                 if util.checkDate(year, month, day):
                     day_chart = calculateDailyChart(chrt, year, month, day, hour)
                     printPlanetsData(day_chart)
-                    calculateNearestSunEclipse(chrt, year, month, day, hour)
+                    calculateNearestEclipse('sun', chrt, year, month, day, hour)
+                    calculateNearestEclipse('moon', chrt, year, month, day, hour)
+                    sys.stdout.write('\n')
                 else:
                     break
 
-def calculateNearestSunEclipse(chrt, year, month, day, hour, minute = 0, second = 0):
+def calculateNearestEclipse(ecplanet, chrt, year, month, day, hour, minute = 0, second = 0):
     out = []
     time = hour + minute / 60.0 + second / 3600.0
     tjd = astrology.swe_julday(year, month, day, time, astrology.SE_GREG_CAL)
+
     # Calculate the global eclipse nearest to the specified date
-    retflag = astrology.swe_sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, True);
+    if ecplanet == 'sun':
+        retflag = astrology.swe_sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, True);
+        planet_id = astrology.SE_SUN
+    elif ecplanet == 'moon':
+        retflag = astrology.swe_lun_eclipse_when(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_LUNAR, True);
+        planet_id = astrology.SE_MOON
+    else:
+        print 'No valid eclipse ecplanet input at calculateNearestEclipse\n'
+        exit(1)
+
     # Get date and eclipse type
     ejd = retflag[1][0]
     eclflag = retflag[0][0]
@@ -49,10 +62,12 @@ def calculateNearestSunEclipse(chrt, year, month, day, hour, minute = 0, second 
         ecltype = 'anntotal'
     elif (eclflag & astrology.SE_ECL_PARTIAL):
         ecltype = 'partial'
+    elif (eclflag & astrology.SE_ECL_PENUMBRAL):
+        ecltype = 'penumbral'
     else:
         ecltype = '';
 
-    ecldate = 'GMT: %d-%d-%d %d:%d:%d' % (eyear, emonth, eday, ehour, eminute, esecond)
+    ecldate = 'GMT: %s - %s - %d-%d-%d %d:%d:%d' % (ecplanet, ecltype, eyear, emonth, eday, ehour, eminute, esecond)
 
     # Calculate the sun position for GMT
     if eclipses_cache.has_key(ecldate):
@@ -60,13 +75,13 @@ def calculateNearestSunEclipse(chrt, year, month, day, hour, minute = 0, second 
     else:
         day_time = chart.Time(eyear, emonth, eday, ehour, eminute, esecond, False, 0, 0, False, 0, 0, 0, chrt.place)
         day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
-        lon = day_chart.planets.planets[astrology.SE_SUN].data[planets.Planet.LONG]
+        lon = day_chart.planets.planets[planet_id].data[planets.Planet.LONG]
         eclipses_cache[ecldate] = lon
 
     # add to out buffer
     out.append("%.2f\t%s\t" % (lon, ecltype))
     # send out
-    print ''.join(out)
+    sys.stdout.write(''.join(out))
 
 def calculateDailyChart(chrt, year, month, day, hour):
     day_time = chart.Time(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
@@ -92,7 +107,7 @@ def printPlanetsData(chrt):
         decl = asteroid.dataEqu[1]
         out.append("%.2f\t%.2f\t%.3f\t%.2f\t" % (lon, lat, decl, speed))
 
-    print ''.join(out)
+    sys.stdout.write(''.join(out))
 
 fpath = "/Users/pablocc/Hors/EUR born.hor"
 chrt = None
@@ -157,6 +172,6 @@ print "Date\t" \
     "PALON\tPALAT\tPADEC\tPASP\t" \
     "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
     "VSLON\tVSLAT\tVSDEC\tVSSP\t" \
-    "ECSU\tECSUT\t"
+    "ECSU\tECSUT\tECMO\tECMOT\t"
 
 dailyPlanets(chrt, 1930, 1, 2030, 12, 2)
