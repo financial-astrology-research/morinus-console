@@ -172,6 +172,6 @@ print "Date\t" \
     "PALON\tPALAT\tPADEC\tPASP\t" \
     "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
     "VSLON\tVSLAT\tVSDEC\tVSSP\t" \
-    "ECSU\tECSUT\tECMO\tECMOT\t"
+    "ESULON\tESUT\tEMOLON\tEMOT\t"
 
 dailyPlanets(chrt, 1930, 1, 2030, 12, 2)
