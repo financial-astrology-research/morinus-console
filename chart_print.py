@@ -3,6 +3,7 @@
 import astrology
 import chart
 import csv
+import houses
 import pickle
 import planets
 import pprint
@@ -29,6 +30,11 @@ def printPlanetsData(chrt):
         #riseset = chrt.riseset.planetRiseSet(j)
         out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (lon, lat, decl, speed))
 
+    ASC = chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.DECL]
+    out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (ASC[0], ASC[1], ASC[2], 0))
+    MC = chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.DECL]
+    out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (MC[0], MC[1], MC[2], 0))
+
     print ''.join(out)
 
 opts = options.Options()
@@ -47,7 +53,9 @@ print "Symbol\tDate\t" \
     "NELON\tNELAT\tNEDEC\tNESP\t" \
     "PLLON\tPLLAT\tPLDEC\tPLSP\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
-    "SNLON\tSNLAT\tSNDEC\tSNSP\t"
+    "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
+    "ASCLON\tASCLAT\tASCDEC\tASCSP\t" \
+    "MCLON\tMCLAT\tMCDEC\tMCSP\t"
 
 with open('Hors/birthdates.csv', 'rb') as f:
     reader = csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
