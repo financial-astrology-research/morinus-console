@@ -2,6 +2,7 @@
 
 import astrology
 import chart
+import csv
 import pickle
 import planets
 import pprint
@@ -9,6 +10,7 @@ import options
 import transits
 import pickle
 import util
+import time
 import transits
 from inspect import getmembers
 from pprint import pprint
@@ -16,6 +18,7 @@ from printr import printr
 
 def printPlanetsData(chrt):
     out = []
+    out.append("%s\t" % (chrt.name))
     out.append("%d-%d-%d %d:%d\t" % (chrt.time.year, chrt.time.month, chrt.time.day, chrt.time.hour, chrt.time.minute))
 
     for j in range (planets.Planets.PLANETS_NUM):
@@ -30,15 +33,9 @@ def printPlanetsData(chrt):
 
 opts = options.Options()
 opts.def_hsys = opts.hsys = 'B'
-# place, time and chart generation
-ny_place = chart.Place('New York', 74, 0, 21, False, 40, 42, 51, True, 10)
-year, month, day, hour, minute, second = 2014, 5, 29, 11, 0, 0
-zone_hour, zone_minute = 5, 0
-symbol = 'Today'
-time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.Time.ZONE, False, zone_hour, 0, False, ny_place)
-chrt = chart.Chart(symbol, False, time, ny_place, opts.hsys, 'notes', opts)
 
-print "Date\t" \
+# Headers
+print "Symbol\tDate\t" \
     "SULON\tSULAT\tSUDEC\tSUSP\t" \
     "MOLON\tMOLAT\tMODEC\tMOSP\t" \
     "MELON\tMELAT\tMEDEC\tMESP\t" \
@@ -52,4 +49,18 @@ print "Date\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
     "SNLON\tSNLAT\tSNDEC\tSNSP\t"
 
-printPlanetsData(chrt)
+with open('Hors/birthdates.csv', 'rb') as f:
+    reader = csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
+    for row in reader:
+        # Need to import for each iteration or it brokes
+        import time
+        dt = time.strptime(row['Date'], '%Y-%m-%d %H:%M:%S')
+        # place, time and chart generation
+        ny_place = chart.Place('New York', 74, 0, 21, False, 40, 42, 51, True, 10)
+        year, month, day, hour, minute, second = dt.tm_year, dt.tm_mon, dt.tm_mday, dt.tm_hour, dt.tm_min, dt.tm_sec
+        zone_hour, zone_minute = dt.tm_hour, dt.tm_min
+        symbol = row['Symbol']
+        time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.Time.ZONE, False, zone_hour, 0, False, ny_place)
+        chrt = chart.Chart(symbol, False, time, ny_place, opts.hsys, 'notes', opts)
+        # Print chart positions
+        printPlanetsData(chrt)
