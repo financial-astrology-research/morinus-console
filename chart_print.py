@@ -16,6 +16,7 @@ import transits
 from inspect import getmembers
 from pprint import pprint
 from printr import printr
+from sys import exit
 
 def printPlanetsData(chrt):
     out = []
@@ -30,11 +31,12 @@ def printPlanetsData(chrt):
         #riseset = chrt.riseset.planetRiseSet(j)
         out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (lon, lat, decl, speed))
 
+    # ASC / MC positions
     ASC = chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.DECL]
     out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (ASC[0], ASC[1], ASC[2], 0))
     MC = chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.DECL]
     out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (MC[0], MC[1], MC[2], 0))
-
+    # print out
     print ''.join(out)
 
 opts = options.Options()
@@ -66,7 +68,7 @@ with open('Hors/birthdates.csv', 'rb') as f:
         # place, time and chart generation
         ny_place = chart.Place('New York', 74, 0, 21, False, 40, 42, 51, True, 10)
         year, month, day, hour, minute, second = dt.tm_year, dt.tm_mon, dt.tm_mday, dt.tm_hour, dt.tm_min, dt.tm_sec
-        zone_hour, zone_minute = dt.tm_hour, dt.tm_min
+        zone_hour, zone_minute, zone_second = util.decToDeg(float(row['ZH']))
         symbol = row['Symbol']
         time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.Time.ZONE, False, zone_hour, 0, False, ny_place)
         chrt = chart.Chart(symbol, False, time, ny_place, opts.hsys, 'notes', opts)
