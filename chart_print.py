@@ -56,7 +56,7 @@ print "Symbol\tDate\t" \
     "PLLON\tPLLAT\tPLDEC\tPLSP\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
     "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
-    "ASCLON\tASCLAT\tASCDEC\tASCSP\t" \
+    "ASLON\tASLAT\tASDEC\tASSP\t" \
     "MCLON\tMCLAT\tMCDEC\tMCSP\t"
 
 with open('Hors/birthdates.csv', 'rb') as f:
