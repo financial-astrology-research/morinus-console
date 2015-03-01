@@ -102,6 +102,12 @@ import math #solar precession
 (PDReadyEvent, EVT_PDREADY) = wx.lib.newevent.NewEvent()
 pdlock = thread.allocate_lock()
 
+class NFrame(wx.Frame):
+
+  def __init__(self, parent, id, title, opts):
+    wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition, wx.Size(800, 400))
+    common.common = common.Common()
+    common.common.update(opts)
 
 class MFrame(wx.Frame):
 
@@ -1151,6 +1157,8 @@ class MFrame(wx.Frame):
 
 
   def onExactTransits(self, event):
+    #from dbgp.client import brk;
+    #brk(host="localhost", port=9000)
     #Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
     if wx.Platform == '__WXMSW__' and not self.splash:
       self.handleStatusBar(True)

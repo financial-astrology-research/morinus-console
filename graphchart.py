@@ -359,10 +359,10 @@ class GraphChart:
 			if self.options.houses:
 				self.drawHousePos()
 
-		if self.options.planetarydayhour and self.planetaryday:
-			self.drawPlanetaryDayAndHour()
-		if self.options.housesystem and self.planetaryday:
-			self.drawHousesystemName()
+		#if self.options.planetarydayhour and self.planetaryday:
+			#self.drawPlanetaryDayAndHour()
+		#if self.options.housesystem and self.planetaryday:
+			#self.drawHousesystemName()
 
 		if self.chart2 == None and self.planetaryday and self.options.showfixstars != options.Options.NONE: #If planetaryday is True => radix chart
 			if self.options.showfixstars == options.Options.FIXSTARS:
