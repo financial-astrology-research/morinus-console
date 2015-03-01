@@ -77,7 +77,8 @@ print "Symbol\tDate\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
     "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
     "ASLON\tASLAT\tASDEC\tASSP\t" \
-    "MCLON\tMCLAT\tMCDEC\tMCSP\t"
+    "MCLON\tMCLAT\tMCDEC\tMCSP\t" \
+    "FILE"
 
 # Need to import for each iteration or it brokes
 import time
@@ -135,7 +136,7 @@ chrt = chart.Chart(chart_name, False, time, place, opts.hsys, 'notes', opts)
 gchart = graphchart.GraphChart(chrt, [800, 800], opts, True)
 mybuffer = gchart.drawChart()
 fname = "/tmp/chart_" + chart_name + ".jpg"
-print(fname)
 mybuffer.SaveFile(fname, wx.BITMAP_TYPE_JPEG)
 # Print chart positions
 printPlanetsData(chrt)
+print("\t" + fname)
