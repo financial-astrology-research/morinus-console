@@ -134,8 +134,8 @@ time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JU
 chrt = chart.Chart(chart_name, False, time, place, opts.hsys, 'notes', opts)
 gchart = graphchart.GraphChart(chrt, [800, 800], opts, True)
 mybuffer = gchart.drawChart()
-fname = "/tmp/chart_" + chart_name + ".bmp"
+fname = "/tmp/chart_" + chart_name + ".jpg"
 print(fname)
-mybuffer.SaveFile(fname, wx.BITMAP_TYPE_BMP)
+mybuffer.SaveFile(fname, wx.BITMAP_TYPE_JPEG)
 # Print chart positions
 printPlanetsData(chrt)
