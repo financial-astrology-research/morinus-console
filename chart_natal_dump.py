@@ -39,9 +39,15 @@ def printPlanetsData(chrt):
     out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (ASC[0], ASC[1], ASC[2], 0))
     MC = chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.DECL]
     out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (MC[0], MC[1], MC[2], 0))
+
+    # Build graph chart
+    gchart = graphchart.GraphChart(chrt, [800, 800], opts, True)
+    mybuffer = gchart.drawChart()
+    fname = "/tmp/chart_" + chart_name + ".jpg"
+    mybuffer.SaveFile(fname, wx.BITMAP_TYPE_JPEG)
+    out.append('%s' % fname)
     # print out
     print ''.join(out)
-
 
 class Morinus(wx.App):
 	def OnInit(self):
@@ -133,10 +139,5 @@ else:
 
 time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.Time.ZONE, tzplus, tzh, tzm, False, place)
 chrt = chart.Chart(chart_name, False, time, place, opts.hsys, 'notes', opts)
-gchart = graphchart.GraphChart(chrt, [800, 800], opts, True)
-mybuffer = gchart.drawChart()
-fname = "/tmp/chart_" + chart_name + ".jpg"
-mybuffer.SaveFile(fname, wx.BITMAP_TYPE_JPEG)
 # Print chart positions
 printPlanetsData(chrt)
-print("\t" + fname)
