@@ -63,7 +63,7 @@ opts = options.Options()
 opts.def_hsys = opts.hsys = 'B'
 
 # Headers
-print "Symbol\tDate\t" \
+print "Name\tDate\t" \
     "SULON\tSULAT\tSUDEC\tSUSP\t" \
     "MOLON\tMOLAT\tMODEC\tMOSP\t" \
     "MELON\tMELAT\tMEDEC\tMESP\t" \
