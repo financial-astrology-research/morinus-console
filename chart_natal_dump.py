@@ -84,7 +84,7 @@ print "Name\tDate\t" \
     "PLLON\tPLLAT\tPLDEC\tPLSP\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
     "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
-    "I\tII\tIII\tIV\tV\tVI\tVII\tVIII\tIX\tX\tXI\tXII\tFILE"
+    "H1\tH2\tH3\tH4\tH5\tH6\tH7\tH8\tH9\tH10\tH11\tH12\tFILE"
 
 # Need to import for each iteration or it brokes
 import time
