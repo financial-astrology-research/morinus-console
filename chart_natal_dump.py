@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+GCHART_DESTINATION_PATH = '/Users/pablocc/Sites/own/horoscopeame/files/member/horoscope'
+
 import astrology
 import chart
 import csv
@@ -35,15 +37,15 @@ def printPlanetsData(chrt):
         out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (lon, lat, decl, speed))
 
     # ASC / MC positions
-    ASC = chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.ASC][houses.Houses.DECL]
-    out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (ASC[0], ASC[1], ASC[2], 0))
-    MC = chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LON], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.LAT], chrt.houses.ascmc2[houses.Houses.MC][houses.Houses.DECL]
-    out.append("%.2f\t%.2f\t%.2f\t%.3f\t" % (MC[0], MC[1], MC[2], 0))
+    # Houses positions
+    for j in range (1, 13):
+        lon = chrt.houses.cusps[j]
+        out.append("%.2f\t" % (lon))
 
     # Build graph chart
     gchart = graphchart.GraphChart(chrt, [800, 800], opts, True)
     mybuffer = gchart.drawChart()
-    fname = "/tmp/chart_" + chart_name + ".jpg"
+    fname = GCHART_DESTINATION_PATH + "/chart_" + chart_name + ".jpg"
     mybuffer.SaveFile(fname, wx.BITMAP_TYPE_JPEG)
     out.append('%s' % fname)
     # print out
@@ -82,9 +84,7 @@ print "Name\tDate\t" \
     "PLLON\tPLLAT\tPLDEC\tPLSP\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
     "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
-    "ASLON\tASLAT\tASDEC\tASSP\t" \
-    "MCLON\tMCLAT\tMCDEC\tMCSP\t" \
-    "FILE"
+    "I\tII\tIII\tIV\tV\tVI\tVII\tVIII\tIX\tX\tXI\tXII\tFILE"
 
 # Need to import for each iteration or it brokes
 import time
