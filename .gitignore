@@ -1,2 +1,4 @@
 *.pyc
 tags
+SWEP/src/*.a
+SWEP/src/*.o
