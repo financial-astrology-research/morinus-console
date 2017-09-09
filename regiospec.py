@@ -1,4 +1,5 @@
 import math
+import astrology
 import houses
 import util
 
@@ -6,8 +7,10 @@ import util
 class RegiomontanianSpeculum:
 	'''Calculates Regiomontanian Speculum for an object'''
 
-	LON, LAT, RA, DECL, RMD, RHD, ZD, POLE, Q, W, CMP, RMP = range(12)
-
+	LON, LAT, RA, DECL, RMD, RHD, ZD, POLE, Q, W, CMP, RMP, AZM, ELV = range(14)
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 	def __init__(self, placelat, ascmc2, raequasc, lon, lat, ra, decl):
 		#transform
@@ -67,6 +70,27 @@ class RegiomontanianSpeculum:
 
 		#RMP
 		#W-RA(EquatorialAsc) [normalize]
+
+# ########################################
+# Roberto change - V 7.1.0
+		#AZM (Astrological Azimuth, 0 = East, Counterclockwise)
+		#
+		#HA=ra-ramc
+		#if HA<0:
+		        #HA=360+HA
+		#
+		#alt=arcsin[sin(lat)sin(decl)+cos(lat)cos(decl)cos(HA)]
+		#
+		#AZMn=arccos[[cos(lat)sin(decl)-sin(lat)cos(decl)cos(HA)]/[cos(alt)]]
+		#if HA>180:
+		        #AZMn=360-AZMn
+		#AZM=450-AZMn
+		#if AZM>360:
+		        #AZM=AZM-360
+		
+		#ELV (Astrological = Astronomical Elevation)
+		#ELV=alt
+# ########################################
 			
 		ramc = ascmc2[houses.Houses.MC][houses.Houses.RA]
 		raic = ramc+180.0
@@ -146,10 +170,13 @@ class RegiomontanianSpeculum:
 		if zd > 90.0:
 			zd = 180.0-zd
 		tmpzd = zd
-
-#		if not abovehorizon:
-		if not umd: #!? or with abovehorizon!?
+# ###########################################
+# Roberto REGIO SPEC fix - V 7.0.1
+		if (self.abovehorizon and md < 0.0):
+			zd *= -1				
+		if (not self.abovehorizon and md > 0.0):
 			zd *= -1
+# ###########################################
 
 		#pole
 		pole = 0.0
@@ -184,22 +211,51 @@ class RegiomontanianSpeculum:
 				Cmp = 270.0-tmpzd
 			else:
 				Cmp = 90.0+tmpzd
-
-		#Roberto's bugreport(Giacomo's chart)
-#		if (self.abovehorizon and tablemd < 0.0) or (not self.abovehorizon and tablemd >= 0.0):
-#			if Cmp < 0.0:
-#				Cmp = 360.0+Cmp
-#			else:
-#				Cmp = 360.0-Cmp
+# ###########################################
+# Roberto CMP fix - V 7.0.0
+		if (self.abovehorizon and tablemd < 0.0) or (not self.abovehorizon and tablemd > 0.0):
+				Cmp = 360.0-Cmp 
+# ###########################################
 
 		#RMP (Roberto)
 		RMP = 0.0
 		if raequasc != None:
 			RMP = util.normalize(W-raequasc)
 
-		#md, hd, zd, pole, q, w
-		self.speculum = (lon, lat, ra, decl, tablemd, hd, zd, pole, Q, W, Cmp, RMP)
+# ########################################
+# Roberto change - V 7.1.0
+		#AZM
+		#ELV
 
+		AZM = 0.0 #Astrological Azimuth
+		ELV = 0.0 #Altitude
+		
+		HAn = 0.0 #Hourly angle
+		Han = ra-ramc
+		if Han < 0.0:
+			Han = 360+Han
+
+		val = math.sin(math.radians(placelat))*math.sin(math.radians(decl))+math.cos(math.radians(placelat))*math.cos(math.radians(decl))*math.cos(math.radians(Han))	
+		if math.fabs(val) <= 1.0:
+			ELV = math.degrees(math.asin(val))
+				
+		val = (math.cos(math.radians(placelat))*math.sin(math.radians(decl))-math.sin(math.radians(placelat))*math.cos(math.radians(decl))*math.cos(math.radians(Han)))/math.cos(math.radians(ELV))		
+
+		if math.fabs(val) <= 1.0:
+			val = math.degrees(math.acos(val))
+		if Han > 180:
+			val = 360-val
+		val = 450-val
+		if val > 360:
+			val = val-360
+		AZM = val
+# ########################################
+
+		#md, hd, zd, pole, q, w
+		self.speculum = (lon, lat, ra, decl, tablemd, hd, zd, pole, Q, W, Cmp, RMP, AZM, ELV)
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 	def getZD(self, md, placelat, decl, umd):
 		'''Calculates Regiomontan zenith distance '''
@@ -227,7 +283,5 @@ class RegiomontanianSpeculum:
 			zd = A+F
 
 		return zd
-
-
 
 

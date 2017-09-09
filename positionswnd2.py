@@ -158,7 +158,10 @@ class PositionsWnd2(wx.Window):
 
 		#Title
 		draw.rectangle(((BOR+self.SMALL_CELL_WIDTH, BOR),(BOR+self.SMALL_CELL_WIDTH+self.TITLE_WIDTH, BOR+self.TITLE_HEIGHT)), outline=(tableclr), fill=(self.bkgclr))
-		txt = ((mtexts.txts['Longitude'], mtexts.txts['Latitude'], mtexts.txts['Rectascension'], mtexts.txts['Declination'], mtexts.txts['AscDiffLat'], mtexts.txts['Semiarcus'], mtexts.txts['Meridiandist'], mtexts.txts['Horizondist'], mtexts.txts['TemporalHour'], mtexts.txts['HourlyDist'], mtexts.txts['PMP'], mtexts.txts['AscDiffPole'], mtexts.txts['PoleHeight'], mtexts.txts['AODO']), (mtexts.txts['Longitude'], mtexts.txts['Latitude'], mtexts.txts['Rectascension'], mtexts.txts['Declination'], mtexts.txts['Meridiandist'], mtexts.txts['Horizondist'], mtexts.txts['ZD'], mtexts.txts['Pole'], mtexts.txts['Q'], mtexts.txts['WReg'], mtexts.txts['CMP'], mtexts.txts['RMP']))
+		txt = ((mtexts.txts['Longitude'], mtexts.txts['Latitude'], mtexts.txts['Rectascension'], mtexts.txts['Declination'], mtexts.txts['AscDiffLat'], mtexts.txts['Semiarcus'], mtexts.txts['Meridiandist'], mtexts.txts['Horizondist'], mtexts.txts['TemporalHour'], mtexts.txts['HourlyDist'], mtexts.txts['PMP'], mtexts.txts['AscDiffPole'], mtexts.txts['PoleHeight'], mtexts.txts['AODO']), (mtexts.txts['Longitude'], mtexts.txts['Latitude'], mtexts.txts['Rectascension'], mtexts.txts['Declination'], mtexts.txts['Meridiandist'], mtexts.txts['Horizondist'], mtexts.txts['ZD'], mtexts.txts['Pole'], mtexts.txts['Q'], mtexts.txts['WReg'], mtexts.txts['CMP'], mtexts.txts['RMP'], mtexts.txts['AZM'], mtexts.txts['ELV']))
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 		j = 0
 		for i in range(len(txt[self.speculum])):
@@ -373,9 +376,13 @@ class PositionsWnd2(wx.Window):
 				sign = ''
 				if data[i] < 0.0:
 					sign = '-'
+# ###################################
+# Roberto change v 8.0.1
 				if i == planets.Planet.LAT and idxpl == 0:#Sun's latitude is always zero
-					d, m, s = 0, 0, 0
+				#	d, m, s = 0, 0, 0
 					sign = ''
+# In pseudo-astronomic techniques the Sun's latitude may be positive or negative too
+# ###################################
 				txt = sign+(str(d)).rjust(2)+self.deg_symbol+(str(m)).zfill(2)+"'"+(str(s)).zfill(2)+'"'
 				w,h = draw.textsize(txt, self.fntText)				
 				offset = (offs[i]-w)/2
@@ -423,7 +430,10 @@ class PositionsWnd2(wx.Window):
 		draw.line((x, y+self.LINE_HEIGHT, x+self.TABLE_WIDTH, y+self.LINE_HEIGHT), fill=clr)
 
 		#vertical lines
-		offs = (0, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH)
+		offs = (0, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH)
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 		SPEC = 2
 		j = 0
@@ -457,7 +467,11 @@ class PositionsWnd2(wx.Window):
 			draw.text((x+offset+w, y+(self.LINE_HEIGHT-h)/2+self.RETRYOFFS), t, fill=clrpl, font=self.fntRText)
 
 		#data
-		offs = (self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH)
+		offs = (self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH)
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
+
 		j = 0
 		summa = 0
 		for i in range(len(self.options.speculums[self.speculum])):
@@ -479,18 +493,28 @@ class PositionsWnd2(wx.Window):
 				offset = (offs[i]-(w+wsp+wsg))/2
 				draw.text((x+self.SMALL_CELL_WIDTH+summa+offset, y+(self.LINE_HEIGHT-h)/2), txt, fill=clrpl, font=self.fntText)
 				draw.text((x+self.SMALL_CELL_WIDTH+summa+offset+w+wsp, y+(self.LINE_HEIGHT-hsg)/2), self.signs[sign], fill=clrpl, font=self.fntMorinus)
-			elif i == planets.Planet.LAT or i == planets.Planet.DECL or i == planets.Planet.Q:
+			elif i == planets.Planet.LAT or i == planets.Planet.DECL or i == planets.Planet.Q or i == planets.Planet.ELV:
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################				
 				sign = ''
 				if data[i] < 0.0:
 					sign = '-'
+# ###################################
+# Roberto change v 8.0.1
 				if i == planets.Planet.LAT and idxpl == 0:#Sun's latitude is always zero
-					d, m, s = 0, 0, 0
+				#	d, m, s = 0, 0, 0
 					sign = ''
+# In pseudo-astronomic techniques the Sun's latitude may be positive or negative too
+# ###################################				
 				txt = sign+(str(d)).rjust(2)+self.deg_symbol+(str(m)).zfill(2)+"'"+(str(s)).zfill(2)+'"'
 				w,h = draw.textsize(txt, self.fntText)				
 				offset = (offs[i]-w)/2
 				draw.text((x+self.SMALL_CELL_WIDTH+summa+offset, y+(self.LINE_HEIGHT-h)/2), txt, fill=clrpl, font=self.fntText)
-			elif i == planets.Planet.RA or i == planets.Planet.ZD or i == planets.Planet.POLE or i == planets.Planet.W or i == planets.Planet.CMP or i == planets.Planet.RMP:
+			elif i == planets.Planet.RA or i == planets.Planet.ZD or i == planets.Planet.POLE or i == planets.Planet.W or i == planets.Planet.CMP or i == planets.Planet.RMP or i == planets.Planet.AZM or i == planets.Planet.ELV:
+# ######################################## ???
+# Roberto change - V 7.1.0
+# ########################################
 				sign = ''
 				if i == planets.Planet.ZD:
 					sign = 'Z'
@@ -525,8 +549,5 @@ class PositionsWnd2(wx.Window):
 
 			j += 1
 			summa += offs[i]
-
-
-
 
 

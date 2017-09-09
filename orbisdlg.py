@@ -324,7 +324,7 @@ class OrbisDlg(wx.Dialog):
 			dlgm.Destroy()
 			return	
 
-		dlg = fixstarsorbdlg.FixStarsOrbDlg(self, self.fixstars)
+		dlg = fixstarsorbdlg.FixStarsOrbDlg(self, self.fixstars, self.options)
 		dlg.CenterOnParent()
 
 		val = dlg.ShowModal()

@@ -273,7 +273,11 @@ class PersonalDataDlg(wx.Dialog):
 		vvsubsizer.Add(zonesizer, 2, wx.ALIGN_LEFT|wx.ALL, 0)
 
 		#Altitude
-		self.sphs =wx.StaticBox(self, label=mtexts.txts['PlanetaryHour'])
+# ###########################################
+# Roberto change - V 7.4.2
+#		self.sphs =wx.StaticBox(self, label=mtexts.txts['PlanetaryHour'])
+	        self.sphs =wx.StaticBox(self, label='')
+# ###########################################		
 		hourssizer = wx.StaticBoxSizer(self.sphs, wx.VERTICAL)
 		label = wx.StaticText(self, -1, mtexts.txts['Altitude']+':')
 		hourssizer.Add(label, 0, wx.ALIGN_CENTER|wx.TOP, 10)

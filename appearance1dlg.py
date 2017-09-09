@@ -140,6 +140,9 @@ class Appearance1Dlg(wx.Dialog):
 		self.fixstarslofckb = wx.CheckBox(self, -1, mtexts.txts['LoF'])
 		vfssubsizer.Add(self.fixstarslofckb, 0, wx.ALL, 2)
 		vsizer3.Add(vfssubsizer, 0, wx.ALIGN_LEFT|wx.LEFT, 12)
+		self.dodecsrb = wx.RadioButton(self, -1, mtexts.txts['Dodecatemoria'])
+		self.Bind(wx.EVT_RADIOBUTTON, self.onDodec, id=self.dodecsrb.GetId())
+		vsizer3.Add(self.dodecsrb, 0, wx.ALIGN_LEFT|wx.ALL, 2)
 		self.antisrb = wx.RadioButton(self, -1, mtexts.txts['Antiscia'])
 		self.Bind(wx.EVT_RADIOBUTTON, self.onAntis, id=self.antisrb.GetId())
 		vsizer3.Add(self.antisrb, 0, wx.ALIGN_LEFT|wx.ALL, 2)
@@ -274,6 +277,8 @@ class Appearance1Dlg(wx.Dialog):
 	def onFixStars(self, event):
 		self.enableSubFixstars(True)
 
+	def onDodec(self, event):
+		self.enableSubFixstars(False)
 
 	def onAntis(self, event):
 		self.enableSubFixstars(False)
@@ -367,6 +372,9 @@ class Appearance1Dlg(wx.Dialog):
 		elif opts.showfixstars == options.Options.FIXSTARS:
 			self.fixstarsrb.SetValue(True)
 			self.enableSubFixstars(True)
+		elif opts.showfixstars == options.Options.DODECATEMORIA:
+			self.dodecsrb.SetValue(True)
+			self.enableSubFixstars(False)
 		elif opts.showfixstars == options.Options.ANTIS:
 			self.antisrb.SetValue(True)
 			self.enableSubFixstars(False)
@@ -519,6 +527,10 @@ class Appearance1Dlg(wx.Dialog):
 		elif self.fixstarsrb.GetValue():
 			if opts.showfixstars != options.Options.FIXSTARS:
 				opts.showfixstars = options.Options.FIXSTARS
+				changed = True
+		elif self.dodecsrb.GetValue():
+			if opts.showfixstars != options.Options.DODECATEMORIA:
+				opts.showfixstars = options.Options.DODECATEMORIA
 				changed = True
 		elif self.antisrb.GetValue():
 			if opts.showfixstars != options.Options.ANTIS:

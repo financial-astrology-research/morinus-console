@@ -68,8 +68,9 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 
 		self.fntMorinus = ImageFont.truetype(common.common.symbols, 4*self.FONT_SIZE/5)
 		self.fntSymbol = ImageFont.truetype(common.common.symbols, 3*self.FONT_SIZE/2)
-		self.fntAspects = ImageFont.truetype(common.common.symbols, 3*self.FONT_SIZE/4)
+		self.fntAspects = ImageFont.truetype(common.common.symbols, 3*self.FONT_SIZE/5)
 		self.fntText = ImageFont.truetype(common.common.abc, 3*self.FONT_SIZE/5)
+		self.fntTextOrb = ImageFont.truetype(common.common.abc, self.FONT_SIZE/2)
 		self.clrs = (self.options.clrdomicil, self.options.clrexal, self.options.clrperegrin, self.options.clrcasus, self.options.clrexil)
 		self.arsigndiff = (0, -1, -1, 2, -1, 3, 4, -1, -1, -1, 6)
 		self.hidx = (1, 2, 3, 10, 11, 12)
@@ -80,8 +81,58 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 	def getExt(self):
 		return mtexts.txts['FSAsps']
 
+# ###################################
+# Elias v 8.0.0
+# ###################################
+	def getAsp(self, typ, lon1, lon2, orb):
+		lona1 = lon1
+		lona2 = lon2
+		if self.options.ayanamsha != 0:
+			lona1 -= self.chart.ayanamsha
+			lona1 = util.normalize(lona1)
+			lona2 -= self.chart.ayanamsha
+			lona2 = util.normalize(lona2)
+		if not lona1 > lona2:
+			a= lona1
+			lona1 = lona2
+			lona2 = a
+		diff = lona1 -typ
+		if ((lona2-orb) < diff) and ((lona2+orb) > diff):
+			return True
+		else:
+			return False
+
+	def getOrb(self, typ, lon1, lon2, orb):
+		lona1 = lon1
+		lona2 = lon2
+		if self.options.ayanamsha != 0:
+			lona1 -= self.chart.ayanamsha
+			lona1 = util.normalize(lona1)
+			lona2 -= self.chart.ayanamsha
+			lona2 = util.normalize(lona2)
+		if not lona1 > lona2:
+			a= lona1
+			lona1 = lona2
+			lona2 = a
+		diff = lona1 -typ
+		if ((lona2-orb) < diff) and ((lona2+orb) > diff):
+			if lona2 < diff:
+				return (diff-lona2)
+			else:
+				return (lona2-diff)
+		else:
+			return False
+# ###################################
 
 	def drawBkg(self):
+# ###################################
+# Elias v8.0.0 
+# ###################################
+		if self.options.traditionalaspects:
+			runAspects = [0, 3, 5, 6, 10]
+		else:
+			runAspects = range(chart.Chart.CONJUNCTIO , (chart.Chart.OPPOSITIO+1))
+# ###################################
 		if self.bw:
 			self.bkgclr = (255,255,255)
 		else:
@@ -139,22 +190,55 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 		MC = self.chart.houses.ascmc[houses.Houses.MC]
 		IC = util.normalize(self.chart.houses.ascmc[houses.Houses.MC]+180.0)
 		ascmc = [ASC, DESC, MC, IC]
-		num = len(self.chart.fsaspmatrixangles)
+#		num = len(self.chart.fsaspmatrixangles)
+#		for i in range(num):
+#			lon1 = self.chart.fixstars.data[self.chart.fsaspmatrixangles[i][0]][fixstars.FixStars.LON]
+#			num2 = len(self.chart.fsaspmatrixangles[i][1])
+#			for j in range(num2):
+#				lon2 = ascmc[self.chart.fsaspmatrixangles[i][1][j]]
+#				showasp = self.isShowAsp(chart.Chart.CONJUNCTIO, lon1, lon2)
+#				if showasp:
+#					txt = common.common.Aspects[chart.Chart.CONJUNCTIO]
+#					w,h = draw.textsize(txt, self.fntAspects)
+#					clr = self.options.clraspect[chart.Chart.CONJUNCTIO]
+#					if self.bw:
+#						clr = (0,0,0)
+#					xx = BOR+self.CELL_WIDTH+self.SPACE+self.chart.fsaspmatrixangles[i][1][j]*(self.SQUARE_SIZE+self.SPACE)
+#					yy = BOR+self.TITLE_HEIGHT+self.SPACE+self.chart.fsaspmatrixangles[i][0]*(self.SQUARE_SIZE+self.SPACE)
+#					draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+# ###################################
+# Elias v8.0.0 ASC MC
+# ###################################
+		num= len(self.chart.fixstars.data)
 		for i in range(num):
-			lon1 = self.chart.fixstars.data[self.chart.fsaspmatrixangles[i][0]][fixstars.FixStars.LON]
-			num2 = len(self.chart.fsaspmatrixangles[i][1])
-			for j in range(num2):
-				lon2 = ascmc[self.chart.fsaspmatrixangles[i][1][j]]
-				showasp = self.isShowAsp(chart.Chart.CONJUNCTIO, lon1, lon2)
-				if showasp:
-					txt = common.common.Aspects[chart.Chart.CONJUNCTIO]
-					w,h = draw.textsize(txt, self.fntAspects)
-					clr = self.options.clraspect[chart.Chart.CONJUNCTIO]
-					if self.bw:
-						clr = (0,0,0)
-					xx = BOR+self.CELL_WIDTH+self.SPACE+self.chart.fsaspmatrixangles[i][1][j]*(self.SQUARE_SIZE+self.SPACE)
-					yy = BOR+self.TITLE_HEIGHT+self.SPACE+self.chart.fsaspmatrixangles[i][0]*(self.SQUARE_SIZE+self.SPACE)
-					draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+			lon1 = self.chart.fixstars.data[i][fixstars.FixStars.LON]
+			orb= self.options.fixstars[self.chart.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+			for j in range(4):
+				lon2 = ascmc[j]
+				for numasp in runAspects:
+					degree = chart.Chart.Aspects[numasp]
+					AspType = self.getAsp(degree, lon1, lon2, orb)
+			
+					# Only show selected aspects in Options.
+					if AspType and self.options.aspect[numasp]:
+						txt = common.common.Aspects[numasp]
+						w,h = draw.textsize(txt, self.fntAspects)
+						clr = self.options.clraspect[numasp]
+						if self.bw:
+							clr = (0,0,0)
+						# Print Aspect
+						xx = BOR+self.CELL_WIDTH+self.SPACE-(self.SQUARE_SIZE/5)+j*(self.SQUARE_SIZE+self.SPACE)
+						yy = BOR+self.TITLE_HEIGHT+self.SPACE-(self.SQUARE_SIZE/5)+i*(self.SQUARE_SIZE+self.SPACE)
+						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+						
+						# Print Orb
+						OrbDegree = "%0.1f" % (self.getOrb(degree, lon1, lon2, orb))
+						w,h = draw.textsize(OrbDegree, self.fntTextOrb)
+						xx = BOR+self.CELL_WIDTH+self.SPACE+j*(self.SQUARE_SIZE+self.SPACE)
+						yy = BOR+self.TITLE_HEIGHT+self.SPACE+((self.SQUARE_SIZE-h)/1.7)+i*(self.SQUARE_SIZE+self.SPACE)
+						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), OrbDegree, fill=clr, font=self.fntTextOrb)
+# ###################################
+		
 
 		#Planets
 		j = 0
@@ -184,37 +268,45 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 			lon1 = self.chart.fixstars.data[self.chart.fsaspmatrix[i][0]][fixstars.FixStars.LON]
 			num2 = len(self.chart.fsaspmatrix[i][1])
 			skipped = 0
-			for j in range(num2):
-				k = self.chart.fsaspmatrix[i][1][j]
-				if self.options.intables and ((k == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (k == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (k == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]) or (k == astrology.SE_MEAN_NODE and not self.options.shownodes) or (k == astrology.SE_TRUE_NODE and not self.options.shownodes)):
-					continue
-				lon2 = self.chart.planets.planets[k].data[planets.Planet.LONG]
 
-				skipped = 0
-				if self.options.intables and k > astrology.SE_URANUS:
-					for s in range(astrology.SE_URANUS, k):
-						if s <= astrology.SE_PLUTO:
-							if not self.options.transcendental[s-astrology.SE_URANUS]:
-								skipped += 1
-						else:
-							if not self.options.shownodes:
-								skipped += 1
-
-				showasp = self.isShowAsp(chart.Chart.CONJUNCTIO, lon1, lon2)
-				if showasp:
-					txt = common.common.Aspects[chart.Chart.CONJUNCTIO]
-					w,h = draw.textsize(txt, self.fntAspects)
-					clr = self.options.clraspect[chart.Chart.CONJUNCTIO]
-					if self.bw:
-						clr = (0,0,0)
-					xx = BOR+self.CELL_WIDTH+self.SPACE+self.PLANETSOFFS*(self.SQUARE_SIZE+self.SPACE)+(k-skipped)*(self.SQUARE_SIZE+self.SPACE)
-					yy = BOR+self.TITLE_HEIGHT+self.SPACE+self.chart.fsaspmatrix[i][0]*(self.SQUARE_SIZE+self.SPACE)
-					draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+# ###################################
+# Elias v8.0.0 PLANETS
+# ###################################
+		num= len(self.chart.fixstars.data)
+		orb = chart.Chart.def_fixstarsorb
+		for i in range(num):
+			lon1 = self.chart.fixstars.data[i][fixstars.FixStars.LON]
+			orb= self.options.fixstars[self.chart.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+			for j in range(len(common.common.Planets)):
+				lon2 = self.chart.planets.planets[j].data[planets.Planet.LONG]
+				for numasp in runAspects:
+					degree = chart.Chart.Aspects[numasp]
+					AspType = self.getAsp(degree, lon1, lon2, orb)
+					
+					# Only show selected aspects in Options.
+					if AspType and self.options.aspect[numasp]:
+						txt = common.common.Aspects[numasp]
+						w,h = draw.textsize(txt, self.fntAspects)
+						clr = self.options.clraspect[numasp]
+						if self.bw:
+							clr = (0,0,0)
+						# Print Aspect
+						xx = BOR+self.CELL_WIDTH+self.SPACE-(self.SQUARE_SIZE/5)+self.PLANETSOFFS*(self.SQUARE_SIZE+self.SPACE)+(j-skipped)*(self.SQUARE_SIZE+self.SPACE)
+						yy = BOR+self.TITLE_HEIGHT+self.SPACE-(self.SQUARE_SIZE/5)+i*(self.SQUARE_SIZE+self.SPACE)
+						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+						
+						# Print Orb
+						OrbDegree = "%0.1f" % (self.getOrb(degree, lon1, lon2, orb))
+						w,h = draw.textsize(OrbDegree, self.fntTextOrb)
+						xx = BOR+self.CELL_WIDTH+self.SPACE+self.PLANETSOFFS*(self.SQUARE_SIZE+self.SPACE)+(j-skipped)*(self.SQUARE_SIZE+self.SPACE)
+						yy = BOR+self.TITLE_HEIGHT+self.SPACE+((self.SQUARE_SIZE-h)/1.7)+i*(self.SQUARE_SIZE+self.SPACE)
+						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), OrbDegree, fill=clr, font=self.fntTextOrb)	
+# ###################################
 
 		#LoF
 		if not self.options.intables or (self.options.intables and self.options.showlof):
 			self.drawSquare(draw, x, y, tableclr)
-			w,h = draw.textsize(common.common.fortune, self.fntText)
+			w,h = draw.textsize(common.common.fortune, self.fntMorinus)
 			clr = (0,0,0)
 			if not self.bw:
 				if self.options.useplanetcolors:
@@ -225,20 +317,38 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 			draw.text((x+(self.SQUARE_SIZE-w)/2, y+(self.SQUARE_SIZE-h)/2), common.common.fortune, clr, font=self.fntMorinus)
 			x += (self.SQUARE_SIZE+self.SPACE)
 
-			num = len(self.chart.fsaspmatrixlof)
+# ###################################
+# Elias v8.0.0 LOF
+# ###################################
+			num= len(self.chart.fixstars.data)
 			for i in range(num):
-				lon1 = self.chart.fixstars.data[self.chart.fsaspmatrixlof[i]][fixstars.FixStars.LON]
+				lon1 = self.chart.fixstars.data[i][fixstars.FixStars.LON]
+				orb= self.options.fixstars[self.chart.fixstars.data[i][fixstars.FixStars.NOMNAME]]
 				lon2 = self.chart.fortune.fortune[fortune.Fortune.LON]
-				showasp = self.isShowAsp(chart.Chart.CONJUNCTIO, lon1, lon2)
-				if showasp:
-					txt = common.common.Aspects[chart.Chart.CONJUNCTIO]
-					w,h = draw.textsize(txt, self.fntAspects)
-					clr = self.options.clraspect[chart.Chart.CONJUNCTIO]
-					if self.bw:
-						clr = (0,0,0)
-					xx = BOR+self.CELL_WIDTH+self.SPACE+self.LOFOFFS*(self.SQUARE_SIZE+self.SPACE)
-					yy = BOR+self.TITLE_HEIGHT+self.SPACE+self.chart.fsaspmatrixlof[i]*(self.SQUARE_SIZE+self.SPACE)
-					draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+				for numasp in runAspects:
+					degree = chart.Chart.Aspects[numasp]
+					AspType = self.getAsp(degree, lon1, lon2, orb)
+				
+					# Only show selected aspects in Options.
+					if AspType and self.options.aspect[numasp]:
+						txt = common.common.Aspects[numasp]
+						w,h = draw.textsize(txt, self.fntAspects)
+						clr = self.options.clraspect[numasp]
+						if self.bw:
+							clr = (0,0,0)
+
+						# Print Aspect
+						xx = BOR+self.CELL_WIDTH+self.SPACE-(self.SQUARE_SIZE/5)+self.LOFOFFS*(self.SQUARE_SIZE+self.SPACE)
+						yy = BOR+self.TITLE_HEIGHT+self.SPACE-(self.SQUARE_SIZE/5)+i*(self.SQUARE_SIZE+self.SPACE)
+						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+						
+						# Print Orb
+						OrbDegree = "%0.1f" % (self.getOrb(degree, lon1, lon2, orb))
+						w,h = draw.textsize(OrbDegree, self.fntTextOrb)
+						xx = BOR+self.CELL_WIDTH+self.SPACE+self.LOFOFFS*(self.SQUARE_SIZE+self.SPACE)
+						yy = BOR+self.TITLE_HEIGHT+self.SPACE+((self.SQUARE_SIZE-h)/1.7)+i*(self.SQUARE_SIZE+self.SPACE)
+						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), OrbDegree, fill=clr, font=self.fntTextOrb)	
+# ###################################
 
 		#Houses
 		if not self.options.intables or (self.options.intables and self.options.houses):
@@ -249,27 +359,61 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 	
 			aroffs = (0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5)
 			isopp = (False, False, False, True, True, True, True, True, True, False, False, False)
-			num = len(self.chart.fsaspmatrixhcs)
+#			num = len(self.chart.fsaspmatrixhcs)
+#			for i in range(num):
+#				lon1 = self.chart.fixstars.data[self.chart.fsaspmatrixhcs[i][0]][fixstars.FixStars.LON]
+#				num2 = len(self.chart.fsaspmatrixhcs[i][1])
+#				for j in range(num2):
+#					k = self.chart.fsaspmatrixhcs[i][1][j]
+#					lon2 = self.chart.houses.cusps[k+1]
+#					print "K: "+str(k)
+#					asp = chart.Chart.CONJUNCTIO
+#					if isopp[k]:
+#						asp = chart.Chart.OPPOSITIO
+#					showasp = self.isShowAsp(asp, lon1, lon2)
+#					if showasp:
+#						txt = common.common.Aspects[asp]
+#						w,h = draw.textsize(txt, self.fntAspects)
+#						clr = self.options.clraspect[asp]
+#						if self.bw:
+#							clr = (0,0,0)
+#						xx = BOR+self.CELL_WIDTH+self.SPACE+self.HOUSESOFFS*(self.SQUARE_SIZE+self.SPACE)+aroffs[k]*(self.SQUARE_SIZE+self.SPACE)
+#						yy = BOR+self.TITLE_HEIGHT+self.SPACE+self.chart.fsaspmatrixhcs[i][0]*(self.SQUARE_SIZE+self.SPACE)
+#						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+# ###################################
+# Elias v8.0.0 HOUSES
+# ###################################
+			num= len(self.chart.fixstars.data)
+			cusps= [0, 1, 2, 9, 10, 11]
 			for i in range(num):
-				lon1 = self.chart.fixstars.data[self.chart.fsaspmatrixhcs[i][0]][fixstars.FixStars.LON]
-				num2 = len(self.chart.fsaspmatrixhcs[i][1])
-				for j in range(num2):
-					k = self.chart.fsaspmatrixhcs[i][1][j]
-					lon2 = self.chart.houses.cusps[k+1]
+				lon1 = self.chart.fixstars.data[i][fixstars.FixStars.LON]
+				orb= self.options.fixstars[self.chart.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+				for j in cusps:
+					lon2 = self.chart.houses.cusps[j+1]
+					for numasp in runAspects:
+						degree = chart.Chart.Aspects[numasp]
+						AspType = self.getAsp(degree, lon1, lon2, orb)
+				
+						# Only show selected aspects in Options.
+						if AspType and self.options.aspect[numasp]:
+							txt = common.common.Aspects[numasp]
+							w,h = draw.textsize(txt, self.fntAspects)
+							clr = self.options.clraspect[numasp]
+							if self.bw:
+								clr = (0,0,0)
 
-					asp = chart.Chart.CONJUNCTIO
-					if isopp[k]:
-						asp = chart.Chart.OPPOSITIO
-					showasp = self.isShowAsp(asp, lon1, lon2)
-					if showasp:
-						txt = common.common.Aspects[asp]
-						w,h = draw.textsize(txt, self.fntAspects)
-						clr = self.options.clraspect[asp]
-						if self.bw:
-							clr = (0,0,0)
-						xx = BOR+self.CELL_WIDTH+self.SPACE+self.HOUSESOFFS*(self.SQUARE_SIZE+self.SPACE)+aroffs[k]*(self.SQUARE_SIZE+self.SPACE)
-						yy = BOR+self.TITLE_HEIGHT+self.SPACE+self.chart.fsaspmatrixhcs[i][0]*(self.SQUARE_SIZE+self.SPACE)
-						draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+							# Print Aspect
+							xx = BOR+self.CELL_WIDTH+self.SPACE-(self.SQUARE_SIZE/5)+self.HOUSESOFFS*(self.SQUARE_SIZE+self.SPACE)+aroffs[j]*(self.SQUARE_SIZE+self.SPACE)
+							yy = BOR+self.TITLE_HEIGHT+self.SPACE-(self.SQUARE_SIZE/5)+i*(self.SQUARE_SIZE+self.SPACE)
+							draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), txt, fill=clr, font=self.fntAspects)
+						
+							# Print Orb
+							OrbDegree = "%0.1f" % (self.getOrb(degree, lon1, lon2, orb))
+							w,h = draw.textsize(OrbDegree, self.fntTextOrb)
+							xx = BOR+self.CELL_WIDTH+self.SPACE+self.HOUSESOFFS*(self.SQUARE_SIZE+self.SPACE)+aroffs[j]*(self.SQUARE_SIZE+self.SPACE)
+							yy = BOR+self.TITLE_HEIGHT+self.SPACE+((self.SQUARE_SIZE-h)/1.7)+i*(self.SQUARE_SIZE+self.SPACE)
+							draw.text((xx+(self.SQUARE_SIZE-w)/2, yy+(self.SQUARE_SIZE-h)/2), OrbDegree, fill=clr, font=self.fntTextOrb)	
+# ###################################
 
 		wxImg = wx.EmptyImage(img.size[0], img.size[1])
 		wxImg.SetData(img.tostring())
@@ -323,6 +467,7 @@ class FixStarsAspectsWnd(commonwnd.CommonWnd):
 			res = val
 
 		return res
+
 
 
 	def isExact(self, exact, lon1, lon2):

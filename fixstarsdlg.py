@@ -8,6 +8,7 @@ import chart
 import mtexts
 import astrology
 import util
+import fixstars
 
 #import pdb
 
@@ -98,7 +99,7 @@ class FixStarListCtrl(wx.ListCtrl, limchecklistctrlmixin.LimCheckListCtrlMixin):
 	LAT = 4
 	COLNUM = LAT+1
 
-	MAX_SEL_NUM = 40
+	MAX_SEL_NUM = 200
 
 	def __init__(self, parent, ephepath, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.LC_REPORT|wx.LC_SINGLE_SEL|wx.LC_VRULES):
 		wx.ListCtrl.__init__(self, parent, ID, pos, size, style)
@@ -198,11 +199,19 @@ class FixStarListCtrl(wx.ListCtrl, limchecklistctrlmixin.LimCheckListCtrlMixin):
 
 
 class FixStarsDlg(wx.Dialog):
-	def __init__(self, parent, names, ephepath):#, inittxt):
+	def __init__(self, parent, options, ephepath):#, inittxt):
+# ###########################################
+# Elias -  V 8.0.0
+# ###########################################			
+		names = options.fixstars
+		self.options = options
+# ###########################################
+		
         # Instead of calling wx.Dialog.__init__ we precreate the dialog
         # so we can set an extra style that must be set before
         # creation, and then we create the GUI object using the Create
         # method.
+
 		pre = wx.PreDialog()
 		pre.SetExtraStyle(wx.DIALOG_EX_CONTEXTHELP)
 		pre.Create(parent, -1, mtexts.txts['FixStars'], pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE)
@@ -368,10 +377,22 @@ class FixStarsDlg(wx.Dialog):
 					break
 
 		if changed:
-			names.clear()
+# ###########################################
+# Elias -  V 8.0.0
+# ###########################################
+			namesfs = names.copy()
+			namesfs.clear()
+			
 			for i in range(selnamesnum):
-				names[self.selnames[i]] = chart.Chart.def_fixstarsorb
-
+				if self.selnames[i] in names:
+					namesfs[self.selnames[i]] = names[self.selnames[i]]
+				else:
+					namesfs[self.selnames[i]] = chart.Chart.def_fixstarsorb
+					#names[self.selnames[i]] = chart.Chart.def_fixstarsorb
+			names = namesfs.copy()
+			if self.options.autosave:
+				self.options.saveFixstars(namesfs)
+# ###########################################
 		return changed
 
 

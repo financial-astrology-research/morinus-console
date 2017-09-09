@@ -326,6 +326,9 @@ class GraphChart:
 				self.fsyoffs = self.arrangeyfs(self.chart.fixstars.data, self.fsshift, self.showfss, self.rFixstars)
 				#PIL doesn't want to show short lines
 				self.drawFixstarsLines(self.showfss)
+			elif self.options.showfixstars == options.Options.DODECATEMORIA:
+				self.pshiftantis = self.arrangeAntis(self.chart.antiscia.pldodecatemoria, self.chart.antiscia.lofdodec, self.chart.antiscia.ascmcdodec, self.rAntis)
+				self.drawAntisLines(self.chart.antiscia.pldodecatemoria, self.chart.antiscia.lofdodec, self.chart.antiscia.ascmcdodec, self.pshiftantis, self.r30, self.rAntisLines)
 			elif self.options.showfixstars == options.Options.ANTIS:
 				self.pshiftantis = self.arrangeAntis(self.chart.antiscia.plantiscia, self.chart.antiscia.lofant, self.chart.antiscia.ascmcant, self.rAntis)
 				self.drawAntisLines(self.chart.antiscia.plantiscia, self.chart.antiscia.lofant, self.chart.antiscia.ascmcant, self.pshiftantis, self.r30, self.rAntisLines)
@@ -359,14 +362,16 @@ class GraphChart:
 			if self.options.houses:
 				self.drawHousePos()
 
-		#if self.options.planetarydayhour and self.planetaryday:
-			#self.drawPlanetaryDayAndHour()
-		#if self.options.housesystem and self.planetaryday:
-			#self.drawHousesystemName()
+		if self.options.planetarydayhour and self.planetaryday:
+			self.drawPlanetaryDayAndHour()
+		if self.options.housesystem and self.planetaryday:
+			self.drawHousesystemName()
 
 		if self.chart2 == None and self.planetaryday and self.options.showfixstars != options.Options.NONE: #If planetaryday is True => radix chart
 			if self.options.showfixstars == options.Options.FIXSTARS:
 				self.drawFixstars(self.showfss)
+			elif self.options.showfixstars == options.Options.DODECATEMORIA:
+				self.drawAntis(self.chart, self.chart.antiscia.pldodecatemoria, self.chart.antiscia.lofdodec, self.chart.antiscia.ascmcdodec, self.pshiftantis, self.rAntis)
 			elif self.options.showfixstars == options.Options.ANTIS:
 				self.drawAntis(self.chart, self.chart.antiscia.plantiscia, self.chart.antiscia.lofant, self.chart.antiscia.ascmcant, self.pshiftantis, self.rAntis)
 			elif self.options.showfixstars == options.Options.CANTIS:
@@ -896,7 +901,7 @@ class GraphChart:
 		for i in range(planets.Planets.PLANETS_NUM-NODES):
 			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]):
 				continue
-			asp = self.chart.aspmatrixLoF[0][i]
+			asp = self.chart.aspmatrixLoF[i]
 			lon1 = self.chart.planets.planets[i].data[planets.Planet.LONG]
 			showasp = self.isShowAsp(asp.typ, lon1, lon2)
 			if showasp:
@@ -980,7 +985,7 @@ class GraphChart:
 		for i in range(planets.Planets.PLANETS_NUM-NODES):
 			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]):
 				continue
-			asp = self.chart.aspmatrixLoF[0][i]
+			asp = self.chart.aspmatrixLoF[i]
 			lon1 = self.chart.planets.planets[i].data[planets.Planet.LONG]
 			showasp = self.isShowAsp(asp.typ, lon1, lon2)
 			if showasp:
@@ -1293,6 +1298,9 @@ class GraphChart:
 				lon = plnts[i].lon
 				txt = common.common.Planets[i]
 				if not self.bw:
+# ##################################
+# Elias V 8.0.0 : Always show Antiscia and Dodecatemoria to full color.
+# Roberto V 8.0.1
 					if self.options.useplanetcolors:
 						objidx = i
 						if i == planets.Planets.PLANETS_NUM-1:
@@ -1301,6 +1309,7 @@ class GraphChart:
 					else:
 						dign = chrt.dignity(i)
 						clr = clrs[dign]
+# ##################################
 			elif i == planets.Planets.PLANETS_NUM:
 				lon = lof.lon
 				txt = common.common.fortune

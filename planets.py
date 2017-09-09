@@ -35,6 +35,11 @@ class Planet:
 	W = 9
 	CMP = 10
 	RMP = 11
+# ########################################
+# Roberto change - V 7.1.0
+	AZM = 12
+	ELV = 13
+# ########################################
 
 	#data[x]
 	DIST = 2
@@ -304,6 +309,27 @@ class Planet:
 				#CMP=90+zd
 		#RMP
 		#W-RA(EquatorialAsc) [normalize]
+
+# ########################################
+# Roberto change - V 7.1.0
+		#AZM  (Astrological Azimuth, 0=East, Counterclockwise)
+		#
+		#HA=ra-ramc
+		#if HA<0:
+			#HA=360+HA
+		#
+		#alt=arcsin[sin(lat)sin(decl)+cos(lat)cos(decl)cos(HA)]
+		#
+		#AZMn=arccos[[cos(lat)sin(decl)-sin(lat)cos(decl)cos(HA)]/[cos(alt)]]
+		#if HA>180:
+			#AZMn=360-AZMn
+		#AZM=450-AZMn
+		#if AZM>360:
+			#AZM=AZM-360
+		
+		#ELV (Astrological = Astronomical Elevation)
+		#ELV=alt		
+# ########################################
 			
 		ramc = ascmc2[houses.Houses.MC][houses.Houses.RA]
 		raic = ramc+180.0
@@ -333,10 +359,13 @@ class Planet:
 		if zd > 90.0:
 			zd = 180.0-zd
 		tmpzd = zd
-
-#		if not abovehorizon:
-		if not umd: #!? or with abovehorizon!?
+# ###########################################
+# Roberto REGIO SPEC fix - V 7.0.1
+		if (self.abovehorizon and md < 0.0):
+			zd *= -1				
+		if (not self.abovehorizon and md > 0.0):
 			zd *= -1
+# ###########################################
 
 		#pole
 		pole = 0.0
@@ -371,21 +400,51 @@ class Planet:
 				Cmp = 270.0-tmpzd
 			else:
 				Cmp = 90.0+tmpzd
-
-		#Roberto's bugreport(Giacomo's chart)
-#		if (self.abovehorizon and tablemd < 0.0) or (not self.abovehorizon and tablemd >= 0.0):
-#			if Cmp < 0.0:
-#				Cmp = 360.0+Cmp
-#			else:
-#				Cmp = 360.0-Cmp
+# ###########################################
+# Roberto CMP fix - V 7.0.0
+		if (self.abovehorizon and tablemd < 0.0) or (not self.abovehorizon and tablemd > 0.0):
+				Cmp = 360.0-Cmp 
+# ###########################################
 
 		#RMP (Roberto)
 		RMP = 0.0
 		if raequasc != None:
 			RMP = util.normalize(W-raequasc)
 
+# ########################################
+# Roberto change - V 7.1.0
+		#AZM
+		#ELV
+		AZM = 0.0
+		ELV = 0.0
+				
+		placelat = lat
+		
+		HAn = 0.0 #Hourly angle
+		Han = self.dataEqu[Planet.RAEQU]-ramc
+		if Han < 0.0:
+			Han = 360+Han
+				
+		val = math.sin(math.radians(placelat))*math.sin(math.radians(self.dataEqu[Planet.DECLEQU]))+math.cos(math.radians(placelat))*math.cos(math.radians(self.dataEqu[Planet.DECLEQU]))*math.cos(math.radians(Han))
+		if math.fabs(val) <= 1.0:
+			ELV = math.degrees(math.asin(val))
+				
+		val = (math.cos(math.radians(placelat))*math.sin(math.radians(self.dataEqu[Planet.DECLEQU]))-math.sin(math.radians(placelat))*math.cos(math.radians(self.dataEqu[Planet.DECLEQU]))*math.cos(math.radians(Han)))/math.cos(math.radians(ELV))		
+		if math.fabs(val) <= 1.0:
+			val = math.degrees(math.acos(val))
+		if Han > 180:
+			val = 360-val
+		val = 450-val
+		if val > 360:
+			val = val-360
+		AZM = val		
+# ########################################
+
 		#md, hd, zd, pole, q, w
-		self.speculums.append((self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], tablemd, self.hd, zd, pole, Q, W, Cmp, RMP))
+		self.speculums.append((self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], tablemd, self.hd, zd, pole, Q, W, Cmp, RMP, AZM, ELV))
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 
 	def getZD(self, md, lat, decl, umd):
@@ -423,7 +482,10 @@ class Planet:
 		self.speculums[0] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], self.speculums[0][Planet.ADLAT], self.speculums[0][Planet.SA], self.speculums[0][Planet.MD], self.speculums[0][Planet.HD], self.speculums[0][Planet.TH], self.speculums[0][Planet.HOD], self.speculums[0][Planet.PMP], self.speculums[0][Planet.ADPH], self.speculums[0][Planet.POH], self.speculums[0][Planet.AODO])
 
 		#Regiomontanus
-		self.speculums[1] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], self.speculums[1][Planet.RMD], self.speculums[1][Planet.RHD], self.speculums[1][Planet.ZD], self.speculums[1][Planet.POLE], self.speculums[1][Planet.Q], self.speculums[1][Planet.W], self.speculums[1][Planet.CMP], self.speculums[1][Planet.RMP])
+		self.speculums[1] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], self.speculums[1][Planet.RMD], self.speculums[1][Planet.RHD], self.speculums[1][Planet.ZD], self.speculums[1][Planet.POLE], self.speculums[1][Planet.Q], self.speculums[1][Planet.W], self.speculums[1][Planet.CMP], self.speculums[1][Planet.RMP], self.speculums[1][Planet.AZM], self.speculums[1][Planet.ELV])
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 
 	def calcMundaneProfPos(self, ascmc2, pl, placelat, obl):
@@ -504,7 +566,10 @@ class Planet:
 		self.speculums[0] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], pl.speculums[0][Planet.ADLAT], pl.speculums[0][Planet.SA], pl.speculums[0][Planet.MD], pl.speculums[0][Planet.HD], pl.speculums[0][Planet.TH], pl.speculums[0][Planet.HOD], pl.speculums[0][Planet.PMP], pl.speculums[0][Planet.ADPH], pl.speculums[0][Planet.POH], pl.speculums[0][Planet.AODO])
 
 		#Regiomontanus
-		self.speculums[1] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], pl.speculums[1][Planet.RMD], pl.speculums[1][Planet.RHD], pl.speculums[1][Planet.ZD], pl.speculums[1][Planet.POLE], pl.speculums[1][Planet.Q], pl.speculums[1][Planet.W], pl.speculums[1][Planet.CMP], pl.speculums[1][Planet.RMP])
+		self.speculums[1] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], pl.speculums[1][Planet.RMD], pl.speculums[1][Planet.RHD], pl.speculums[1][Planet.ZD], pl.speculums[1][Planet.POLE], pl.speculums[1][Planet.Q], pl.speculums[1][Planet.W], pl.speculums[1][Planet.CMP], pl.speculums[1][Planet.RMP], pl.speculums[1][Planet.AZM], pl.speculums[1][Planet.ELV])
+# ########################################
+# Roberto change - V 7.1.0
+# ########################################
 
 
 	def iterate(self, pl, rao, rdo, robl, rpoh, lon):
@@ -675,7 +740,11 @@ class Planet:
 		self.speculums[0] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], pl.speculums[0][Planet.ADLAT], pl.speculums[0][Planet.SA], pl.speculums[0][Planet.MD], pl.speculums[0][Planet.HD], pl.speculums[0][Planet.TH], pl.speculums[0][Planet.HOD], pl.speculums[0][Planet.PMP], pl.speculums[0][Planet.ADPH], pl.speculums[0][Planet.POH], pl.speculums[0][Planet.AODO])
 
 		#Regiomontanus
-		self.speculums[1] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], pl.speculums[1][Planet.RMD], pl.speculums[1][Planet.RHD], pl.speculums[1][Planet.ZD], pl.speculums[1][Planet.POLE], pl.speculums[1][Planet.Q], pl.speculums[1][Planet.W], pl.speculums[1][Planet.CMP], pl.speculums[1][Planet.RMP])
+		self.speculums[1] = (self.data[Planet.LONG], self.data[Planet.LAT], self.dataEqu[Planet.RAEQU], self.dataEqu[Planet.DECLEQU], pl.speculums[1][Planet.RMD], pl.speculums[1][Planet.RHD], pl.speculums[1][Planet.ZD], pl.speculums[1][Planet.POLE], pl.speculums[1][Planet.Q], pl.speculums[1][Planet.W], pl.speculums[1][Planet.CMP], pl.speculums[1][Planet.RMP], pl.speculums[1][Planet.AZM], pl.speculums[1][Planet.ELV])
+
+# ##################################
+# Roberto change V 7.1.0
+# ##################################
 
 
 	def iterateRegio(self, pl, rwa, rwd, robl, rpoh, lon):
@@ -810,6 +879,7 @@ class Planets:
 	def calcMundaneWithoutSM(self, da, obl, placelat, ascmc2, raequasc):
 		for pl in range(Planets.PLANETS_NUM):
 			self.planets[pl].calcMundaneWithoutSM(da, obl, placelat, ascmc2, raequasc)
+
 
 
 

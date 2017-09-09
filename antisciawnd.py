@@ -55,6 +55,7 @@ class AntisciaWnd(commonwnd.CommonWnd):
 
 		self.SetVirtualSize((self.WIDTH, self.HEIGHT))
 
+		self.clrs = [self.options.clrdomicil, self.options.clrexal, self.options.clrperegrin, self.options.clrcasus, self.options.clrexil]
 		self.fntMorinus = ImageFont.truetype(common.common.symbols, self.FONT_SIZE)
 		self.fntSymbol = ImageFont.truetype(common.common.symbols, 3*self.FONT_SIZE/2)
 		self.fntText = ImageFont.truetype(common.common.abc, self.FONT_SIZE)
@@ -144,15 +145,20 @@ class AntisciaWnd(commonwnd.CommonWnd):
 		clr = (0,0,0)
 		if not self.bw:
 			if not AscMC:
+# ##################################
+# Elias V 8.0.0
+# Roberto V 8.0.1
+				objidx = idx
+				if objidx >= len(common.common.Planets)-1:
+					objidx -= 1
 				if self.options.useplanetcolors:
-					objidx = idx
-					if idx > astrology.SE_MEAN_NODE:
-						objidx -= 1
 					clr = self.options.clrindividual[objidx]
 				else:
-					clr = self.options.clrperegrin
+					clr = self.clrs[self.chart.dignity(objidx)]
+# ##################################
 			else:
 				clr = self.options.clrtexts
+# ##################################				
 		fnt = self.fntMorinus
 		if AscMC:
 			fnt = self.fntSymbol

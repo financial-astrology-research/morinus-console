@@ -197,7 +197,10 @@ class CustomerWnd(commonwnd.CommonWnd):
 		if not self.bw:
 			clrtxt = self.options.clrtexts
 
-		txts = (mtexts.txts['Longitude'], mtexts.txts['Latitude'], mtexts.txts['Rectascension'], mtexts.txts['Declination'], mtexts.txts['Meridiandist'], mtexts.txts['Horizondist'], mtexts.txts['ZD'], mtexts.txts['Pole'], mtexts.txts['Q'], mtexts.txts['WReg'], mtexts.txts['CMP'], mtexts.txts['RMP'])
+		txts = (mtexts.txts['Longitude'], mtexts.txts['Latitude'], mtexts.txts['Rectascension'], mtexts.txts['Declination'], mtexts.txts['Meridiandist'], mtexts.txts['Horizondist'], mtexts.txts['ZD'], mtexts.txts['Pole'], mtexts.txts['Q'], mtexts.txts['WReg'], mtexts.txts['CMP'], mtexts.txts['RMP'], mtexts.txts['AZM'], mtexts.txts['ELV'])
+# ###########################################
+# Roberto change - V 7.1.0
+# ###########################################
 
 		#top horizontal line
 		draw.line((x, y, x+self.TABLE_WIDTH, y), fill=clr)
@@ -231,15 +234,21 @@ class CustomerWnd(commonwnd.CommonWnd):
 				offs = (self.CELL_WIDTH-w-wsp-wsg)/2
 				draw.text((x+self.CELL_WIDTH+offs, y+self.LINE_HEIGHT*j+(self.LINE_HEIGHT-h)/2), txt, fill=clrtxt, font=self.fntText)
 				draw.text((x+self.CELL_WIDTH+offs+w+wsp, y+self.LINE_HEIGHT*j+(self.LINE_HEIGHT-hsg)/2), self.signs[sign], fill=clrtxt, font=self.fntMorinus)
-			elif i == customerpd.CustomerPD.LAT or i == customerpd.CustomerPD.DECL or i == customerpd.CustomerPD.Q:
+			elif i == customerpd.CustomerPD.LAT or i == customerpd.CustomerPD.DECL or i == customerpd.CustomerPD.Q or i == customerpd.CustomerPD.ELV:
 				sign = ''
+# ###########################################
+# Roberto change - V 7.1.0
+# ###########################################
 				if data < 0.0:
 					sign = '-'
 				txt = sign+(str(d)).rjust(2)+self.deg_symbol+(str(m)).zfill(2)+"'"+(str(s)).zfill(2)+'"'
 				w,h = draw.textsize(txt, self.fntText)				
 				offs = (self.CELL_WIDTH-w)/2
 				draw.text((x+self.CELL_WIDTH+offs, y+self.LINE_HEIGHT*j+(self.LINE_HEIGHT-h)/2), txt, fill=clrtxt, font=self.fntText)
-			elif i == customerpd.CustomerPD.RA or i == customerpd.CustomerPD.ZD or i == customerpd.CustomerPD.POLE or i == customerpd.CustomerPD.W or i == customerpd.CustomerPD.CMP or i == customerpd.CustomerPD.RMP:
+			elif i == customerpd.CustomerPD.RA or i == customerpd.CustomerPD.ZD or i == customerpd.CustomerPD.POLE or i == customerpd.CustomerPD.W or i == customerpd.CustomerPD.CMP or i == customerpd.CustomerPD.RMP or i == customerpd.CustomerPD.AZM or i == customerpd.CustomerPD.ELV:
+# ######################################## ???
+# Roberto change - V 7.1.0
+# ######################################## ???
 				sign = ''
 				if i == customerpd.CustomerPD.ZD:
 					sign = 'Z'
@@ -280,6 +289,7 @@ class CustomerWnd(commonwnd.CommonWnd):
 		draw.line((x, y, x, y+self.TABLE_HEIGHT), fill=clr)
 		draw.line((x+self.CELL_WIDTH, y, x+self.CELL_WIDTH, y+self.TABLE_HEIGHT), fill=clr)
 		draw.line((x+2*self.CELL_WIDTH, y, x+2*self.CELL_WIDTH, y+self.TABLE_HEIGHT), fill=clr)
+
 
 
 

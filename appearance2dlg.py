@@ -100,6 +100,16 @@ class Appearance2Dlg(wx.Dialog):
 		self.rmpckb = wx.CheckBox(self, -1, mtexts.txts['RMP'])
 		self.rmpckb.SetHelpText(mtexts.txts['HelpRMP'])
 		regiomontansizer.Add(self.rmpckb, 0, wx.ALIGN_LEFT|wx.ALL, 2)
+		self.azmckb = wx.CheckBox(self, -1, mtexts.txts['AZM'])
+		self.azmckb.SetHelpText(mtexts.txts['HelpAZM'])
+		regiomontansizer.Add(self.azmckb, 0, wx.ALIGN_LEFT|wx.ALL, 2)
+		self.elvckb = wx.CheckBox(self, -1, mtexts.txts['ELV'])
+		self.elvckb.SetHelpText(mtexts.txts['HelpELV'])
+		regiomontansizer.Add(self.elvckb, 0, wx.ALIGN_LEFT|wx.ALL, 2)
+# ###########################################
+# Roberto change V 7.1.0
+# ###########################################
+
 
 		mhsizer.Add(regiomontansizer, 1, wx.GROW|wx.RIGHT, 5)
 
@@ -162,9 +172,14 @@ class Appearance2Dlg(wx.Dialog):
 		self.regzdckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.ZD])  
 		self.regpoleckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.POLE])
 		self.regqckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.Q])  
-		self.regwckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.W])   
+		self.regwckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.W]) 
 		self.cmpckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.CMP])
 		self.rmpckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.RMP])
+		self.azmckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.AZM])
+		self.elvckb.SetValue(options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.ELV])
+# ###########################################
+# Roberto change V 7.1.0
+# ###########################################
 
 		self.intimeckb.SetValue(options.intime)  
 
@@ -255,9 +270,21 @@ class Appearance2Dlg(wx.Dialog):
 			options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.RMP] = self.rmpckb.GetValue()
 			changed = True
 
+		if options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.AZM] != self.azmckb.GetValue():
+			options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.AZM] = self.azmckb.GetValue()
+			changed = True
+
+		if options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.ELV] != self.elvckb.GetValue():
+			options.speculums[chart.Chart.REGIOMONTAN][planets.Planet.ELV] = self.elvckb.GetValue()
+			changed = True
+# ###########################################
+# Roberto change V 7.1.0
+# ###########################################
+
 		if options.intime != self.intimeckb.GetValue():
 			options.intime = self.intimeckb.GetValue()  
 			changed = True
 
 		return changed
+
 

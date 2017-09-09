@@ -25,6 +25,7 @@ import options
 import mtexts
 import morin
 
+
 class Morinus(wx.App):
 	def OnInit(self):
 		try:

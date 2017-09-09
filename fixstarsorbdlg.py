@@ -17,9 +17,14 @@ wx.HelpProvider.Set(provider)
 
 
 class FixStarsOrbDlg(wx.Dialog):
-	def __init__(self, parent, fixstrs):
-
+	def __init__(self, parent, fixstrs, options):
+# ###########################################
+# Elias -  V 8.0.0
+# ###########################################			
+		self.options = options
+# ###########################################
 		self.fixstars = fixstrs.copy()
+
 		self.prevselection = 0
 
         # Instead of calling wx.Dialog.__init__ we precreate the dialog
@@ -93,7 +98,12 @@ class FixStarsOrbDlg(wx.Dialog):
 	def onOK(self, event):
 		if (self.Validate()):
 			self.fixstars[self.fsnames[self.prevselection]] = float(self.fsorbstxt.GetValue())
-
+# ###########################################
+# Elias -  V 8.0.0
+# ###########################################			
+			if self.options.autosave:
+				self.options.saveFixstars(self.fixstars)
+# ###########################################
 			self.Close()
 			self.SetReturnCode(wx.ID_OK)
 
@@ -125,6 +135,7 @@ class FixStarsOrbDlg(wx.Dialog):
 		val = dlg.ShowModal()
 		if val == wx.ID_YES:
 			for name in self.fsnames:
+
 				self.fixstars[name] = float(self.fsorbtxt.GetValue())
 
 			self.fsorbstxt.SetValue(str(float(self.fsorbtxt.GetValue())))

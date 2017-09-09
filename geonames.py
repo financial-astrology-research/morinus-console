@@ -6,6 +6,7 @@ import urllib2
 
 class Geonames:
 	NAME, LON, LAT, COUNTRYCODE, COUNTRYNAME, ALTITUDE, GMTOFFS = range(0, 7)
+	username='morinus'
 	langs = ("en", "hu", "it", "fr", "ru", "es")
 
 	def __init__(self, city, maxnum, langid):
@@ -30,9 +31,10 @@ class Geonames:
 
 
 	def get_basic_info(self, city):
-		url = "http://ws.geonames.org/searchJSON?%s"
+		url = "http://api.geonames.org/searchJSON?%s"
 
 		params = {
+			"username" : self.username,
 			"lang" : Geonames.langs[self.langid],
 			"q" : city,
 			"featureClass" : "P",
@@ -43,8 +45,9 @@ class Geonames:
 
 
 	def get_gmt_offset(self, longitude, latitude):
-		url = "http://ws.geonames.org/timezoneJSON?%s"
+		url = "http://api.geonames.org/timezoneJSON?%s"
 		params = {
+			"username" : self.username,
 			"lng" : longitude,
 			"lat" : latitude
 			}
@@ -52,8 +55,9 @@ class Geonames:
 
 
 	def get_elevation(self, longitude, latitude):
-		url = "http://ws.geonames.org/astergdemJSON?%s"
+		url = "http://api.geonames.org/astergdemJSON?%s"
 		params = {
+			"username" : self.username,
 			"lng" : longitude,
 			"lat" : latitude
 			}

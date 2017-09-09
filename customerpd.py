@@ -35,6 +35,11 @@ class CustomerPD:
 	W = 9
 	CMP = 10
 	RMP = 11
+# ###########################################
+# Roberto change - V 7.1.0
+	AZM = 12
+	ELV = 13
+# ###########################################
 
 	def __init__(self, londeg, lonmin, lonsec, latdeg, latmin, latsec, southern, placelat, ascmc2, obl, raequasc):
 		self.londeg = londeg
@@ -56,7 +61,6 @@ class CustomerPD:
 		self.speculums = []
 		self.computePlacidianSpeculum(placelat, ascmc2)
 		self.computeRegiomontanSpeculum(placelat, ascmc2, raequasc)
-
 
 	def computePlacidianSpeculum(self, placelat, ascmc2):
 		#transform
@@ -109,7 +113,6 @@ class CustomerPD:
 		else:
 			if (self.ra > raic and self.ra < 360.0) or (self.ra < ramc and self.ra > 0.0):
 				self.eastern = False
-
 		#adlat
 		adlat = 0.0
 		val = math.tan(math.radians(placelat))*math.tan(math.radians(self.decl))
@@ -276,7 +279,14 @@ class CustomerPD:
 			
 
 		md = self.speculums[0][CustomerPD.MD]
-
+# ###########################################
+# Roberto USER SPECULUM FIX - V 7.0.2
+# This change does not modify the md in the user speculum
+		if md > 90.0:
+			md = md-180.0
+		if md < -90.0:
+			md = 180.0+md
+# ###########################################
 		umd = True
 		if md < 0.0:
 			md *= -1
@@ -285,9 +295,17 @@ class CustomerPD:
 		#zd
 		zd = self.getZD(md, placelat, self.decl, umd)
 		tmpzd = zd
-#		if not abovehorizon:
-		if not umd: #!? or with abovehorizon!?
+# ###########################################
+# Roberto REGIO SPEC fix - V 7.0.2
+		if (self.abovehorizon and md < 0.0):
+			zd *= -1				
+		if (not self.abovehorizon and md > 0.0):
 			zd *= -1
+		if zd > 90.0:
+			zd = 180.0-zd
+		if zd <-90.0:
+			zd = -180.0-zd
+# ###########################################
 
 		#pole
 		pole = 0.0
@@ -300,7 +318,7 @@ class CustomerPD:
 		val = math.tan(math.radians(self.decl))*math.tan(math.radians(pole))
 		if math.fabs(val) <= 1.0:
 			Q = math.degrees(math.asin(val))
-
+		
 		#W
 		W = 0.0
 		if self.eastern:
@@ -322,15 +340,54 @@ class CustomerPD:
 				Cmp = 270-tmpzd
 			else:
 				Cmp = 90+tmpzd
-
+# ###########################################
+# Roberto CMP fix - V 7.0.2
+		Cmp *= -1
+		Supr = True
+		if (Cmp > 0.0 and Cmp < 180.0):
+			Supr = False
+		if (Supr and zd < 0.0) or (not Supr and zd > 0.0):
+			Cmp = 360-Cmp 
+		if Cmp > 360:
+			Cmp = Cmp-360
+# ###########################################
+		
 		#RMP (Roberto)
 		RMP = 0.0
 		if raequasc != None:
 			RMP = util.normalize(W-raequasc)
 
+# ###########################################
+# Roberto change - V 7.1.0
+		#AZM
+		AZM = 0.0 #Astrological Azimuth
+		ELV = 0.0
+		ramc = ascmc2[houses.Houses.MC][houses.Houses.RA]
+				
+		HAn = 0.0 #Hourly angle
+		Han = self.ra-ramc
+		if Han < 0.0:
+			Han = 360+Han
+		
+		val = math.sin(math.radians(placelat))*math.sin(math.radians(self.decl))+math.cos(math.radians(placelat))*math.cos(math.radians(self.decl))*math.cos(math.radians(Han))	
+		if math.fabs(val) <= 1.0:
+			ELV = math.degrees(math.asin(val))
+						
+		val = (math.cos(math.radians(placelat))*math.sin(math.radians(self.decl))-math.sin(math.radians(placelat))*math.cos(math.radians(self.decl))*math.cos(math.radians(Han)))/math.cos(math.radians(ELV))		
+		
+		if math.fabs(val) <= 1.0:
+			val = math.degrees(math.acos(val))
+		if Han > 180:
+			val = 360-val
+		val = 450-val
+		if val > 360:
+			val = val-360
+		AZM = val
+# ###########################################
+
 		#md, zd, pole, q, w
 		md = self.speculums[0][CustomerPD.MD]
-		self.speculums.append((self.lon, self.lat, self.ra, self.decl, md, self.hd, zd, pole, Q, W, Cmp, RMP))
+		self.speculums.append((self.lon, self.lat, self.ra, self.decl, md, self.hd, zd, pole, Q, W, Cmp, RMP, AZM, ELV))
 
 
 	def getZD(self, md, lat, decl, umd):

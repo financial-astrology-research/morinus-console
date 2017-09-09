@@ -56,8 +56,11 @@ class FixStarListCtrl(wx.ListCtrl, limchecklistctrlmixin.LimCheckListCtrlMixin):
 	NUM = 0
 	NAME = 1
 	NOMNAME = 2
+# ###################################
+# Elias v8.0.0: Limit up 200 fixstars
+	MAX_SEL_NUM = 200
+# ###################################
 
-	MAX_SEL_NUM = 40
 
 	def __init__(self, parent, ephepath, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.LC_REPORT|wx.LC_SINGLE_SEL|wx.LC_VRULES):
 		wx.ListCtrl.__init__(self, parent, ID, pos, size, style)

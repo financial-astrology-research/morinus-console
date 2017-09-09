@@ -252,6 +252,11 @@ class CampanianPD(regiocampbasepd.RegioCampBasePD):
 				Cmp = 270-zd
 			else:
 				Cmp = 90+zd
+# ###########################################
+# Roberto CMP fix - V 7.0.0
+		if (self.abovehorizon and tablemd < 0.0) or (not self.abovehorizon and tablemd > 0.0):
+				Cmp = 360.0-Cmp 
+# ###########################################
 
 		return True, util.normalize(Cmp)
 
@@ -414,6 +419,7 @@ class CampanianPD(regiocampbasepd.RegioCampBasePD):
 		wprom = util.normalize(wprom)
 
 		return True, wprom-hcps[h][W]
+
 
 
 
