@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-GCHART_DESTINATION_PATH = '/Users/pablocc/Sites/own/horoscopeame/files/member/horoscope'
+GCHART_DESTINATION_PATH = '/tmp'
 
 import astrology
 import chart
