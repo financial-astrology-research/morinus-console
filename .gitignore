@@ -2,3 +2,4 @@
 tags
 SWEP/src/*.a
 SWEP/src/*.o
+SWEP/src/build
