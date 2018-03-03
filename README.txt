@@ -1,11 +1,11 @@
+
+
 DEPENDENCIES
 ============
 
-In order to be able to use sweastrology python extension you need to build it locally executing commands:
+In order to be able to use Python Extension to the Swiss Ephemeris you need to install https://github.com/astrorigin/pyswisseph
 
-- cd SWEP/src
-- python setup.py install
-- The package sweastrology.so will be copied to Python packages.
+- pip3 install pyswisseph
 
 If you are using MacOS will need to install wxpython package:
 
