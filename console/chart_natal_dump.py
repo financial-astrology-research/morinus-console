@@ -2,10 +2,13 @@
 
 GCHART_DESTINATION_PATH = '/tmp'
 
+import sys
+# Add libraries from one level above.
+sys.path.append("..")
+
 import astrology
 import chart
 import csv
-import graphchart
 import houses
 import morin
 import mtexts
@@ -42,14 +45,6 @@ def printPlanetsData(chrt):
         lon = chrt.houses.cusps[j]
         out.append("%.2f\t" % (lon))
 
-    # Build graph chart
-    gchart = graphchart.GraphChart(chrt, [800, 800], opts, True)
-    mybuffer = gchart.drawChart()
-    fname = GCHART_DESTINATION_PATH + "/chart_" + chart_name + ".jpg"
-    mybuffer.SaveFile(fname, wx.BITMAP_TYPE_JPEG)
-    out.append('%s' % fname)
-    # print out
-    print ''.join(out)
 
 class Morinus(wx.App):
 	def OnInit(self):
@@ -71,7 +66,7 @@ opts = options.Options()
 opts.def_hsys = opts.hsys = 'B'
 
 # Headers
-print "Name\tDate\t" \
+print("Name\tDate\t" \
     "SULON\tSULAT\tSUDEC\tSUSP\t" \
     "MOLON\tMOLAT\tMODEC\tMOSP\t" \
     "MELON\tMELAT\tMEDEC\tMESP\t" \
@@ -84,7 +79,7 @@ print "Name\tDate\t" \
     "PLLON\tPLLAT\tPLDEC\tPLSP\t" \
     "NNLON\tNNLAT\tNNDEC\tNNSP\t" \
     "SNLON\tSNLAT\tSNDEC\tSNSP\t" \
-    "H1\tH2\tH3\tH4\tH5\tH6\tH7\tH8\tH9\tH10\tH11\tH12\tFILE"
+    "H1\tH2\tH3\tH4\tH5\tH6\tH7\tH8\tH9\tH10\tH11\tH12\tFILE")
 
 # Need to import for each iteration or it brokes
 import time

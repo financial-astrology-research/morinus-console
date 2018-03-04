@@ -82,15 +82,9 @@ class PlanetaryHours:
 		d, m, s = util.decToDeg(jh)
 		return (d, m, s)
 
-		
+
 	def logCalc(self, tjd):
 		#in GMT!
 		jy, jm, jd, jh = astrology.swe_revjul(tjd, 1)
 		d, m, s = util.decToDeg(jh)
-		print 'GMT: %d.%d.%d %d:%d:%d' % (jy,jm,jd, d, m, s)
-
-
-
-
-
-
+		print('GMT: %d.%d.%d %d:%d:%d' % (jy,jm,jd, d, m, s))

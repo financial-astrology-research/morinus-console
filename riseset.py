@@ -25,11 +25,8 @@ class RiseSet:
 			self.calflag = astrology.SE_JUL_CAL
 
 #		self.offs = lon*4.0/1440.0
-
 		self.times = []
-
 		self.calcTimes()
-	
 #		self.printRiseSet(pls)
 
 
@@ -88,12 +85,9 @@ class RiseSet:
 	def printRiseSet(self, pls):
 		numangles = len(RiseSet.Angles)
 		txt = [mtexts.txtsriseset['Rise'], mtexts.txtsriseset['MC'], mtexts.txtsriseset['Set'], mtexts.txtsriseset['IC']]
-		print ''
-		print 'Rise/Set times:'
+		print('')
+		print('Rise/Set times:')
 		for i in range(planets.Planets.PLANETS_NUM):#Nodes are excluded
 			for angle in range(numangles):
 				h,m,s = util.decToDeg(self.times[i][angle])
-				print "%s: %s: %02d:%02d:%02d" % (pls.planets[i].name, txt[angle], h, m, s)
-
-
-
+				print("%s: %s: %02d:%02d:%02d" % (pls.planets[i].name, txt[angle], h, m, s))

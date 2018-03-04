@@ -41,7 +41,7 @@ class Time:
 	GREENWICH = 1
 	LOCALMEAN = 2
 	LOCALAPPARENT = 3
-	
+
 	HOURSPERDAY = 24.0
 
 	def __init__(self, year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place, full = True): #zt is zonetime, zh is zonehour, zm is zoneminute, full means to calculate everything e.g. FixedStars, MidPoints, ...
@@ -74,7 +74,7 @@ class Time:
 			self.year, self.month, self.day = util.decrDay(self.year, self.month, self.day)
 			self.dhour += int(Time.HOURSPERDAY)
 			self.dyear, self.dmonth, self.dday = self.year, self.month, self.day
-			
+
 		if zt == Time.ZONE:#ZONE
 			ztime = zh+zm/60.0
 			if self.plus:
@@ -86,7 +86,7 @@ class Time:
 			if place.east:
 				self.time-=t/60.0
 			else:
-				self.time+=t/60.0	
+				self.time+=t/60.0
 
 		if bc:
 			self.year = 1-self.year
@@ -114,7 +114,7 @@ class Time:
 			if place.east:
 				self.time-=t/60.0
 			else:
-				self.time+=t/60.0	
+				self.time+=t/60.0
 
 			#check over/underflow
 			if self.time >= Time.HOURSPERDAY:
@@ -150,20 +150,20 @@ class Time:
 		lat = place.deglat+place.minlat/60.0
 		if not place.north:
 			lat *= -1
-			
+
 		self.ph = hours.PlanetaryHours(lon, lat, place.altitude, self.weekday, self.jd)
 
-		
+
 class Place:
 	"""Place of Birth"""
 
 	def __init__(self, place, deglon, minlon, seclon, east, deglat, minlat, seclat, north, altitude):
-		self.place = place	
+		self.place = place
 
 		self.deglon = deglon
 		self.minlon = minlon
 		self.seclon = seclon
-		self.east = east	
+		self.east = east
 
 		self.deglat = deglat
 		self.minlat = minlat
@@ -261,8 +261,8 @@ class Chart:
 	LFMOONSUN = 0
 	LFDSUNMOON = 1
 	LFDMOONSUN = 2
-	
-	def_fixstarsorb = 1.5	
+
+	def_fixstarsorb = 1.5
 
 	#Profections
 	YEAR, MONTH, DAY = range(0, 3)
@@ -318,9 +318,9 @@ class Chart:
 		self.fortune = fortune.Fortune(self.options.lotoffortune, self.houses.ascmc2, self.raequasc, self.planets, self.obl[0], self.place.lat, abovehor)
 
 # ###########################################
-# Roberto change  V 7.3.0		
+# Roberto change  V 7.3.0
 		self.firdaria = None
-# ###########################################		
+# ###########################################
 		self.munfortune = None
 		self.parts = None
 		self.fixstars = None
@@ -337,7 +337,7 @@ class Chart:
 		sasun = self.planets.planets[astrology.SE_SUN].speculums[0][planets.Planet.SA]
 		if self.full:
 # ###########################################
-# Roberto change  V 7.3.0		
+# Roberto change  V 7.3.0
 			self.firdaria = firdaria.Firdaria(self.time.origyear, self.time.origmonth, self.time.origday, self.options, self.abovehorizonwithorb)
 # ###########################################
 			self.munfortune = munfortune.MundaneFortune(self.houses.ascmc2, self.planets, self.obl[0], self.place.lat)
@@ -407,7 +407,7 @@ class Chart:
 
 			orb = self.options.daynightorbdeg+self.options.daynightorbmin/60.0
 			if mdsun-orb < sasun:
-				abovehorizon = True			
+				abovehorizon = True
 
 		return abovehorizon
 
@@ -430,19 +430,19 @@ class Chart:
 			self.antiscia = antiscia.Antiscia(self.planets.planets, self.houses.ascmc, self.fortune.fortune, self.obl[0], self.options.ayanamsha, self.ayanamsha)
 
 
-	def calcAspMatrix(self):	
+	def calcAspMatrix(self):
 		self.calcSpeeds()
 
-		self.aspmatrix = [[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
-					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()], 
+		self.aspmatrix = [[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
+					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()],
 					[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp()]]
 
 		for i in range(self.planets.PLANETS_NUM-1):
@@ -454,10 +454,10 @@ class Chart:
 						k = j
 						l = i
 
-					#Check parallel-contraparallel	
-					self.aspmatrix[k][l].parallel = Chart.NONE 
-					decl1 = self.planets.planets[i].dataEqu[1]							
-					decl2 = self.planets.planets[j].dataEqu[1]							
+					#Check parallel-contraparallel
+					self.aspmatrix[k][l].parallel = Chart.NONE
+					decl1 = self.planets.planets[i].dataEqu[1]
+					decl2 = self.planets.planets[j].dataEqu[1]
 					if (decl1 > 0.0 and decl2 > 0.0) or (decl1 < 0.0 and decl2 < 0.0):
 						if ((decl1 > 0.0 and (decl1+self.options.orbisplanetspar[i][0]+self.options.orbisplanetspar[j][0] > decl2) and (decl1-(self.options.orbisplanetspar[i][0]+self.options.orbisplanetspar[j][0]) < decl2)) or (decl1 < 0.0 and (decl1+self.options.orbisplanetspar[i][0]+self.options.orbisplanetspar[j][0] > decl2) and (decl1-(self.options.orbisplanetspar[i][0]+self.options.orbisplanetspar[j][0]) < decl2))):
 							self.aspmatrix[k][l].parallel = Chart.PARALLEL
@@ -481,15 +481,15 @@ class Chart:
 							if self.aspmatrix[k][l].typ == Chart.NONE or (self.aspmatrix[k][l].typ != Chart.NONE and self.aspmatrix[k][l].dif > dif):
 								self.aspmatrix[k][l].typ = a
 								self.aspmatrix[k][l].aspdif = dif
-								self.aspmatrix[k][l].appl = self.isApplPlanets(tmp, i, j) 
+								self.aspmatrix[k][l].appl = self.isApplPlanets(tmp, i, j)
 
 								#Check Exact
 								val1 = self.planets.planets[j].data[0]+self.options.exact
 								val2 = self.planets.planets[j].data[0]-self.options.exact
 
 								if (self.inorbsinister(val1, val2, self.planets.planets[i].data[0], a)):
-									self.aspmatrix[k][l].exact = True 
-								else:	
+									self.aspmatrix[k][l].exact = True
+								else:
 									self.aspmatrix[k][l].exact = False
 						dif = self.planets.planets[i].data[0]-self.planets.planets[j].data[0]
 						if self.planets.planets[j].data[0] > self.planets.planets[i].data[0]:
@@ -502,14 +502,14 @@ class Chart:
 
 		NODES = 2
 		# AscMC
-		self.aspmatrixAscMC = [[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()], 
+		self.aspmatrixAscMC = [[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()],
 							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()]]
 
 		ascmc = [self.houses.ascmc2[houses.Houses.ASC][houses.Houses.DECL], self.houses.ascmc2[houses.Houses.MC][houses.Houses.DECL]]
 		for i in range(self.planets.PLANETS_NUM-1):
 			for j in range(2):
 				#Check parallel-contraparallel
-				self.aspmatrixAscMC[j][i].parallel = Chart.NONE 
+				self.aspmatrixAscMC[j][i].parallel = Chart.NONE
 				decl1 = self.planets.planets[i].dataEqu[1]
 				decl2 = ascmc[j]
 				if (decl1 > 0.0 and decl2 > 0.0) or (decl1 < 0.0 and decl2 < 0.0):
@@ -537,15 +537,15 @@ class Chart:
 						if self.aspmatrixAscMC[j][i].typ == Chart.NONE or (self.aspmatrixAscMC[j][i].typ != Chart.NONE and self.aspmatrixAscMC[j][i].dif > dif):
 							self.aspmatrixAscMC[j][i].typ = a
 							self.aspmatrixAscMC[j][i].aspdif = dif
-							self.aspmatrixAscMC[j][i].appl = tmp > self.houses.ascmc[j] 
+							self.aspmatrixAscMC[j][i].appl = tmp > self.houses.ascmc[j]
 
 							#Exact
 							val1 = self.houses.ascmc[j]+self.options.exact
 							val2 = self.houses.ascmc[j]-self.options.exact
 
 							if (self.inorbsinister(val1, val2, self.planets.planets[i].data[0], a)):
-								self.aspmatrixAscMC[j][i].exact = True 
-							else:	
+								self.aspmatrixAscMC[j][i].exact = True
+							else:
 								self.aspmatrixAscMC[j][i].exact = False
 					else:#negativ
 						if (self.inorbdexter(val1, val2, self.planets.planets[i].data[0], a)):
@@ -554,15 +554,15 @@ class Chart:
 							if self.aspmatrixAscMC[j][i].typ == Chart.NONE or (self.aspmatrixAscMC[j][i].typ != Chart.NONE and self.aspmatrixAscMC[j][i].dif > dif):
 								self.aspmatrixAscMC[j][i].typ = a
 								self.aspmatrixAscMC[j][i].aspdif = dif
-								self.aspmatrixAscMC[j][i].appl = tmp > self.houses.ascmc[j] 
+								self.aspmatrixAscMC[j][i].appl = tmp > self.houses.ascmc[j]
 
 								#Exact
 								val1 = self.houses.ascmc[j]+self.options.exact
 								val2 = self.houses.ascmc[j]-self.options.exact
 
 								if (self.inorbdexter(val1, val2, self.planets.planets[i].data[0], a)):
-									self.aspmatrixAscMC[j][i].exact = True 
-								else:	
+									self.aspmatrixAscMC[j][i].exact = True
+								else:
 									self.aspmatrixAscMC[j][i].exact = False
 
 					dif = self.planets.planets[i].data[0]-self.houses.ascmc[j]
@@ -577,19 +577,19 @@ class Chart:
 		# Houses
 		hidx = (1, 2, 3, 10, 11, 12)
 
-		self.aspmatrixH = [[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()], 
-							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()], 
-							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()], 
-							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()], 
-							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()], 
-							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()]] 
+		self.aspmatrixH = [[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()],
+							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()],
+							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()],
+							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()],
+							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()],
+							[Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp()]]
 
 		for i in range(self.planets.PLANETS_NUM-1):
 			for j in range(len(hidx)):
 				#Check parallel-contraparallel
-				self.aspmatrixH[j][i].parallel = Chart.NONE 
+				self.aspmatrixH[j][i].parallel = Chart.NONE
 				decl1 = self.planets.planets[i].dataEqu[1]
-				decl2 = self.houses.cusps2[hidx[j]-1][1]	
+				decl2 = self.houses.cusps2[hidx[j]-1][1]
 				if (decl1 > 0.0 and decl2 > 0.0) or (decl1 < 0.0 and decl2 < 0.0):
 					if ((decl1 > 0.0 and (decl1+self.options.orbisparH[0]+self.options.orbisplanetspar[i][0] > decl2) and (decl1-(self.options.orbisparH[0]+self.options.orbisplanetspar[i][0]) < decl2)) or (decl1 < 0.0 and (decl1+self.options.orbisparH[0]+self.options.orbisplanetspar[i][0] > decl2) and (decl1-(self.options.orbisparH[0]+self.options.orbisplanetspar[i][0]) < decl2))):
 						self.aspmatrixH[j][i].parallel = Chart.PARALLEL
@@ -622,15 +622,15 @@ class Chart:
 						if self.aspmatrixH[j][i].typ == Chart.NONE or (self.aspmatrixH[j][i].typ != Chart.NONE and self.aspmatrixH[j][i].dif > dif):
 							self.aspmatrixH[j][i].typ = a
 							self.aspmatrixH[j][i].aspdif = dif
-							self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]] 
+							self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]]
 
 							#Exact
 							val1 = self.houses.cusps[hidx[j]]+self.options.exact
 							val2 = self.houses.cusps[hidx[j]]-self.options.exact
 
 							if (self.inorbsinister(val1, val2, pllon, a)):
-								self.aspmatrixH[j][i].exact = True 
-							else:	
+								self.aspmatrixH[j][i].exact = True
+							else:
 								self.aspmatrixH[j][i].exact = False
 					else:#negativ
 						if (j == 0 or j == 3) and (self.houses.hsys == 'P' or self.houses.hsys == 'K' or self.houses.hsys == 'O' or self.houses.hsys == 'R' or self.houses.hsys == 'C' or self.houses.hsys == 'E' or self.houses.hsys == 'T' or self.houses.hsys == 'B'):
@@ -642,15 +642,15 @@ class Chart:
 							if self.aspmatrixH[j][i].typ == Chart.NONE or (self.aspmatrixH[j][i].typ != Chart.NONE and self.aspmatrixH[j][i].dif > dif):
 								self.aspmatrixH[j][i].typ = a
 								self.aspmatrixH[j][i].aspdif = dif
-								self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]] 
+								self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]]
 
 								#exact
 								val1 = self.houses.cusps[hidx[j]]+self.options.exact
 								val2 = self.houses.cusps[hidx[j]]-self.options.exact
 
 								if (self.inorbdexter(val1, val2, pllon, a)):
-									self.aspmatrixH[j][i].exact = True 
-								else:	
+									self.aspmatrixH[j][i].exact = True
+								else:
 									self.aspmatrixH[j][i].exact = False
 
 					dif = pllon-self.houses.cusps[hidx[j]]
@@ -669,17 +669,17 @@ class Chart:
 	def calcLoFAspMatrix(self):
 		NODES = 2
 		lonlof = self.fortune.fortune[fortune.Fortune.LON]
-		self.aspmatrixLoF = [Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp(), Asp()] 
-	
+		self.aspmatrixLoF = [Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(),Asp(), Asp(), Asp()]
+
 		for i in range(self.planets.PLANETS_NUM):#Both nodes (conjunctio only)
 			#We don't check parallel-contraparallel now
-			self.aspmatrixLoF[i].parallel = Chart.NONE 
+			self.aspmatrixLoF[i].parallel = Chart.NONE
 
 			for a in range(Chart.ASPECT_NUM):
 				#only conjunctio in case of the nodes
 				if i >= self.planets.PLANETS_NUM-NODES and a > 0:
 					break
-					
+
 				#Check aspects
 				orb = 0.0
 				if i < self.planets.PLANETS_NUM-1:
@@ -703,8 +703,8 @@ class Chart:
 						val2 = lonlof-self.options.exact
 
 						if (self.inorbsinister(val1, val2, self.planets.planets[i].data[0], a)):
-							self.aspmatrixLoF[i].exact = True 
-						else:	
+							self.aspmatrixLoF[i].exact = True
+						else:
 							self.aspmatrixLoF[i].exact = False
 				else:#negativ
 					if (self.inorbdexter(val1, val2, self.planets.planets[i].data[0], a)):
@@ -720,8 +720,8 @@ class Chart:
 							val2 = lonlof-self.options.exact
 
 							if (self.inorbdexter(val1, val2, self.planets.planets[i].data[0], a)):
-								self.aspmatrixLoF[i].exact = True 
-							else:	
+								self.aspmatrixLoF[i].exact = True
+							else:
 								self.aspmatrixLoF[i].exact = False
 
 				dif = self.planets.planets[i].data[0]-lonlof
@@ -756,7 +756,7 @@ class Chart:
 			if pl1speed > pl2speed:
 				return pl1ret
 			else:
-				return not pl2ret		
+				return not pl2ret
 
 
 	def calcSpeeds(self):
@@ -804,7 +804,7 @@ class Chart:
 			elif isexal:
 				val = Chart.EXAL
 			elif iscasus:
-				val = Chart.CASUS	
+				val = Chart.CASUS
 
 		return val
 
@@ -893,7 +893,7 @@ class Chart:
 # ###########################################
 # Roberto change  V 7.3.0
 		del self.firdaria
-# ###########################################		
+# ###########################################
 		del self.antiscia
 		del self.antzodpars
 		del self.syzygy
@@ -943,7 +943,7 @@ class Chart:
 		if val1 > asppoint and val2 < asppoint:
 			return True
 
-		return False 
+		return False
 
 
 	def inorbdexter(self, val1, val2, pos, asp):
@@ -966,7 +966,7 @@ class Chart:
 		if val1 > asppoint and val2 < asppoint:
 			return True
 
-		return False 
+		return False
 
 
 	def calcProfPos(self, prof):
@@ -976,7 +976,7 @@ class Chart:
 
 
 	def printAspMatrix(self):
-		planets = ('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Node')		
+		planets = ('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Node')
 		partxt = ('none', 'parallel', 'contrap')
 
 		for i in range(self.planets.PLANETS_NUM-1):
@@ -994,9 +994,9 @@ class Chart:
 						appltxt = 'sepa'
 						if self.aspmatrix[j][i].appl:
 							appltxt = 'appl'
-						print '%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[j], self.aspmatrix[j][i].typ, self.aspmatrix[j][i].dif, appltxt, partxt[plel], extxt)
+						print('%s - %s: type=%d diff=%f %s par=%s %s\n' % (planets[i], planets[j], self.aspmatrix[j][i].typ, self.aspmatrix[j][i].dif, appltxt, partxt[plel], extxt))
 
-		print '\n'
+		print('\n')
 
 		hname = ('Asc', '2', '3', 'X', '11', '12')
 		hnum = 6
@@ -1009,7 +1009,4 @@ class Chart:
 					appltxt = 'sepa'
 					if self.aspmatrixH[j][i].appl:
 						appltxt = 'appl'
-					print '%s - %s: type=%d %s diff=%f  %s\n' % (planets[i], hname[j], self.aspmatrixH[j][i].typ, appltxt, self.aspmatrixH[j][i].dif, extxt)
-
-
-
+					print('%s - %s: type=%d %s diff=%f  %s\n' % (planets[i], hname[j], self.aspmatrixH[j][i].typ, appltxt, self.aspmatrixH[j][i].dif, extxt))

@@ -55,7 +55,7 @@ class Transits:
 		lastday = 1
 		for day in range(1, 31):
 			valid = util.checkDate(year, month, day)
-			if valid:	
+			if valid:
 				lastday = day
 
 				valid = util.checkDate(year, month, day+1)
@@ -69,7 +69,7 @@ class Transits:
 
 		#lastday in month-first day in next month
 		time1 = chart.Time(year, month, lastday, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
-		
+
 		year, month = util.incrMonth(year, month)
 		time2 = chart.Time(year, month, 1, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
 
@@ -93,7 +93,7 @@ class Transits:
 
 		time1 = chart.Time(year, month, day, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
 		time2 = chart.Time(year, month, day+1, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
-				
+
 		cnt = len(self.transits)
 		if planet == Transits.NONE:
 			self.cycle(time1, chrt, time2)
@@ -111,7 +111,7 @@ class Transits:
 					if self.transits[i].time > self.transits[i+1].time:
 						tr = self.transits[i]
 						self.transits[i] = self.transits[i+1]
-						self.transits[i+1] = tr		
+						self.transits[i+1] = tr
 
 
 	def cycle(self, time1, chrt, time2):
@@ -140,7 +140,7 @@ class Transits:
 							lon -= chart.Chart.Aspects[a]
 							if lon < 0.0:
 								lon += 360.0
-					
+
 						tr = self.get(planet1, planet2, time1, chrt, lon, j, k, a, Transits.HOUR, Transit.PLANET)
 						if tr != None:
 							self.transits.append(tr)
@@ -159,7 +159,7 @@ class Transits:
 
 						tr = self.get(planet1, planet2, time1, chrt, lon, j, h, a, Transits.HOUR, Transit.ASCMC)
 						if tr != None:
-							self.transits.append(tr)						
+							self.transits.append(tr)
 
 			#signs
 			signs = [0.0, 30.0, 60.0, 90.0, 120.0, 150.0, 180.0, 210.0, 240.0, 270.0, 300.0, 330.0]
@@ -171,7 +171,7 @@ class Transits:
 
 				tr = self.get(planet1, planet2, time1, chrt, lona, j, 0, 0, Transits.HOUR, Transit.SIGN)
 				if tr != None:
-					self.transits.append(tr)													
+					self.transits.append(tr)
 
 			#Antiscia
 			for p in range (planets.Planets.PLANETS_NUM-2):
@@ -182,7 +182,7 @@ class Transits:
 
 				tr = self.get(planet1, planet2, time1, chrt, lona, j, p, chart.Chart.CONJUNCTIO, Transits.HOUR, Transit.ANTISCION)
 				if tr != None:
-					self.transits.append(tr)													
+					self.transits.append(tr)
 
 			#ContraAntiscia
 			for p in range (planets.Planets.PLANETS_NUM-2):
@@ -193,12 +193,12 @@ class Transits:
 
 				tr = self.get(planet1, planet2, time1, chrt, lona, j, p, chart.Chart.CONJUNCTIO, Transits.HOUR, Transit.CONTRAANTISCION)
 				if tr != None:
-					self.transits.append(tr)													
+					self.transits.append(tr)
 
 			#LoF
 			tr = self.get(planet1, planet2, time1, chrt, chrt.fortune.fortune[fortune.Fortune.LON], j, 0, 0, Transits.HOUR, Transit.LOF)
 			if tr != None:
-				self.transits.append(tr)													
+				self.transits.append(tr)
 
 
 	def cycleplanet(self, time1, chrt, time2, planet, pos):
@@ -258,18 +258,18 @@ class Transits:
 								time2 = chart.Time(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
 				else:
 #					print 'unit > SECOND'
-					return None	
+					return None
 
 				planet1 = planets.Planet(time1.jd, j, self.flags)
 				planet2 = planets.Planet(time2.jd, j, self.flags)
-	
+
 				if self.check(planet1, planet2, lon):
 					un = Transits.OVER
 					if unit == Transits.HOUR:
 						un = Transits.MINUTE
 					if unit == Transits.MINUTE:
 						un = Transits.SECOND
-				
+
 					if un != Transits.OVER:
 						return self.get(planet1, planet2, time1, chrt, lon, j, k, a, un, typ)
 					else:
@@ -298,7 +298,7 @@ class Transits:
 						tr.time = time1.time
 
 						return tr
-				
+
 		return None
 
 
@@ -329,11 +329,11 @@ class Transits:
 		for tr in ls:
 			d, m, s = util.decToDeg(tr.time)
 			if tr.objtype == Transit.PLANET:
-				print 'day %d: %s %s %s house:%d %d:%02d:%02d' % (tr.day, planets[tr.plt], asps[tr.aspect], planets[tr.obj], tr.house+1, d, m, s)
+				print('day %d: %s %s %s house:%d %d:%02d:%02d' % (tr.day, planets[tr.plt], asps[tr.aspect], planets[tr.obj], tr.house+1, d, m, s))
 			elif tr.objtype == Transit.ASCMC:
-				print 'day %d: %s %s %s house:%d %d:%02d:%02d' % (tr.day, planets[tr.plt], asps[tr.aspect], ascmc[tr.obj], tr.house+1, d, m, s)
+				print('day %d: %s %s %s house:%d %d:%02d:%02d' % (tr.day, planets[tr.plt], asps[tr.aspect], ascmc[tr.obj], tr.house+1, d, m, s))
 			else:
-				print 'day %d: %s %s house:%d %d:%02d:%02d' % (tr.day, planets[tr.plt], signs[tr.obj], tr.house+1, d, m, s)
+				print('day %d: %s %s house:%d %d:%02d:%02d' % (tr.day, planets[tr.plt], signs[tr.obj], tr.house+1, d, m, s))
 
 
 

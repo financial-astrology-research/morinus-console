@@ -2,14 +2,12 @@ import planets
 import math
 import util
 
-
 class Mid:
 	def __init__(self, p1, p2, m, lat):
 		self.p1 = p1
 		self.p2 = p2
 		self.m = m
 		self.lat = lat
-
 
 class MidPoints:
 	"""Computes Midpoints"""
@@ -21,11 +19,9 @@ class MidPoints:
 
 		self.countMidPoints()
 		self.countMidPointsWithLatitude()
-	
-#		self.printMidPoints(self.midslat)
+        # self.printMidPoints(self.midslat)
 
-
-	def countMidPoints(self):	
+	def countMidPoints(self):
 		for i in range(planets.Planets.PLANETS_NUM-2):#Nodes are excluded
 			for j in range(i+1, planets.Planets.PLANETS_NUM):
 				p1 = self.pls.planets[i].data[planets.Planet.LONG]
@@ -47,9 +43,7 @@ class MidPoints:
 						m -= 360.0
 
 				m = util.normalize(m)
-
 				self.mids.append(Mid(i, j, m, 0.0))
-
 
 	def countMidPointsWithLatitude(self):
 		'''According to Ruediger Plantiko'''
@@ -105,14 +99,10 @@ class MidPoints:
 				else:
 					self.midslat.append(Mid(i, j, 0.0, 0.0))
 
-
 	def printMidPoints(self, mids):
 		pls = ('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'AscNode', 'DescNode')
 
 		for x in mids:
 			d,m,s = util.decToDeg(x.m)
 			dl,ml,sl = util.decToDeg(x.lat)
-			print "%s-%s: %d %d'%d\"  %d %d'%d\"" % (pls[x.p1], pls[x.p2], d,m,s, dl, ml, sl)
-
-
-
+			print("%s-%s: %d %d'%d\"  %d %d'%d\"" % (pls[x.p1], pls[x.p2], d,m,s, dl, ml, sl))
