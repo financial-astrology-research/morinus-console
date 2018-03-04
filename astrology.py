@@ -4,40 +4,40 @@ SE_JUL_CAL = 0
 SE_GREG_CAL = 1
 
 #planet numbers for the ipl parameter in swe_calc()
-SE_ECL_NUT = -1      
+SE_ECL_NUT = -1
 
-SE_SUN = 0       
-SE_MOON = 1       
-SE_MERCURY = 2       
-SE_VENUS = 3       
-SE_MARS = 4       
-SE_JUPITER = 5       
-SE_SATURN = 6       
-SE_URANUS = 7       
-SE_NEPTUNE = 8       
-SE_PLUTO = 9       
-SE_MEAN_NODE = 10      
+SE_SUN = 0
+SE_MOON = 1
+SE_MERCURY = 2
+SE_VENUS = 3
+SE_MARS = 4
+SE_JUPITER = 5
+SE_SATURN = 6
+SE_URANUS = 7
+SE_NEPTUNE = 8
+SE_PLUTO = 9
+SE_MEAN_NODE = 10
 SE_TRUE_NODE = 11
-SE_MEAN_APOG = 12      
-SE_OSCU_APOG = 13    
-SE_EARTH = 14      
-SE_CHIRON = 15      
-SE_PHOLUS = 16      
-SE_CERES = 17      
-SE_PALLAS = 18      
-SE_JUNO = 19      
-SE_VESTA = 20      
-SE_INTP_APOG = 21      
-SE_INTP_PERG = 22    
+SE_MEAN_APOG = 12
+SE_OSCU_APOG = 13
+SE_EARTH = 14
+SE_CHIRON = 15
+SE_PHOLUS = 16
+SE_CERES = 17
+SE_PALLAS = 18
+SE_JUNO = 19
+SE_VESTA = 20
+SE_INTP_APOG = 21
+SE_INTP_PERG = 22
 
-SE_NPLANETS = 23      
+SE_NPLANETS = 23
 
 SE_AST_OFFSET = 10000
 SE_VARUNA = (SE_AST_OFFSET + 20000)
 
 SE_FICT_OFFSET = 40
 SE_FICT_OFFSET_1 = 39
-SE_FICT_MAX = 999 
+SE_FICT_MAX = 999
 SE_NFICT_ELEM = 15
 
 SE_COMET_OFFSET = 1000
@@ -85,7 +85,7 @@ SE_NASCMC = 8
 #    - the default ephemeris (SWISS EPHEMERIS) is used,
 #    - apparent geocentric positions referring to the true equinox of date
 #      are returned.
-# If not only coordinates, but also speed values are required, use 
+# If not only coordinates, but also speed values are required, use
 # flag = SEFLG_SPEED.
 #
 # The 'L' behind the number indicates that 32-bit integers (Long) are used.
@@ -113,7 +113,7 @@ SEFLG_ICRS = (128*1024)  # ICRS (DE406 reference frame)
 SE_SIDBITS = 256
 # for projection onto ecliptic of t0
 SE_SIDBIT_ECL_T0 = 256
-# for projection onto solar system plane 
+# for projection onto solar system plane
 SE_SIDBIT_SSY_PLANE = 512
 
 # sidereal modes (ayanamsas)
@@ -170,7 +170,7 @@ SE_ECL_1ST_VISIBLE	= 512
 SE_ECL_2ND_VISIBLE	= 1024
 SE_ECL_3RD_VISIBLE	= 2048
 SE_ECL_4TH_VISIBLE	= 4096
-SE_ECL_ONE_TRY		= (32*1024) 
+SE_ECL_ONE_TRY		= (32*1024)
 # check if the next conjunction of the moon with a planet is an occultation; don't search further
 
 # for swe_rise_transit()
@@ -208,13 +208,11 @@ SE_STARFILE     = "fixstars.cat"
 SE_ASTNAMFILE   = "seasnam.txt"
 SE_FICTFILE     = "seorbel.txt"
 
-# ephemeris path
-# this defines where ephemeris files are expected if the function
-# swe_set_ephe_path() is not called by the application.
-# Normally, every application should make this call to define its
-# own place for the ephemeris files.
+# Where ephemeris files are expected if the function swe_set_ephe_path() is not
+# called by the application.  Normally, every application should make this call
+# to define its own place for the ephemeris files.
 SE_EPHE_PATH    = ".:/users/ephe2/:/users/ephe/"
-			# At Astrodienst, we maintain two ephemeris areas for the thousands of asteroid files: the short files in /users/ephe/ast*, the long file in /users/ephe2/ast*. 
+# At Astrodienst, we maintain two ephemeris areas for the thousands of asteroid files: the short files in /users/ephe/ast*, the long file in /users/ephe2/ast*.
 
 # defines for function swe_split_deg() (in swephlib.c)
 SE_SPLIT_DEG_ROUND_SEC = 1
@@ -250,9 +248,3 @@ SIMULATE_VICTORVB = 1
 SE_PHOTOPIC_FLAG = 0
 SE_SCOTOPIC_FLAG = 1
 SE_MIXEDOPIC_FLAG =	2
-
-
-
-
-
-
