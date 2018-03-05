@@ -6,11 +6,11 @@ import sys
 # Add libraries from one level above.
 sys.path.append("..")
 
+import os
 import astrology
 import chart
 import csv
 import houses
-import morin
 import mtexts
 import options
 import options
@@ -20,10 +20,8 @@ import sys
 import time
 import transits
 import util
-import wx
 from inspect import getmembers
 from pprint import pprint
-from printr import printr
 from sys import exit
 
 def printPlanetsData(chrt):
@@ -46,23 +44,8 @@ def printPlanetsData(chrt):
         out.append("%.2f\t" % (lon))
 
 
-class Morinus(wx.App):
-	def OnInit(self):
-		try:
-			progPath = os.path.dirname(sys.argv[0])
-			os.chdir(progPath)
-		except:
-			pass
-
-		wx.SetDefaultPyEncoding('utf-8')
-		opts = options.Options()
-		mtexts.setLang(opts.langid)
-		frame = morin.NFrame(None, -1, mtexts.txts['Morinus'], opts)
-		#frame.Show(True)
-		return True
-
-app = Morinus(0)
 opts = options.Options()
+mtexts.setLang(opts.langid)
 opts.def_hsys = opts.hsys = 'B'
 
 # Headers
