@@ -32,51 +32,51 @@ class RiseSet:
 
 	def calcTimes(self):
 		#the date we get from julianday is the same as year, month day in Time-class but we didn't pass it to the init function.
-		oyear, omonth, oday, otim = astrology.swe_revjul(self.jd, self.calflag)
+		oyear, omonth, oday, otim = swisseph.revjul(self.jd, self.calflag)
 
 		numangles = len(RiseSet.Angles)
 		for i in range(planets.Planets.PLANETS_NUM):#Nodes are excluded
 			ar = []
 
 			#Rise
-			ret, JDRise, serr = astrology.swe_rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.RISE], self.lon, self.lat, self.alt, 0.0, 10.0)
-			tyear, tmonth, tday, ttim = astrology.swe_revjul(JDRise, self.calflag)
+			ret, JDRise, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.RISE], self.lon, self.lat, self.alt, 0.0, 10.0)
+			tyear, tmonth, tday, ttim = swisseph.revjul(JDRise, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDRise, serr = astrology.swe_rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.RISE], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDRise, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.RISE], self.lon, self.lat, self.alt, 0.0, 10.0)
 
 			#MC
-			ret, JDMC, serr = astrology.swe_rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.MC], self.lon, self.lat, self.alt, 0.0, 10.0)
-			tyear, tmonth, tday, ttim = astrology.swe_revjul(JDMC, self.calflag)
+			ret, JDMC, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.MC], self.lon, self.lat, self.alt, 0.0, 10.0)
+			tyear, tmonth, tday, ttim = swisseph.revjul(JDMC, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDMC, serr = astrology.swe_rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.MC], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDMC, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.MC], self.lon, self.lat, self.alt, 0.0, 10.0)
 
 			#Set
-			ret, JDSet, serr = astrology.swe_rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.SET], self.lon, self.lat, self.alt, 0.0, 10.0)
-			tyear, tmonth, tday, ttim = astrology.swe_revjul(JDSet, self.calflag)
+			ret, JDSet, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.SET], self.lon, self.lat, self.alt, 0.0, 10.0)
+			tyear, tmonth, tday, ttim = swisseph.revjul(JDSet, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDSet, serr = astrology.swe_rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.SET], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDSet, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.SET], self.lon, self.lat, self.alt, 0.0, 10.0)
 
 			#IC
-			ret, JDIC, serr = astrology.swe_rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.IC], self.lon, self.lat, self.alt, 0.0, 10.0)
-			tyear, tmonth, tday, ttim = astrology.swe_revjul(JDIC, self.calflag)
+			ret, JDIC, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.IC], self.lon, self.lat, self.alt, 0.0, 10.0)
+			tyear, tmonth, tday, ttim = swisseph.revjul(JDIC, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDIC, serr = astrology.swe_rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.IC], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDIC, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.IC], self.lon, self.lat, self.alt, 0.0, 10.0)
 
 			#From GMT to Local
 #			JDRise += self.offs
-			year, month, day, hr = astrology.swe_revjul(JDRise, self.calflag)
+			year, month, day, hr = swisseph.revjul(JDRise, self.calflag)
 			ar.append(hr)
 
 #			JDMC += self.offs
-			year, month, day, hr = astrology.swe_revjul(JDMC, self.calflag)
+			year, month, day, hr = swisseph.revjul(JDMC, self.calflag)
 			ar.append(hr)
 
 #			JDSet += self.offs
-			year, month, day, hr = astrology.swe_revjul(JDSet, self.calflag)
+			year, month, day, hr = swisseph.revjul(JDSet, self.calflag)
 			ar.append(hr)
 
 #			JDIC += self.offs
-			year, month, day, hr = astrology.swe_revjul(JDIC, self.calflag)
+			year, month, day, hr = swisseph.revjul(JDIC, self.calflag)
 			ar.append(hr)
 
 			self.times.append(ar)

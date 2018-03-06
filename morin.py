@@ -485,7 +485,7 @@ class MFrame(wx.Frame):
 		self.pdrangedlg = None
 
 		os.environ['SE_EPHE_PATH'] = ''
-		astrology.swe_set_ephe_path(common.common.ephepath)
+		swisseph.set_ephe_path(common.common.ephepath)
 		
 		self.drawSplash()
 
@@ -600,8 +600,8 @@ class MFrame(wx.Frame):
 		h, m, s = util.decToDeg(fnd[3])
 		time = chart.Time(fnd[0], fnd[1], fnd[2], h, m, s, bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, place)
 		#Calc obliquity
-		d = astrology.swe_deltat(time.jd)
-		rflag, obl, serr = astrology.swe_calc(time.jd+d, astrology.SE_ECL_NUT, 0)
+		d = swisseph.deltat(time.jd)
+		rflag, obl, serr = swisseph.calc(time.jd+d, astrology.SE_ECL_NUT, 0)
 
 		if arplac[2]:
 			#calc GMTMidnight:
@@ -1627,14 +1627,14 @@ class MFrame(wx.Frame):
 		#The algorithm of the Janus astrological program
 		jdSol = time.jd
 		JD1900 = 2415020.5
-		FBAyanamsa1900 = astrology.swe_get_ayanamsa_ut(JD1900)
+		FBAyanamsa1900 = swisseph.get_ayanamsa_ut(JD1900)
 
-		rflag, dat, serr = astrology.swe_calc_ut(JD1900, astrology.SE_ECL_NUT, 0)
+		rflag, dat, serr = swisseph.calc_ut(JD1900, astrology.SE_ECL_NUT, 0)
 		NutLon1900 = dat[2]
 		SVP1900 = 360.0-FBAyanamsa1900-NutLon1900
 
 		#calc natalprecfrom1900
-		rflag, dat, serr = astrology.swe_calc_ut(self.horoscope.time.jd, astrology.SE_ECL_NUT, 0)
+		rflag, dat, serr = swisseph.calc_ut(self.horoscope.time.jd, astrology.SE_ECL_NUT, 0)
 		NutLonNatal = dat[2]
 		SVPNatal = 360.0-self.horoscope.ayanamsha-NutLonNatal
 		NatalChartPrecessionFrom1900 = SVPNatal-SVP1900
@@ -1647,12 +1647,12 @@ class MFrame(wx.Frame):
 		#Keep recalculating transiting Sun position using new jdSol until
 		#DiffAngle is small enough.
 		while (DiffAngle > 0.00001):
-			rflag, dat, serr = astrology.swe_calc_ut(jdSol, astrology.SE_SUN, pflag)
+			rflag, dat, serr = swisseph.calc_ut(jdSol, astrology.SE_SUN, pflag)
 			TranSunLon = dat[0]
 			TranSunVel = dat[3]
 
-			rflag, dat, serr = astrology.swe_calc_ut(jdSol, astrology.SE_ECL_NUT, 0)
-			FBAyanamsaReturn = astrology.swe_get_ayanamsa_ut(jdSol)
+			rflag, dat, serr = swisseph.calc_ut(jdSol, astrology.SE_ECL_NUT, 0)
+			FBAyanamsaReturn = swisseph.get_ayanamsa_ut(jdSol)
 			NutLonReturn = dat[2]
 			SVPReturn = 360.0-FBAyanamsaReturn-NutLonReturn
 
@@ -1670,7 +1670,7 @@ class MFrame(wx.Frame):
 
 			jdSol = jdSol+CorrectionJD
 
-			fromjdtime = astrology.swe_revjul(jdSol, astrology.SE_GREG_CAL)
+			fromjdtime = swisseph.revjul(jdSol, astrology.SE_GREG_CAL)
 
 		h, mi, s = util.decToDeg(fromjdtime[3])
 		return fromjdtime[0], fromjdtime[1], fromjdtime[2], h, mi, s
@@ -2742,7 +2742,7 @@ class MFrame(wx.Frame):
 		info.Version = '8.1.0'
 # ###########################################
 		info.Copyright = mtexts.txts['FreeSoft']
-		info.Description = mtexts.txts['Description']+str(astrology.swe_version())
+		info.Description = mtexts.txts['Description']+str(swisseph.version())
 		info.WebSite = 'https://sourceforge.net/p/morinus/', 'https://sourceforge.net/p/morinus/'
 		info.Developers = ['In alphabetical surname order:\n\nRobert Nagy (Hungary); robert.pluto@gmail.com (programming and astrology)\n\nPhilippe Epaud(France); philipeau@free.fr (french translation)\nMargherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)\nMartin Gansten (Sweden); http://www.martingansten.com/ (astrology)\nJaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)\nRoberto Luporini (Italy); roberto.luporini@tiscali.it (programming and astrological astronomy)\nElías D. Molins (Spain); elias@biblioteca-astrologia.es (programming and astrology)\nPetr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)\nEndre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)\nVáclav Jan Špirhanzl (Czech Rep.); vjs.morinus@gmail.com (MacOS version)\nDenis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)']
 		info.License = mtexts.licensetxt

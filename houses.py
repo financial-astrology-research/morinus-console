@@ -25,7 +25,7 @@ class Houses:
 
 		self.obl = obl
 
-		res, self.cusps, self.ascmc = astrology.swe_houses_ex(tjd_ut, flag, geolat, geolon, ord(self.hsys))
+		res, self.cusps, self.ascmc = swisseph.houses_ex(tjd_ut, flag, geolat, geolon, ord(self.hsys))
 
 		##################
 		if ayanopt != 0 and self.hsys == 'W':
@@ -41,8 +41,8 @@ class Houses:
 			self.cusps = tuple(cusps)
 		##################
 
-		ascra, ascdecl, dist = astrology.swe_cotrans(self.ascmc[Houses.ASC], 0.0, 1.0, -obl)				
-		mcra, mcdecl, dist = astrology.swe_cotrans(self.ascmc[Houses.MC], 0.0, 1.0, -obl)
+		ascra, ascdecl, dist = swisseph.cotrans(self.ascmc[Houses.ASC], 0.0, 1.0, -obl)				
+		mcra, mcdecl, dist = swisseph.cotrans(self.ascmc[Houses.MC], 0.0, 1.0, -obl)
 		self.ascmc2 = ((self.ascmc[Houses.ASC], 0.0, ascra, ascdecl), (self.ascmc[Houses.MC], 0.0, mcra, mcdecl))
 
 		#zdAsc=90.0, zdMC=0.0
@@ -53,7 +53,7 @@ class Houses:
 
 		self.cuspstmp = [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
 		for i in range(Houses.HOUSE_NUM):
-			self.cuspstmp[i][0], self.cuspstmp[i][1], dist = astrology.swe_cotrans(self.cusps[i+1], 0.0, dist, -obl)
+			self.cuspstmp[i][0], self.cuspstmp[i][1], dist = swisseph.cotrans(self.cusps[i+1], 0.0, dist, -obl)
 			
 		self.cusps2 = ((self.cuspstmp[0][0], self.cuspstmp[0][1]), (self.cuspstmp[1][0], self.cuspstmp[1][1]), (self.cuspstmp[2][0], self.cuspstmp[2][1]), (self.cuspstmp[3][0], self.cuspstmp[3][1]), (self.cuspstmp[4][0], self.cuspstmp[4][1]), (self.cuspstmp[5][0], self.cuspstmp[5][1]), (self.cuspstmp[6][0], self.cuspstmp[6][1]), (self.cuspstmp[7][0], self.cuspstmp[7][1]), (self.cuspstmp[8][0], self.cuspstmp[8][1]), (self.cuspstmp[9][0], self.cuspstmp[9][1]), (self.cuspstmp[10][0], self.cuspstmp[10][1]), (self.cuspstmp[11][0], self.cuspstmp[11][1]))
 
@@ -161,8 +161,8 @@ class Houses:
 
 		self.ascmc = (util.normalize(self.ascmc[Houses.ASC]+prof.offs), util.normalize(self.ascmc[Houses.MC]+prof.offs), self.ascmc[Houses.ARMC], self.ascmc[Houses.VERTEX], self.ascmc[Houses.EQUASC], self.ascmc[Houses.COASC], self.ascmc[Houses.COASC2], self.ascmc[Houses.POLARASC])
 
-		ascra, ascdecl, dist = astrology.swe_cotrans(self.ascmc[Houses.ASC], 0.0, 1.0, -self.obl)
-		mcra, mcdecl, dist = astrology.swe_cotrans(self.ascmc[Houses.MC], 0.0, 1.0, -self.obl)
+		ascra, ascdecl, dist = swisseph.cotrans(self.ascmc[Houses.ASC], 0.0, 1.0, -self.obl)
+		mcra, mcdecl, dist = swisseph.cotrans(self.ascmc[Houses.MC], 0.0, 1.0, -self.obl)
 
 		self.ascmc2 = ((self.ascmc[Houses.ASC], 0.0, ascra, ascdecl), (self.ascmc[Houses.MC], 0.0, mcra, mcdecl))
 

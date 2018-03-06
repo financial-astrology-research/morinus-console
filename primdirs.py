@@ -448,7 +448,7 @@ class PrimDirs:
 		advalid = True
 
 		if not mundane and self.options.subzodiacal != PrimDirs.SZPROMISSOR and self.options.subzodiacal != PrimDirs.SZBOTH:
-			rapl, declpl, dist = astrology.swe_cotrans(lonpl, 0.0, 1.0, -self.chart.obl[0])
+			rapl, declpl, dist = swisseph.cotrans(lonpl, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 			if math.fabs(val) <= 1.0:
 				adlat = math.degrees(math.asin(val))
@@ -529,7 +529,7 @@ class PrimDirs:
 						if self.options.ayanamsha != 0:
 							lonterm += self.chart.ayanamsha
 							lonterm = util.normalize(lonterm)
-						raterm, declterm, dist = astrology.swe_cotrans(lonterm, 0.0, 1.0, -self.chart.obl[0])
+						raterm, declterm, dist = swisseph.cotrans(lonterm, 0.0, 1.0, -self.chart.obl[0])
 
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declterm))
 						if math.fabs(val) > 1.0:
@@ -697,13 +697,13 @@ class PrimDirs:
 
 					#calc real(wahre)ra and adlat
 #					rapl, declpl = util.getRaDecl(lon, latprom, self.chart.obl[0])
-					rapl, declpl, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+					rapl, declpl, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 					if math.fabs(val) > 1.0:
 						continue
 					adlat = math.degrees(math.asin(val))
 				else:
-					rapl, declpl, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+					rapl, declpl, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 					if math.fabs(val) > 1.0:
 						continue
@@ -775,13 +775,13 @@ class PrimDirs:
 
 			#calc real(wahre)ra and adlat
 #			rapl, declpl = util.getRaDecl(lon, latprom, self.chart.obl[0])
-			rapl, declpl, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+			rapl, declpl, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 			if math.fabs(val) > 1.0:
 				return False, 0.0, 0.0
 			adlat = math.degrees(math.asin(val))
 		else:
-			rapl, declpl, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+			rapl, declpl, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 			if math.fabs(val) > 1.0:
 				return False, 0.0, 0.0
@@ -810,7 +810,7 @@ class PrimDirs:
 				if self.abort.abort:
 					return
 
-				rapl, declpl, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+				rapl, declpl, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 				if math.fabs(val) > 1.0:
 					continue
@@ -853,7 +853,7 @@ class PrimDirs:
 				if self.abort.abort:
 					return
 
-				rapl, declpl, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+				rapl, declpl, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 				if math.fabs(val) > 1.0:
@@ -887,7 +887,7 @@ class PrimDirs:
 			if self.abort.abort:
 				return
 
-			raprom, declprom, dist = astrology.swe_cotrans(mid.m, mid.lat, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(mid.m, mid.lat, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				continue
@@ -933,7 +933,7 @@ class PrimDirs:
 
 					lon = util.normalize(lonprom-chart.Chart.Aspects[i])
 
-				ra, decl, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				ra, decl, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 
 				self.create(False, PrimDir.ASC, PrimDir.NONE, PrimDir.MC, i, chart.Chart.CONJUNCTIO, ra-self.ramc)
 
@@ -944,7 +944,7 @@ class PrimDirs:
 
 	def calcZodParallelAsc2MCAsc(self):
 		lonprom = self.chart.houses.ascmc2[houses.Houses.ASC][houses.Houses.LON]
-		raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+		raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 		ok, points = self.getEclPoints(lonprom, declprom, True)
 
 		if not ok:
@@ -957,7 +957,7 @@ class PrimDirs:
 			if self.abort.abort:
 				return
 
-			rapl, declpl, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+			rapl, declpl, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 			if math.fabs(val) > 1.0:
@@ -998,7 +998,7 @@ class PrimDirs:
 
 					lon = util.normalize(lonprom-chart.Chart.Aspects[i])
 
-				ra, decl, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				ra, decl, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(decl))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1034,7 +1034,7 @@ class PrimDirs:
 
 					lon = util.normalize(lonprom-chart.Chart.Aspects[i])
 
-				ra, decl, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				ra, decl, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(decl))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1051,7 +1051,7 @@ class PrimDirs:
 
 	def calcZodParallelMC2AscMC(self):
 		lonprom = self.chart.houses.ascmc2[houses.Houses.MC][houses.Houses.LON]
-		raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+		raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 		ok, points = self.getEclPoints(lonprom, declprom, True)
 
 		if not ok:
@@ -1064,7 +1064,7 @@ class PrimDirs:
 			if self.abort.abort:
 				return
 
-			rapl, declpl, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+			rapl, declpl, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declpl))
 			if math.fabs(val) > 1.0:
 				continue
@@ -1104,7 +1104,7 @@ class PrimDirs:
 
 					lon = util.normalize(lonprom-chart.Chart.Aspects[i])
 
-				ra, decl, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				ra, decl, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 
 				self.create(False, PrimDir.MC, PrimDir.NONE, PrimDir.MC, i, chart.Chart.CONJUNCTIO, ra-self.ramc)
 				#MC->IC would be over 100
@@ -1128,7 +1128,7 @@ class PrimDirs:
 			declstar = star[fixstars.FixStars.DECL]
 
 			if self.options.subzodiacal != PrimDirs.SZPROMISSOR and self.options.subzodiacal != PrimDirs.SZBOTH:
-				rastar, declstar, dist = astrology.swe_cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
+				rastar, declstar, dist = swisseph.cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declstar))
 			advalid = True
@@ -1530,7 +1530,7 @@ class PrimDirs:
 			else:
 				ti = arc*PrimDirs.staticData[self.options.pdkeys][PrimDirs.COEFF]
 
-#		jy, jm, jd, jh = astrology.swe_revjul(self.chart.time.jd+ti, 1)
+#		jy, jm, jd, jh = swisseph.revjul(self.chart.time.jd+ti, 1)
 #		d, m, s = util.decToDeg(jh)
 #		print '%d.%2d.%2d %2d:%2d:%2d' % (jy, jm, jd, d, m, s)
 		return self.chart.time.jd+ti*365.2421904, ti
@@ -1793,7 +1793,7 @@ class PrimDirs:
 			if not pd.direct:
 				dirtxt = mtexts.txts['C']
 
-			y, m, d, h = astrology.swe_revjul(pd.time, 1)
+			y, m, d, h = swisseph.revjul(pd.time, 1)
 #			y, m, d, extra = util.revConvDate(pd.time)
 
 			#M/Z

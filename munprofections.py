@@ -30,7 +30,7 @@ class MunProfections:
 		if placelon < 0.0:
 			lon360 = 360.0+placelon
 
-		jdbirth = astrology.swe_julday(y, m, d, t, astrology.SE_GREG_CAL)
+		jdbirth = swisseph.julday(y, m, d, t, astrology.SE_GREG_CAL)
 		jd = jdbirth+cnt*365.2421904
 
 		#deltaYear

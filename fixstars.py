@@ -17,7 +17,7 @@ class FixStars:
 		i = 0
 		for k in names.iterkeys():
 			self.data.append(['', '', 0.0, 0.0, 0.0, 0.0])
-			ret, name, dat, serr = astrology.swe_fixstar_ut(','+k, tjd_ut, flag)
+			ret, name, dat, serr = swisseph.fixstar_ut(','+k, tjd_ut, flag)
 
 			nam = name[0].strip()
 			nomnam = ''
@@ -31,7 +31,7 @@ class FixStars:
 			self.data[i][FixStars.NOMNAME] = nomnam
 			self.data[i][FixStars.LON] = dat[0]
 			self.data[i][FixStars.LAT] = dat[1]
-			ra, decl, dist = astrology.swe_cotrans(dat[0], dat[1], 1.0, -obl)
+			ra, decl, dist = swisseph.cotrans(dat[0], dat[1], 1.0, -obl)
 			self.data[i][FixStars.RA] = ra
 			self.data[i][FixStars.DECL] = decl
 

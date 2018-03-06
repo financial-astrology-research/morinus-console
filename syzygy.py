@@ -68,7 +68,7 @@ class Syzygy:
 						sun = planets.Planet(self.time.jd, astrology.SE_SUN, self.flags)
 						self.lon = sun.data[planets.Planet.LONG]
 
-		ra, decl, dist = astrology.swe_cotrans(self.lon, 0.0, 1.0, -chrt.obl[0])
+		ra, decl, dist = swisseph.cotrans(self.lon, 0.0, 1.0, -chrt.obl[0])
 		self.speculum = [self.lon, 0.0, ra, decl]
 
 		#the other syzygy (i.e. if the syzygy was conjunction then calculate the opposition and vice versa)
@@ -102,7 +102,7 @@ class Syzygy:
 						sun2 = planets.Planet(self.time2.jd, astrology.SE_SUN, self.flags)
 						self.lon2 = sun2.data[planets.Planet.LONG]
 
-			ra2, decl2, dist2 = astrology.swe_cotrans(self.lon2, 0.0, 1.0, -chrt.obl[0])
+			ra2, decl2, dist2 = swisseph.cotrans(self.lon2, 0.0, 1.0, -chrt.obl[0])
 			self.speculum2 = [self.lon2, 0.0, ra2, decl2]
 
 			#for topical almutens

@@ -61,8 +61,8 @@ class Planet:
 		self.speculums = None
 
 		if (ecl == None):
-			rflag, self.data, serr = astrology.swe_calc_ut(tjd_ut, pId, flag)
-			rflag, self.dataEqu, serr = astrology.swe_calc_ut(tjd_ut, pId, flag+astrology.SEFLG_EQUATORIAL)
+			rflag, self.data, serr = swisseph.calc_ut(tjd_ut, pId, flag)
+			rflag, self.dataEqu, serr = swisseph.calc_ut(tjd_ut, pId, flag+astrology.SEFLG_EQUATORIAL)
 
 			# data[0] : longitude
 			# data[1] : latitude
@@ -74,7 +74,7 @@ class Planet:
 			# if rflag < 0:
 			#	print 'Error: %s' % serr
 
-			self.name = astrology.swe_get_planet_name(pId)
+			self.name = swisseph.get_planet_name(pId)
 		else:
 			self.data = tuple(ecl)
 			self.dataEqu = tuple(equ)
@@ -82,7 +82,7 @@ class Planet:
 
 		if nolat:
 			self.data = (self.data[Planet.LONG], 0.0, self.data[Planet.DIST], self.data[Planet.SPLON], self.data[Planet.SPLAT], self.data[Planet.SPDIST])
-			ra, decl, dist = astrology.swe_cotrans(self.data[Planet.LONG], 0.0, 1.0, -obl)
+			ra, decl, dist = swisseph.cotrans(self.data[Planet.LONG], 0.0, 1.0, -obl)
 			self.dataEqu = (ra, decl, self.dataEqu[Planet.DISTEQU], self.dataEqu[Planet.SPRAEQU], self.dataEqu[Planet.SPDECLEQU], self.dataEqu[Planet.SPDISTEQU])
 
 		if lat != None:
@@ -651,7 +651,7 @@ class Planet:
 		rdeclN = math.radians(declN)
 
 		latSZ = math.degrees(math.asin(math.sin(rdeclN)*math.cos(roblN)-math.cos(rdeclN)*math.sin(rksi)*math.sin(roblN)))
-		raSZ, declSZ, distSZ = astrology.swe_cotrans(longSZ, latSZ, 1.0, -oblN)
+		raSZ, declSZ, distSZ = swisseph.cotrans(longSZ, latSZ, 1.0, -oblN)
 
 		self.data = (longSZ, latSZ, self.data[Planet.DIST], self.data[Planet.SPLON], self.data[Planet.SPLAT], self.data[Planet.SPDIST])
 		self.dataEqu = (raSZ, declSZ, self.dataEqu[Planet.DISTEQU], self.dataEqu[Planet.SPRAEQU], self.dataEqu[Planet.SPDECLEQU], self.dataEqu[Planet.SPDISTEQU])
@@ -790,7 +790,7 @@ class Planet:
 
 		ra = util.normalize(ra)
 
-		lon, lat, dist = astrology.swe_cotrans(ra, decl, 1.0, obl)
+		lon, lat, dist = swisseph.cotrans(ra, decl, 1.0, obl)
 
 		self.data = (lon, lat, self.data[Planet.DIST], self.data[Planet.SPLON], self.data[Planet.SPLAT], self.data[Planet.SPDIST])
 		self.dataEqu = (ra, decl, self.dataEqu[Planet.DISTEQU], self.dataEqu[Planet.SPRAEQU], self.dataEqu[Planet.SPDECLEQU], self.dataEqu[Planet.SPDISTEQU])

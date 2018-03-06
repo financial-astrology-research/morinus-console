@@ -7,7 +7,7 @@ class Profections:
 	K = 12.17473968 # 365.2421904/30 days/degree
 
 	def __init__(self, radix, y, m, d, t, cnt=0): #t is in GMT
-		jdbirth = astrology.swe_julday(y, m, d, t, astrology.SE_GREG_CAL)
+		jdbirth = swisseph.julday(y, m, d, t, astrology.SE_GREG_CAL)
 		jd = jdbirth+cnt*365.2421904
 
 		#Find the difference in Julian days between today and the birth day. Say it Djd

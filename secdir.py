@@ -47,12 +47,12 @@ class SecDir:
 			yt = y
 			if self.chart.time.bc:
 				yt = -y
-			jdmean = astrology.swe_julday(yt, m, d, meantime, calflag)
+			jdmean = swisseph.julday(yt, m, d, meantime, calflag)
 
 			#Get jdapp
-			ret, te, serr = astrology.swe_time_equ(jdmean)
+			ret, te, serr = swisseph.time_equ(jdmean)
 			jdapp = jdmean-te
-			y, m, d, hr = astrology.swe_revjul(jdapp, calflag)
+			y, m, d, hr = swisseph.revjul(jdapp, calflag)
 			hour,minute,second = util.decToDeg(hr)
 #			print '%d:%02d:%02d' % (hour,minute,second)
 		else:
@@ -72,11 +72,11 @@ class SecDir:
 			calflag = astrology.SE_GREG_CAL
 			if self.chart.time.cal == chart.Time.JULIAN:
 				calflag = astrology.SE_JUL_CAL
-			jdapp = astrology.swe_julday(yt, m, d, hr, calflag)
+			jdapp = swisseph.julday(yt, m, d, hr, calflag)
 
-			ret, te, serr = astrology.swe_time_equ(jdapp)
+			ret, te, serr = swisseph.time_equ(jdapp)
 			jdmean = jdapp+te
-			y, m, d, hr = astrology.swe_revjul(jdmean, calflag)
+			y, m, d, hr = swisseph.revjul(jdmean, calflag)
 			hour,minute,second = util.decToDeg(hr)
 #			print '%d:%02d:%02d' % (hour,minute,second)
 

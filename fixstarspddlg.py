@@ -22,7 +22,7 @@ class FixStars:
 
 	def __init__(self, ephepath):
 		self.ephepath = ephepath
-		self.jd = astrology.swe_julday(1950, 1, 1, 0.0, astrology.SE_GREG_CAL)	
+		self.jd = swisseph.julday(1950, 1, 1, 0.0, astrology.SE_GREG_CAL)	
 		self.data = []
 
 		self.fname = os.path.join(self.ephepath, 'fixstars.cat')
@@ -30,7 +30,7 @@ class FixStars:
 
 	def read(self, names):
 		for n in names:
-			ret, name, dat, serr = astrology.swe_fixstar_ut(','+n, self.jd, 0)
+			ret, name, dat, serr = swisseph.fixstar_ut(','+n, self.jd, 0)
 			nam = name[0].strip()
 			nomnam = ''
 			DELIMITER = ','

@@ -13,7 +13,7 @@ class PDsInChart:
 #		calflag = astrology.SE_GREG_CAL
 #		if radix.time.cal == chart.Time.JULIAN:
 #			calflag = astrology.SE_JUL_CAL
-		jdN = radix.time.jd #astrology.swe_julday(y, m, d, t, calflag)
+		jdN = radix.time.jd #swisseph.julday(y, m, d, t, calflag)
 
 		ramc = radix.houses.ascmc2[houses.Houses.MC][houses.Houses.RA]
 		declAsc = radix.houses.ascmc2[houses.Houses.ASC][houses.Houses.DECL]
@@ -49,7 +49,7 @@ class PDsInChart:
 		jdZ = jdN+deltaSrT/86400.0
 #		print 'jdZ=%f' % jdZ
 
-		self.yz, self.mz, self.dz, self.tz = astrology.swe_revjul(jdZ, 1) #cast a chart with this date and time for the natal place
+		self.yz, self.mz, self.dz, self.tz = swisseph.revjul(jdZ, 1) #cast a chart with this date and time for the natal place
 #		print '%d.%d.%d %f' % (self.yz, self.mz, self.dz, self.tz)
 
 		#rest is in planets.py  and fortune.py (calcMundaneProfPos [first two options], and calcFullAstronomicalProc [third, F in Roberto's algorithm])

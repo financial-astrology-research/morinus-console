@@ -27,10 +27,10 @@ class ProfectionsMonthly:
 		calflag = astrology.SE_GREG_CAL
 		if pchrts[0][0].time.cal == chart.Time.JULIAN:
 			calflag = astrology.SE_JUL_CAL
-		jdval = astrology.swe_julday(y, m, d, pchrts[0][0].time.time, calflag)
+		jdval = swisseph.julday(y, m, d, pchrts[0][0].time.time, calflag)
 		for i in range(idx-1):
 			jdval += mon
-			jy, jm, jd, jh = astrology.swe_revjul(jdval, calflag)
+			jy, jm, jd, jh = swisseph.revjul(jdval, calflag)
 #			d, m, s = util.decToDeg(jh)
 			dat = (jy, jm, jd)
 			self.dates.append(dat)

@@ -74,7 +74,7 @@ class HoursWnd(commonwnd.CommonWnd):
 			lon *= -1
 		offs = lon*4.0/1440.0
 		jdlocal = self.chart.time.jd+offs
-		jy, jm, jd, jh = astrology.swe_revjul(jdlocal, 1)
+		jy, jm, jd, jh = swisseph.revjul(jdlocal, 1)
 		hh, mm, ss = util.decToDeg(jh)
 
 		txt = mtexts.txts['LocalBirthTime']+': '+str(hh)+':'+str(mm).zfill(2)+':'+str(ss).zfill(2)

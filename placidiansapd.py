@@ -37,7 +37,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 			if not mundane and self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
 				#recalc zodiacals
-				raprom, declprom, dist = astrology.swe_cotrans(plprom.data[planets.Planet.LONG], 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(plprom.data[planets.Planet.LONG], 0.0, 1.0, -self.chart.obl[0])
 
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
@@ -56,7 +56,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 		if not mundane and self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
 			#recalc zodiacals
-			raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
@@ -82,7 +82,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 			if not mundane and self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
 				#recalc zodiacals
-				raprom, declprom, dist = astrology.swe_cotrans(plprom.data[planets.Planet.LONG], 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(plprom.data[planets.Planet.LONG], 0.0, 1.0, -self.chart.obl[0])
 
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
@@ -167,7 +167,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 			if not mundane and self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
 				#recalc zodiacals
-				raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
@@ -252,7 +252,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 			if not mundane and self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
 				#recalc zodiacals
-				raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
@@ -309,13 +309,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -378,13 +378,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -443,13 +443,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -515,13 +515,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -572,7 +572,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					aspect *= -1
 
 				lon = util.normalize(lonprom+aspect)
-				raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -593,7 +593,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 		'''Calculates zodiacal Asc to Planets and their aspects'''
 
 		lonprom = self.chart.houses.ascmc2[houses.Houses.ASC][houses.Houses.LON]
-		raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+		raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 		val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 		if math.fabs(val) > 1.0:
 			return
@@ -604,7 +604,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 	def calcZodAsc2ParallelPlanets(self):
 		lonprom = self.chart.houses.ascmc2[houses.Houses.ASC][houses.Houses.LON]
-		raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+		raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 		val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 		if math.fabs(val) > 1.0:
 			return
@@ -617,7 +617,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 		'''Calculates zodiacal MC to Planets and their aspects'''
 
 		lonprom = self.chart.houses.ascmc2[houses.Houses.MC][houses.Houses.LON]
-		raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+		raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 		val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 		if math.fabs(val) > 1.0:
 			return
@@ -628,7 +628,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 	def calcZodMC2ParallelPlanets(self):
 		lonprom = self.chart.houses.ascmc2[houses.Houses.MC][houses.Houses.LON]
-		raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+		raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 		val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 		if math.fabs(val) > 1.0:
 			return
@@ -707,7 +707,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					aspect *= -1
 
 				lon = util.normalize(lonprom+aspect)
-				raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -754,7 +754,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					aspect *= -1
 
 				lon = util.normalize(lonprom+aspect)
-				raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -801,7 +801,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					aspect *= -1
 
 				lon = util.normalize(lonprom+aspect)
-				raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -886,13 +886,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -954,13 +954,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -980,7 +980,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 		adprom = self.chart.cpd.speculums[primdirs.PrimDirs.PLACSPECULUM][customerpd.CustomerPD.ADLAT]
 
 		if self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
-			raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return
@@ -997,7 +997,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 		adprom = self.chart.cpd.speculums[primdirs.PrimDirs.PLACSPECULUM][customerpd.CustomerPD.ADLAT]
 
 		if self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
-			raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return
@@ -1112,13 +1112,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -1236,13 +1236,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 						#calc real(wahre)ra and adlat
 #						raprom, declprom = util.getRaDecl(lon, latprom, self.chart.obl[0])
-						raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
 						adprom = math.degrees(math.asin(val))
 					else:
-						raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+						raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 						val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 						if math.fabs(val) > 1.0:
 							continue
@@ -1266,7 +1266,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if self.options.ayanamsha != 0:
 					lonprom += self.chart.ayanamsha
 					lonprom = util.normalize(lonprom)
-				raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1313,7 +1313,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			declstar = star[fixstars.FixStars.DECL]
 
 			if self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
-				rastar, declstar, dist = astrology.swe_cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
+				rastar, declstar, dist = swisseph.cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declstar))
 			if math.fabs(val) > 1.0:
@@ -1348,7 +1348,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			declstar = star[fixstars.FixStars.DECL]
 
 			if self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
-				rastar, declstar, dist = astrology.swe_cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
+				rastar, declstar, dist = swisseph.cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declstar))
 			if math.fabs(val) > 1.0:
@@ -1570,7 +1570,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					raprom = plprom.speculums[primdirs.PrimDirs.PLACSPECULUM][planets.Planet.RA]
 					adprom = plprom.speculums[primdirs.PrimDirs.PLACSPECULUM][planets.Planet.ADLAT]
 				else:
-					raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+					raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 					if math.fabs(val) > 1.0:
 						continue
@@ -1588,7 +1588,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					raprom = self.chart.cpd.speculums[primdirs.PrimDirs.PLACSPECULUM][customerpd.CustomerPD.RA]
 					adprom = self.chart.cpd.speculums[primdirs.PrimDirs.PLACSPECULUM][customerpd.CustomerPD.ADLAT]
 				else:
-					raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+					raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 					if math.fabs(val) > 1.0:
 						ok = False
@@ -1617,7 +1617,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					if points[k][0] == -1.0:
 						continue
 
-					raprom, declprom, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+					raprom, declprom, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 					if math.fabs(val) > 1.0:
 						continue
@@ -1661,13 +1661,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					#This is only conjunction, so bianchini is the same
 					#calc real(wahre)ra and adlat
 #					raprom, declprom = util.getRaDecl(lon, pllat, self.chart.obl[0])
-					raprom, declprom, dist = astrology.swe_cotrans(lon, pllat, 1.0, -self.chart.obl[0])
+					raprom, declprom, dist = swisseph.cotrans(lon, pllat, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 					if math.fabs(val) > 1.0:
 						continue
 					adprom = math.degrees(math.asin(val))
 				else:
-					raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+					raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 					if math.fabs(val) > 1.0:
 						continue
@@ -1744,7 +1744,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					if points[k][0] == -1.0:
 						continue
 
-					raprom, declprom, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+					raprom, declprom, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 					val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 					if math.fabs(val) > 1.0:
 						continue
@@ -1807,7 +1807,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if points[k][0] == -1.0:
 					continue
 
-				raprom, declprom, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1837,7 +1837,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if points[k][0] == -1.0:
 					continue
 
-				raprom, declprom, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1873,7 +1873,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if points[k][0] == -1.0:
 					continue
 
-				raprom, declprom, dist = astrology.swe_cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(points[k][0], 0.0, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1915,7 +1915,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 					if lonmid >= 360.0:
 						lonmid -= 360.0
 
-				raprom, declprom, dist = astrology.swe_cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
+				raprom, declprom, dist = swisseph.cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
 				val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 				if math.fabs(val) > 1.0:
 					continue
@@ -1949,7 +1949,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if lonmid >= 360.0:
 					lonmid -= 360.0
 
-			raprom, declprom, dist = astrology.swe_cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				continue
@@ -1983,7 +1983,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if lonmid >= 360.0:
 					lonmid -= 360.0
 
-			raprom, declprom, dist = astrology.swe_cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				continue
@@ -2017,7 +2017,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 				if lonmid >= 360.0:
 					lonmid -= 360.0
 
-			raprom, declprom, dist = astrology.swe_cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonmid, mid.lat, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				continue
@@ -2044,7 +2044,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			declstar = star[fixstars.FixStars.DECL]
 
 			if self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
-				rastar, declstar, dist = astrology.swe_cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
+				rastar, declstar, dist = swisseph.cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declstar))
 			if math.fabs(val) > 1.0:
@@ -2072,7 +2072,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			declstar = star[fixstars.FixStars.DECL]
 
 			if self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
-				rastar, declstar, dist = astrology.swe_cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
+				rastar, declstar, dist = swisseph.cotrans(lonstar, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declstar))
 			if math.fabs(val) > 1.0:
@@ -2680,7 +2680,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 	def getZodMDSA(self, lon, lat=0.0):
 		'''Calculates md, sa of the zodiacal point'''
 
-		ra, decl, dist = astrology.swe_cotrans(lon, lat, 1.0, -self.chart.obl[0])
+		ra, decl, dist = swisseph.cotrans(lon, lat, 1.0, -self.chart.obl[0])
 
 		eastern = True
 		if self.ramc > self.raic:
@@ -2772,7 +2772,7 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 
 		if not mundane and self.options.subzodiacal != primdirs.PrimDirs.SZPROMISSOR and self.options.subzodiacal != primdirs.PrimDirs.SZBOTH:
 			#recalc zodiacals
-			raprom, declprom, dist = astrology.swe_cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lonprom, 0.0, 1.0, -self.chart.obl[0])
 
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
@@ -2869,13 +2869,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			else:
 				latprom = pllat
 
-			raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
 			adprom = math.degrees(math.asin(val))
 		else:
-			raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
@@ -3011,13 +3011,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			else:
 				latprom = pllat
 
-			raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
 			adprom = math.degrees(math.asin(val))
 		else:
-			raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
@@ -3053,13 +3053,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			else:
 				latprom = pllat
 
-			raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
 			adprom = math.degrees(math.asin(val))
 		else:
-			raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
@@ -3110,13 +3110,13 @@ class PlacidianSAPD(placidiancommonpd.PlacidianCommonPD):
 			else:
 				latprom = pllat
 
-			raprom, declprom, dist = astrology.swe_cotrans(lon, latprom, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, latprom, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0
 			adprom = math.degrees(math.asin(val))
 		else:
-			raprom, declprom, dist = astrology.swe_cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
+			raprom, declprom, dist = swisseph.cotrans(lon, 0.0, 1.0, -self.chart.obl[0])
 			val = math.tan(math.radians(self.chart.place.lat))*math.tan(math.radians(declprom))
 			if math.fabs(val) > 1.0:
 				return False, 0.0

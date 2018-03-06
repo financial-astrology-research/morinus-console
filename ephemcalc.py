@@ -21,9 +21,9 @@ class EphemCalc:
 	def calc(self, opts):
 		ayanamsha = 0.0
 		if opts.ayanamsha != 0:
-			astrology.swe_set_sid_mode(opts.ayanamsha-1, 0, 0)
+			swisseph.set_sid_mode(opts.ayanamsha-1, 0, 0)
 			tim = chart.Time(self.year, 1, 1, 0, 0, 0, False, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
-			ayanamsha = astrology.swe_get_ayanamsa_ut(tim.jd)
+			ayanamsha = swisseph.get_ayanamsa_ut(tim.jd)
 
 		plsnum = 7
 		if opts.transcendental[chart.Chart.TRANSURANUS]:

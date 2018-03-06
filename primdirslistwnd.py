@@ -263,7 +263,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		valid, pdnum = self.getPDNum(event)
 
 		if valid:
-			y, m, d, t = astrology.swe_revjul(self.pds.pds[pdnum].time, 1)
+			y, m, d, t = swisseph.revjul(self.pds.pds[pdnum].time, 1)
 			ho, mi, se = util.decToDeg(t)
 
 			da = self.pds.pds[pdnum].arc
@@ -319,7 +319,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					if self.options.pdinchartsecmotion:
 						pdpls = pdchart.planets.planets
 
-					raequasc, declequasc, dist = astrology.swe_cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC], 0.0, 1.0, -self.chart.obl[0])
+					raequasc, declequasc, dist = swisseph.cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC], 0.0, 1.0, -self.chart.obl[0])
 					pdchart.planets.calcFullAstronomicalProc(da, self.chart.obl[0], pdpls, pdchart.place.lat, pdchart.houses.ascmc2, raequasc) #planets
 					pdchart.fortune.calcFullAstronomicalProc(pdchartpls.fortune, da, self.chart.obl[0]) 
 
@@ -328,7 +328,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					pdchart = chart.Chart(self.chart.name, self.chart.male, tim, self.chart.place, chart.Chart.PDINCHART, '', self.options, False)#, proftype, nolat)
 				else:
 					pdchart = chart.Chart(self.chart.name, self.chart.male, self.chart.time, self.chart.place, chart.Chart.PDINCHART, '', self.options, False)#, proftype, nolat)
-					raequasc, declequasc, dist = astrology.swe_cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC], 0.0, 1.0, -self.chart.obl[0])
+					raequasc, declequasc, dist = swisseph.cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC], 0.0, 1.0, -self.chart.obl[0])
 					pdchart.planets.calcMundaneWithoutSM(da, self.chart.obl[0], pdchart.place.lat, pdchart.houses.ascmc2, raequasc)
 
 				pdchart.fortune.recalcForMundaneChart(self.chart.fortune.fortune[fortune.Fortune.LON], self.chart.fortune.fortune[fortune.Fortune.LAT], self.chart.fortune.fortune[fortune.Fortune.RA], self.chart.fortune.fortune[fortune.Fortune.DECL], pdchart.houses.ascmc2, pdchart.raequasc, pdchart.obl[0], pdchart.place.lat)
@@ -826,7 +826,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 				offset = (offs[i]-w)/2
 				draw.text((x+summa+offset, y+(self.LINE_HEIGHT-h)/2), arctxt, fill=txtclr, font=self.fntText)
 			elif i == 6:#Date
-				year, month, day, h = astrology.swe_revjul(self.pds.pds[idx].time, 1)
+				year, month, day, h = swisseph.revjul(self.pds.pds[idx].time, 1)
 #				ho, mi, se = util.decToDeg(h)
 #				year, month, day, extraday = util.revConvDate(self.pds.pds[idx].time)
 				txt = (str(year)).rjust(4)+'.'+(str(month)).zfill(2)+'.'+(str(day)).zfill(2)

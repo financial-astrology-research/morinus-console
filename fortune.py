@@ -52,7 +52,7 @@ class Fortune:
 			if self.fortune[Fortune.LON] > 360.0:
 				self.fortune[Fortune.LON] -= 360.0
 
-		self.fortune[Fortune.RA], self.fortune[Fortune.DECL], distprom = astrology.swe_cotrans(self.fortune[Fortune.LON], 0.0, 1.0, -obl)
+		self.fortune[Fortune.RA], self.fortune[Fortune.DECL], distprom = swisseph.cotrans(self.fortune[Fortune.LON], 0.0, 1.0, -obl)
 
 		self.speculum = placspec.PlacidianSpeculum(placelat, ascmc2, self.fortune[Fortune.LON], self.fortune[Fortune.LAT], self.fortune[Fortune.RA], self.fortune[Fortune.DECL])
 		self.speculum2 = regiospec.RegiomontanianSpeculum(placelat, ascmc2, raequasc, self.fortune[Fortune.LON], self.fortune[Fortune.LAT], self.fortune[Fortune.RA], self.fortune[Fortune.DECL])
@@ -191,7 +191,7 @@ class Fortune:
 				longSZ = Fd+360.0
 
 		latSZ = math.degrees(math.asin(math.sin(rdeclN)*math.cos(roblN)-math.cos(rdeclN)*math.sin(rksi)*math.sin(roblN)))
-		raSZ, declSZ, distSZ = astrology.swe_cotrans(longSZ, latSZ, 1.0, -oblN)
+		raSZ, declSZ, distSZ = swisseph.cotrans(longSZ, latSZ, 1.0, -oblN)
 
 		self.fortune = [longSZ, latSZ, raSZ, declSZ]
 

@@ -32,7 +32,7 @@ class MundaneFortune:
 		raMLoF = aoasc+ramoon-aosun
 		raMLoF = util.normalize(raMLoF)
 		declMLoF = pls.planets[astrology.SE_MOON].dataEqu[planets.Planet.DECLEQU]
-		lonMLoF, latMLoF, dist = astrology.swe_cotrans(raMLoF, declMLoF, 1.0, obl)
+		lonMLoF, latMLoF, dist = swisseph.cotrans(raMLoF, declMLoF, 1.0, obl)
 
 		self.mfortune = (lonMLoF, latMLoF, raMLoF, declMLoF)
 

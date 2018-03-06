@@ -43,7 +43,7 @@ class SecMotion:
         calflag = astrology.SE_GREG_CAL
         if rtime.cal == chart.Time.JULIAN:
             calflag = astrology.SE_JUL_CAL
-        tjd_ut = astrology.swe_julday(year, month, day, newtime, calflag)
+        tjd_ut = swisseph.julday(year, month, day, newtime, calflag)
 
         #self.planet contains the new position of the planet(it proceeded on its way during the PD(arc))
         self.planet = planets.Planet(tjd_ut, pId, flag, lat, ascmc2)

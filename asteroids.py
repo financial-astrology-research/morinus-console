@@ -7,11 +7,11 @@ class Asteroid:
 	def __init__(self, tjd_ut, aId, flag):
 		self.aId = aId
 
-		rflag, dat, serr = astrology.swe_calc_ut(tjd_ut, aId, flag)
-		rflag, datEqu, serr = astrology.swe_calc_ut(tjd_ut, aId, flag+astrology.SEFLG_EQUATORIAL)
+		rflag, dat, serr = swisseph.calc_ut(tjd_ut, aId, flag)
+		rflag, datEqu, serr = swisseph.calc_ut(tjd_ut, aId, flag+astrology.SEFLG_EQUATORIAL)
 		self.data = (dat[0], dat[1], datEqu[0], datEqu[1])
 
-		self.name = astrology.swe_get_planet_name(aId)
+		self.name = swisseph.get_planet_name(aId)
 
 
 class Asteroids:

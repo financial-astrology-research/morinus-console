@@ -59,19 +59,19 @@ ny_place = chart.Place('New York', 74, 0, 0, False, 40, 42, 0, True, 43)
 time = chart.Time(2005, 10, 3, 10, 0, 0, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
-astrology.swe_set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')
+swisseph.set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')
 calflag = astrology.SE_JUL_CAL
 hour = 10
 minute = 10
 second = 0
 time1 = hour+minute/60.0+second/3600.0
-tjd = astrology.swe_julday(2013, 3, 1, time1, calflag)
-retflag = astrology.swe_sol_eclipse_when_loc(tjd, astrology.SEFLG_SWIEPH, ny_place.lon, ny_place.lat, astrology.SE_ECL_ALLTYPES_SOLAR, False);
-#retflag = astrology.swe_sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, False);
+tjd = swisseph.julday(2013, 3, 1, time1, calflag)
+retflag = swisseph.sol_eclipse_when_loc(tjd, astrology.SEFLG_SWIEPH, ny_place.lon, ny_place.lat, astrology.SE_ECL_ALLTYPES_SOLAR, False);
+#retflag = swisseph.sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, False);
 jd = retflag[1][0]
 eclflag = retflag[0][0]
 print eclflag
-year, month, day, time = astrology.swe_revjul(jd, 1)
+year, month, day, time = swisseph.revjul(jd, 1)
 print "%d %d %d" % (year, month, day)
 
 
