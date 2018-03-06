@@ -7,6 +7,7 @@ import sys
 sys.path.append("..")
 
 import os
+import swisseph
 import astrology
 import chart
 import csv
