@@ -62,15 +62,15 @@ def printr(obj, tabs=TAB_WIDTH):
     """
 
     if tabs == TAB_WIDTH:
-        print get_human_object_name(obj)
+        print(get_human_object_name(obj))
 
     ident = IDENTATION_CHAR * tabs
     spaces = IDENTATION_CHAR * (tabs + TAB_WIDTH)
 
-    print "%s{" % ident
+    print("%s{" % ident)
 
     for prop, value in vars(obj).iteritems():
-        print "%s%s: %s" % (spaces, prop, get_human_value(value))
+        print("%s%s: %s" % (spaces, prop, get_human_value(value)))
 
         if str(value).startswith('<') and str(value).endswith('>'):
             printr(value, (tabs + TAB_WIDTH))
@@ -79,4 +79,4 @@ def printr(obj, tabs=TAB_WIDTH):
                 for elemento in value:
                     printr(elemento, (tabs + TAB_WIDTH))
 
-    print "%s}" % ident
+    print("%s}" % ident)

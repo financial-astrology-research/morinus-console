@@ -1,20 +1,24 @@
 #!/usr/bin/env python
 
-import astrology
-import chart
-import pickle
-import planets
-import pprint
-import options
-import transits
-import pickle
 import sys
-import util
-import transits
+from os import path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+
 from inspect import getmembers
 from pprint import pprint
 from printr import printr
 from sys import exit
+import astrology
+import chart
+import options
+import pickle
+import pickle
+import planets
+import pprint
+import sys
+import transits
+import transits
+import util
 
 eclipses_cache = {}
 
@@ -44,7 +48,7 @@ def calculateNearestEclipse(ecplanet, chrt, year, month, day, hour, minute = 0, 
         retflag = swisseph.lun_eclipse_when(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_LUNAR, True);
         planet_id = astrology.SE_MOON
     else:
-        print 'No valid eclipse ecplanet input at calculateNearestEclipse\n'
+        print('No valid eclipse ecplanet input at calculateNearestEclipse\n')
         exit(1)
 
     # Get date and eclipse type
@@ -144,7 +148,7 @@ try:
     f.close()
 
 except IOError:
-    print "error loading the chart"
+    print("error loading the chart")
 
 opts = options.Options()
 swisseph.set_ephe_path('./SWEP/Ephem')
@@ -153,7 +157,7 @@ place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, nort
 time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
-print "Date\t" \
+print("Date\t" \
     "SULON\tSULAT\tSUDEC\tSUSP\t" \
     "MOLON\tMOLAT\tMODEC\tMOSP\t" \
     "MELON\tMELAT\tMEDEC\tMESP\t" \
@@ -172,6 +176,6 @@ print "Date\t" \
     "PALON\tPALAT\tPADEC\tPASP\t" \
     "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
     "VSLON\tVSLAT\tVSDEC\tVSSP\t" \
-    "ESULON\tESUT\tEMOLON\tEMOT\t"
+    "ESULON\tESUT\tEMOLON\tEMOT\t")
 
 dailyPlanets(chrt, 1930, 1, 2030, 12, 2)
