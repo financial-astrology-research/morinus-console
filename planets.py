@@ -2,6 +2,7 @@ import math
 import astrology
 import houses
 import util
+import swisseph
 
 
 class Planet:
@@ -23,7 +24,7 @@ class Planet:
 	HOD = 9
 	PMP = 10
 	ADPH = 11
-	POH = 12 
+	POH = 12
 	AODO = 13
 
 	#Regiomontanian/Campanian
@@ -61,8 +62,8 @@ class Planet:
 		self.speculums = None
 
 		if (ecl == None):
-			rflag, self.data, serr = swisseph.calc_ut(tjd_ut, pId, flag)
-			rflag, self.dataEqu, serr = swisseph.calc_ut(tjd_ut, pId, flag+astrology.SEFLG_EQUATORIAL)
+			self.data = swisseph.calc_ut(tjd_ut, pId, flag)
+			self.dataEqu = swisseph.calc_ut(tjd_ut, pId, flag+astrology.SEFLG_EQUATORIAL)
 
 			# data[0] : longitude
 			# data[1] : latitude
@@ -122,7 +123,7 @@ class Planet:
 			#if QuadrantII:		pmp = 90.0+90.0*MD/SA
 			#if QuadrantIII:	pmp = 270.0-90.0*MD/SA
 			#if QuadrantIV:		pmp = 270.0+90.0*MD/SA
-		
+
 		#A.D.(fi or poleheight) = MD*AD(FI)/SA
 		#Poleheight(fi): tg(fi) = sin(AD(fi))/tg(delta)
 		#A.O. D.O.:
@@ -175,14 +176,14 @@ class Planet:
 		if hdasc < 0.0:
 			hdasc *= -1
 		if hdasc > 180.0:
-			hdasc = 360.0-hdasc 
+			hdasc = 360.0-hdasc
 
 		dohd = self.dataEqu[Planet.RAEQU]+adlat
 		hddesc = dohd-dodesc
 		if hddesc < 0.0:
 			hddesc *= -1
 		if hddesc > 180.0:
-			hddesc = 360.0-hddesc 
+			hddesc = 360.0-hddesc
 
 		self.hd = hdasc
 		if hddesc < hdasc:
@@ -326,11 +327,11 @@ class Planet:
 		#AZM=450-AZMn
 		#if AZM>360:
 			#AZM=AZM-360
-		
+
 		#ELV (Astrological = Astronomical Elevation)
-		#ELV=alt		
+		#ELV=alt
 # ########################################
-			
+
 		ramc = ascmc2[houses.Houses.MC][houses.Houses.RA]
 		raic = ramc+180.0
 		if raic > 360.0:
@@ -362,7 +363,7 @@ class Planet:
 # ###########################################
 # Roberto REGIO SPEC fix - V 7.0.1
 		if (self.abovehorizon and md < 0.0):
-			zd *= -1				
+			zd *= -1
 		if (not self.abovehorizon and md > 0.0):
 			zd *= -1
 # ###########################################
@@ -403,7 +404,7 @@ class Planet:
 # ###########################################
 # Roberto CMP fix - V 7.0.0
 		if (self.abovehorizon and tablemd < 0.0) or (not self.abovehorizon and tablemd > 0.0):
-				Cmp = 360.0-Cmp 
+				Cmp = 360.0-Cmp
 # ###########################################
 
 		#RMP (Roberto)
@@ -417,19 +418,19 @@ class Planet:
 		#ELV
 		AZM = 0.0
 		ELV = 0.0
-				
+
 		placelat = lat
-		
+
 		HAn = 0.0 #Hourly angle
 		Han = self.dataEqu[Planet.RAEQU]-ramc
 		if Han < 0.0:
 			Han = 360+Han
-				
+
 		val = math.sin(math.radians(placelat))*math.sin(math.radians(self.dataEqu[Planet.DECLEQU]))+math.cos(math.radians(placelat))*math.cos(math.radians(self.dataEqu[Planet.DECLEQU]))*math.cos(math.radians(Han))
 		if math.fabs(val) <= 1.0:
 			ELV = math.degrees(math.asin(val))
-				
-		val = (math.cos(math.radians(placelat))*math.sin(math.radians(self.dataEqu[Planet.DECLEQU]))-math.sin(math.radians(placelat))*math.cos(math.radians(self.dataEqu[Planet.DECLEQU]))*math.cos(math.radians(Han)))/math.cos(math.radians(ELV))		
+
+		val = (math.cos(math.radians(placelat))*math.sin(math.radians(self.dataEqu[Planet.DECLEQU]))-math.sin(math.radians(placelat))*math.cos(math.radians(self.dataEqu[Planet.DECLEQU]))*math.cos(math.radians(Han)))/math.cos(math.radians(ELV))
 		if math.fabs(val) <= 1.0:
 			val = math.degrees(math.acos(val))
 		if Han > 180:
@@ -437,7 +438,7 @@ class Planet:
 		val = 450-val
 		if val > 360:
 			val = val-360
-		AZM = val		
+		AZM = val
 # ########################################
 
 		#md, hd, zd, pole, q, w
@@ -573,7 +574,7 @@ class Planet:
 
 
 	def iterate(self, pl, rao, rdo, robl, rpoh, lon):
-		
+
 		okGa = okGd = True
 
 		if pl.speculums[0][Planet.PMP] < 90.0 or (pl.speculums[0][Planet.PMP] >= 270.0 and pl.speculums[0][Planet.PMP] < 360.0):
@@ -642,7 +643,7 @@ class Planet:
 			if longSZ <= 0.0:
 #				print 'longSz<=0'
 				longSZ = Fd+360.0
-				
+
 		longSZ = util.normalize(longSZ)##
 #		print 'longSz=%f' % longSZ
 
@@ -748,7 +749,7 @@ class Planet:
 
 
 	def iterateRegio(self, pl, rwa, rwd, robl, rpoh, lon):
-		
+
 		okGa = okGd = True
 
 		if pl.speculums[0][Planet.PMP] < 90.0 or (pl.speculums[0][Planet.PMP] >= 270.0 and pl.speculums[0][Planet.PMP] < 360.0):
@@ -805,13 +806,13 @@ class Planet:
 class Planets:
 	"""Calculates the positions of the planets"""
 
-#	HELIOCENTRIC = 
-#	ECLIPTIC = 
+#	HELIOCENTRIC =
+#	ECLIPTIC =
 #	EQUATORIAL =
-#	XYZ = 
-#	TOPOCENTRIC = 
-#	SIDEREAL = 
-	
+#	XYZ =
+#	TOPOCENTRIC =
+#	SIDEREAL =
+
 	PLANETS_NUM = 12
 
 	def __init__(self, tjd_ut, meannode, flag, lat, ascmc2, raequasc, nolat = False, obl = 0.0):
@@ -819,7 +820,7 @@ class Planets:
 		self.planets = []
 
 		self.create(self.planets, tjd_ut, meannode, flag, lat, ascmc2, raequasc, nolat, obl)
-		
+
 
 	def create(self, pls, tjd_ut, meannode, flag, lat, ascmc2, raequasc, nolat, obl):
 		for i in range(astrology.SE_SUN, astrology.SE_PLUTO+1):
