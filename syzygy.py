@@ -4,6 +4,7 @@ import houses
 import planets
 import options
 import util
+import swisseph
 
 
 class Syzygy:
@@ -174,11 +175,11 @@ class Syzygy:
 
 	def getDateHour(self, tim, place, newmoonorig):
 		while True:
-			h, m, s = util.decToDeg(tim.time) 
+			h, m, s = util.decToDeg(tim.time)
 			y, mo, d = tim.year, tim.month, tim.day
 			h -= 1
 			if h < 0:
-				h = 23	
+				h = 23
 				y, mo, d = util.decrDay(y, mo, d)
 				if y == 0:
 					y = 1
@@ -206,17 +207,17 @@ class Syzygy:
 
 
 	def getDateMinute(self, tim, place, newmoonorig):
-		h, m, s = util.decToDeg(tim.time) 
+		h, m, s = util.decToDeg(tim.time)
 		y, mo, d = tim.year, tim.month, tim.day
 		h += 1
 		if h > 23:
-			h = 0	
+			h = 0
 			y, mo, d = util.incrDay(y, mo, d)
 
 		tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
 
 		while True:
-			h, m, s = util.decToDeg(tim.time) 
+			h, m, s = util.decToDeg(tim.time)
 			y, mo, d = tim.year, tim.month, tim.day
 			y, mo, d, h, m = util.subtractMins(y, mo, d, h, m, 1)
 			if y == 0:
@@ -245,14 +246,14 @@ class Syzygy:
 
 
 	def getDateSecond(self, tim, place, newmoonorig):
-		h, m, s = util.decToDeg(tim.time) 
+		h, m, s = util.decToDeg(tim.time)
 		y, mo, d = tim.year, tim.month, tim.day
 		y, mo, d, h, m = util.addMins(y, mo, d, h, m, 1)
 
 		tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
 
 		while True:
-			h, m, s = util.decToDeg(tim.time) 
+			h, m, s = util.decToDeg(tim.time)
 			y, mo, d = tim.year, tim.month, tim.day
 			y, mo, d, h, m, s = util.subtractSecs(y, mo, d, h, m, s, 1)
 			if y == 0:

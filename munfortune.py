@@ -4,6 +4,7 @@ import houses
 import planets
 import placspec
 import util
+import swisseph
 
 
 class MundaneFortune:

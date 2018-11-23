@@ -6,6 +6,7 @@ import chart
 import placspec
 import regiospec
 import util
+import swisseph
 
 
 class Fortune:
@@ -18,7 +19,7 @@ class Fortune:
 	def __init__(self, typ, ascmc2, raequasc, pls, obl, placelat, abovehorizon):
 		self.fortune = [0.0, 0.0, 0.0, 0.0]
 
-		self.abovehorizon = abovehorizon	
+		self.abovehorizon = abovehorizon
 
 		if typ == chart.Chart.LFMOONSUN:
 			diff = pls.planets[astrology.SE_MOON].data[planets.Planet.LONG]-pls.planets[astrology.SE_SUN].data[planets.Planet.LONG]
@@ -126,7 +127,7 @@ class Fortune:
 
 
 	def iterate(self, fort, rao, rdo, robl, rpoh, lon):
-		
+
 		okGa = okGd = True
 
 		pmp = fort.speculum.speculum[placspec.PlacidianSpeculum.PMP]
@@ -268,7 +269,7 @@ class Fortune:
 
 
 	def iterateRegio(self, fort, rwa, rwd, robl, rpoh, lon):
-		
+
 		okGa = okGd = True
 
 		pmp = fort.speculum.speculum[placspec.PlacidianSpeculum.PMP]
