@@ -61,7 +61,7 @@ class Houses:
 
     #Zodiacal
     def getHousePos(self, lon, opts, useorbs = False):
-        for i in range(0, Houses.HOUSE_NUM):
+        for i in range(1, Houses.HOUSE_NUM):
             orb1 = 0.0
             orb2 = 0.0
 
@@ -73,8 +73,8 @@ class Houses:
                 if i+1 == 4 or i+1 == 7 or i+1 == 10:
                     orb2 = opts.orbiscuspAscMC
 
-            cusp1 = util.normalize(self.cusps[i]-orb1)
-            cusp2 = util.normalize(self.cusps[i+1]-orb2)
+            cusp1 = util.normalize(self.cusps[i-1]-orb1)
+            cusp2 = util.normalize(self.cusps[i]-orb2)
 
             pos = lon
             if cusp1 > 240.0 and cusp2 < 120.0: #Pisces-Aries check
@@ -87,8 +87,8 @@ class Houses:
             if cusp1 < pos and cusp2 > pos:
                 if opts.traditionalaspects:
                     pos = lon
-                    cusp1 = self.cusps[i]
-                    cusp2 = self.cusps[i+1]
+                    cusp1 = self.cusps[i-1]
+                    cusp2 = self.cusps[i]
                     if cusp1 > 240.0 and cusp1 < 120.0: #Pisces-Aries check
                         if pos > 240.0:#planet is in the Pisces-part
                             cusp2 += 360.0
@@ -115,8 +115,8 @@ class Houses:
             orb1 = opts.orbiscuspH
             orb2 = opts.orbiscuspAscMC
 
-        cusp1 = util.normalize(self.cusps[12]-orb1)
-        cusp2 = util.normalize(self.cusps[1]-orb2)
+        cusp1 = util.normalize(self.cusps[11]-orb1)
+        cusp2 = util.normalize(self.cusps[0]-orb2)
 
         pos = lon
         if cusp1 > 240.0 and cusp2 < 120.0: #Pisces-Aries check
@@ -129,8 +129,8 @@ class Houses:
         if cusp1 < pos and cusp2 > pos:
             if opts.traditionalaspects:
                 pos = lon
-                cusp1 = self.cusps[i]
-                cusp2 = self.cusps[i+1]
+                cusp1 = self.cusps[i-1]
+                cusp2 = self.cusps[i]
                 if cusp1 > 240.0 and cusp1 < 120.0: #Pisces-Aries check
                     if pos > 240.0:#planet is in the Pisces-part
                         cusp2 += 360.0
@@ -140,7 +140,7 @@ class Houses:
 
                 if cusp1 > pos:
                     sign1 = int(lon/chart.Chart.SIGN_DEG)
-                    sign2 = int(self.cusps[i]/chart.Chart.SIGN_DEG)
+                    sign2 = int(self.cusps[i-1]/chart.Chart.SIGN_DEG)
                     if sign1 != sign2:
                         if i == 1:
                             return 11
