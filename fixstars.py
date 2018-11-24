@@ -18,9 +18,9 @@ class FixStars:
         i = 0
         for k in names:
             self.data.append(['', '', 0.0, 0.0, 0.0, 0.0])
-            ret, name, dat, serr = swisseph.fixstar_ut(','+k, tjd_ut, flag)
+            dat = swisseph.fixstar_ut(','+k, tjd_ut, flag)
 
-            nam = name[0].strip()
+            nam = k
             nomnam = ''
             DELIMITER = ','
             if nam.find(DELIMITER) != -1:
