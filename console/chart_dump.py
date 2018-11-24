@@ -31,11 +31,11 @@ def printPlanetsData(chrt):
         #riseset = chrt.riseset.planetRiseSet(j)
         out.append("%.2f\t%.2f\t%.3f\t" % (lon, lat, speed))
 
-    for asteroid in chrt.asteroids.asteroids:
-        lon = asteroid.data[planets.Planet.LONG]
-        lat = asteroid.data[planets.Planet.LAT]
-        speed = asteroid.data[planets.Planet.SPLON]
-        out.append("%.2f\t%.2f\t%.3f\t" % (lon, lat, speed))
+    # for asteroid in chrt.asteroids.asteroids:
+    #     lon = asteroid.data[planets.Planet.LONG]
+    #     lat = asteroid.data[planets.Planet.LAT]
+    #     speed = asteroid.data[planets.Planet.SPLON]
+    #     out.append("%.2f\t%.2f\t%.3f\t" % (lon, lat, speed))
 
     print(''.join(out))
 
