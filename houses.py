@@ -61,7 +61,7 @@ class Houses:
 
     #Zodiacal
     def getHousePos(self, lon, opts, useorbs = False):
-        for i in range(1, Houses.HOUSE_NUM):
+        for i in range(0, Houses.HOUSE_NUM):
             orb1 = 0.0
             orb2 = 0.0
 
