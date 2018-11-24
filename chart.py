@@ -608,8 +608,8 @@ class Chart:
 
                     #Check aspects
                     orbH = self.options.orbisH[a]
-                    val1 = self.houses.cusps[hidx[j]]+orbH+self.options.orbis[i][a]
-                    val2 = self.houses.cusps[hidx[j]]-(orbH+self.options.orbis[i][a])
+                    val1 = self.houses.cusps[hidx[j]-1]+orbH+self.options.orbis[i][a]
+                    val2 = self.houses.cusps[hidx[j]-1]-(orbH+self.options.orbis[i][a])
 
                     if (j == 0 or j == 3) and (self.houses.hsys == 'P' or self.houses.hsys == 'K' or self.houses.hsys == 'O' or self.houses.hsys == 'R' or self.houses.hsys == 'C' or self.houses.hsys == 'E' or self.houses.hsys == 'T' or self.houses.hsys == 'B'):
                         orbH = self.options.orbisAscMC[a]
@@ -619,15 +619,15 @@ class Chart:
                         pllon = util.normalize(pllon-self.ayanamsha)
                     if (self.inorbsinister(val1, val2, pllon, a)):
                         tmp = util.normalize(pllon+Chart.Aspects[a])
-                        dif = math.fabs(tmp-self.houses.cusps[hidx[j]])
+                        dif = math.fabs(tmp-self.houses.cusps[hidx[j]-1])
                         if self.aspmatrixH[j][i].typ == Chart.NONE or (self.aspmatrixH[j][i].typ != Chart.NONE and self.aspmatrixH[j][i].dif > dif):
                             self.aspmatrixH[j][i].typ = a
                             self.aspmatrixH[j][i].aspdif = dif
-                            self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]]
+                            self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]-1]
 
                             #Exact
-                            val1 = self.houses.cusps[hidx[j]]+self.options.exact
-                            val2 = self.houses.cusps[hidx[j]]-self.options.exact
+                            val1 = self.houses.cusps[hidx[j]-1]+self.options.exact
+                            val2 = self.houses.cusps[hidx[j]-1]-self.options.exact
 
                             if (self.inorbsinister(val1, val2, pllon, a)):
                                 self.aspmatrixH[j][i].exact = True
@@ -639,24 +639,24 @@ class Chart:
 
                         if (self.inorbdexter(val1, val2, pllon, a)):
                             tmp = util.normalize(pllon-Chart.Aspects[a])
-                            dif = math.fabs(tmp-self.houses.cusps[hidx[j]])
+                            dif = math.fabs(tmp-self.houses.cusps[hidx[j]-1])
                             if self.aspmatrixH[j][i].typ == Chart.NONE or (self.aspmatrixH[j][i].typ != Chart.NONE and self.aspmatrixH[j][i].dif > dif):
                                 self.aspmatrixH[j][i].typ = a
                                 self.aspmatrixH[j][i].aspdif = dif
-                                self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]]
+                                self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]-1]
 
                                 #exact
-                                val1 = self.houses.cusps[hidx[j]]+self.options.exact
-                                val2 = self.houses.cusps[hidx[j]]-self.options.exact
+                                val1 = self.houses.cusps[hidx[j]-1]+self.options.exact
+                                val2 = self.houses.cusps[hidx[j]-1]-self.options.exact
 
                                 if (self.inorbdexter(val1, val2, pllon, a)):
                                     self.aspmatrixH[j][i].exact = True
                                 else:
                                     self.aspmatrixH[j][i].exact = False
 
-                    dif = pllon-self.houses.cusps[hidx[j]]
-                    if self.houses.cusps[hidx[j]] > pllon:
-                        dif = self.houses.cusps[hidx[j]]-pllon
+                    dif = pllon-self.houses.cusps[hidx[j]-1]
+                    if self.houses.cusps[hidx[j]-1] > pllon:
+                        dif = self.houses.cusps[hidx[j]-1]-pllon
 
                     if dif > 180.0:
                         dif = 360.0-dif
