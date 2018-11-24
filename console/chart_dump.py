@@ -76,7 +76,7 @@ try:
 except IOError:
     print("error loading the chart")
 
-swisseph.set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')
+swisseph.set_ephe_path('../SWEP/Ephem')
 opts = options.Options()
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
