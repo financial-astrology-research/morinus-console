@@ -865,7 +865,7 @@ class Chart:
                 if (j == 0 or j == 3 or j == 6 or j == 9) and (self.houses.hsys == 'P' or self.houses.hsys == 'K' or self.houses.hsys == 'O' or self.houses.hsys == 'R' or self.houses.hsys == 'C' or self.houses.hsys == 'E' or self.houses.hsys == 'T' or self.houses.hsys == 'B'):
                     continue
 
-                if (self.inorbsinister(val1, val2, self.houses.cusps[j+1], Chart.CONJUNCTIO)):
+                if (self.inorbsinister(val1, val2, self.houses.cusps[j], Chart.CONJUNCTIO)):
                     ar.append(j)
 
             if len(ar) != 0:
