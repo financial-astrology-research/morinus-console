@@ -1,18 +1,23 @@
 #!/usr/bin/env python
 
-import astrology
-import chart
-import pickle
-import planets
-import pprint
-import options
-import transits
-import pickle
-import util
-import transits
+import sys
+from os import path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+
 from inspect import getmembers
 from pprint import pprint
 from printr import printr
+import astrology
+import chart
+import options
+import pickle
+import pickle
+import planets
+import pprint
+import swisseph
+import transits
+import transits
+import util
 
 def printPlanetsData(chrt):
     out = []
@@ -32,7 +37,7 @@ def printPlanetsData(chrt):
         speed = asteroid.data[planets.Planet.SPLON]
         out.append("%.2f\t%.2f\t%.3f\t" % (lon, lat, speed))
 
-    print ''.join(out)
+    print(''.join(out))
 
 fpath = "/Users/pablocc/Hors/Today.hor"
 chrt = None
@@ -69,7 +74,7 @@ try:
     f.close()
 
 except IOError:
-    print "error loading the chart"
+    print("error loading the chart")
 
 swisseph.set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')
 opts = options.Options()
@@ -78,7 +83,7 @@ place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, nort
 time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
-print "Date\t" \
+print("Date\t" \
     "SULON\tSULAT\tSUSP\t" \
     "MOLON\tMOLAT\tMOSP\t" \
     "MELON\tMELAT\tMESP\t" \
@@ -95,6 +100,6 @@ print "Date\t" \
     "JNLON\tJNLAT\tJNSP\t" \
     "PALON\tPALAT\tPASP\t" \
     "PHLON\tPHLAT\tPHSP\t" \
-    "VSLON\tVSLAT\tVSSP\t"
+    "VSLON\tVSLAT\tVSSP\t")
 
 printPlanetsData(chrt)
