@@ -4,6 +4,7 @@ import chart
 import planets
 import mtexts
 import util
+import swisseph
 
 
 class RiseSet:
@@ -39,28 +40,29 @@ class RiseSet:
 			ar = []
 
 			#Rise
-			ret, JDRise, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.RISE], self.lon, self.lat, self.alt, 0.0, 10.0)
+            # TODO: ret, risetime = swisseph.rise_trans(jd, astrology.SE_SUN, lon, lat, float(altitude), 0.0, 10.0, astrology.SE_CALC_RISE, astrology.SEFLG_SWIEPH)
+			ret, JDRise = swisseph.rise_trans(self.jd, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.RISE], astrology.SEFLG_SWIEPH)
 			tyear, tmonth, tday, ttim = swisseph.revjul(JDRise, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDRise, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.RISE], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDRise = swisseph.rise_trans(self.jd-1.0, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.RISE], astrology.SEFLG_SWIEPH)
 
 			#MC
-			ret, JDMC, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.MC], self.lon, self.lat, self.alt, 0.0, 10.0)
+			ret, JDMC = swisseph.rise_trans(self.jd, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.MC], astrology.SEFLG_SWIEPH)
 			tyear, tmonth, tday, ttim = swisseph.revjul(JDMC, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDMC, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.MC], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDMC = swisseph.rise_trans(self.jd-1.0, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.MC], astrology.SEFLG_SWIEPH)
 
 			#Set
-			ret, JDSet, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.SET], self.lon, self.lat, self.alt, 0.0, 10.0)
+			ret, JDSet = swisseph.rise_trans(self.jd, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.SET], astrology.SEFLG_SWIEPH)
 			tyear, tmonth, tday, ttim = swisseph.revjul(JDSet, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDSet, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.SET], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDSet = swisseph.rise_trans(self.jd-1.0, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.SET], astrology.SEFLG_SWIEPH)
 
 			#IC
-			ret, JDIC, serr = swisseph.rise_trans(self.jd, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.IC], self.lon, self.lat, self.alt, 0.0, 10.0)
+			ret, JDIC = swisseph.rise_trans(self.jd, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.IC], astrology.SEFLG_SWIEPH)
 			tyear, tmonth, tday, ttim = swisseph.revjul(JDIC, self.calflag)
 			if oyear != tyear or omonth != tmonth or oday != tday:
-				ret, JDIC, serr = swisseph.rise_trans(self.jd-1.0, i, "", astrology.SEFLG_SWIEPH, RiseSet.Angles[RiseSet.IC], self.lon, self.lat, self.alt, 0.0, 10.0)
+				ret, JDIC = swisseph.rise_trans(self.jd-1.0, i, self.lon, self.lat, self.alt, 0.0, 10.0, RiseSet.Angles[RiseSet.IC], astrology.SEFLG_SWIEPH)
 
 			#From GMT to Local
 #			JDRise += self.offs
