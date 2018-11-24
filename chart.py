@@ -26,6 +26,7 @@ import customerpd
 import syzygy
 import util
 import mtexts
+import sys
 
 
 # if long is 'E' or/and lat is 'S' -> negate value
@@ -821,7 +822,6 @@ class Chart:
         num = len(self.fixstars.data)
         for i in range(num):
             ar = []
-
             val1 = self.fixstars.data[i][fixstars.FixStars.LON]+self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
             val2 = self.fixstars.data[i][fixstars.FixStars.LON]-self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
 

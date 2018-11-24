@@ -29,7 +29,7 @@ class FixStars:
                 nomnam = snam[1].strip()
 
             self.data[i][FixStars.NAME] = nam
-            self.data[i][FixStars.NOMNAME] = nomnam
+            self.data[i][FixStars.NOMNAME] = nam
             self.data[i][FixStars.LON] = dat[0]
             self.data[i][FixStars.LAT] = dat[1]
             ra, decl, dist = swisseph.cotrans(dat[0], dat[1], 1.0, -obl)
