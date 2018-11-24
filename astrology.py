@@ -1,5 +1,3 @@
-import swisseph as swe
-
 SE_JUL_CAL = 0
 SE_GREG_CAL = 1
 

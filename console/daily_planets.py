@@ -12,7 +12,7 @@ import chart
 import options
 import pickle
 import planets
-import swisseph as swe
+import swisseph
 import sys
 import transits
 import transits
@@ -36,14 +36,14 @@ def dailyPlanets(chrt, start_year, start_month, end_year, end_month, hour):
 def calculateNearestEclipse(ecplanet, chrt, year, month, day, hour, minute = 0, second = 0):
     out = []
     time = hour + minute / 60.0 + second / 3600.0
-    tjd = swe.julday(year, month, day, time, astrology.SE_GREG_CAL)
+    tjd = swisseph.julday(year, month, day, time, astrology.SE_GREG_CAL)
 
     # Calculate the global eclipse nearest to the specified date
     if ecplanet == 'sun':
-        retflag = swe.sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, True);
+        retflag = swisseph.sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, True);
         planet_id = astrology.SE_SUN
     elif ecplanet == 'moon':
-        retflag = swe.lun_eclipse_when(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_LUNAR, True);
+        retflag = swisseph.lun_eclipse_when(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_LUNAR, True);
         planet_id = astrology.SE_MOON
     else:
         print('No valid eclipse ecplanet input at calculateNearestEclipse\n')
@@ -53,7 +53,7 @@ def calculateNearestEclipse(ecplanet, chrt, year, month, day, hour, minute = 0, 
     ejd = retflag[1][0]
     eclflag = retflag[0][0]
     # Convert julian to gregorian date
-    eyear, emonth, eday, ejtime = swe.revjul(ejd, astrology.SE_GREG_CAL)
+    eyear, emonth, eday, ejtime = swisseph.revjul(ejd, astrology.SE_GREG_CAL)
     ehour, eminute, esecond = util.decToDeg(ejtime)
 
     if (eclflag & astrology.SE_ECL_TOTAL):
@@ -149,7 +149,7 @@ except IOError:
     print("error loading the chart")
 
 opts = options.Options()
-swe.set_ephe_path('../SWEP/Ephem')
+swisseph.set_ephe_path('../SWEP/Ephem')
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
 time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
