@@ -58,82 +58,24 @@ class Time:
         self.plus = plus
         self.zh = zh
         self.zm = zm
-        self.daylightsaving = daylightsaving
 
         self.time = hour+minute/60.0+second/3600.0
 
         self.dyear, self.dmonth, self.dday, self.dhour, self.dmin, self.dsec = year, month, day, hour, minute, second
+        # Build date instance.
+        timezone_hours = datetime.timedelta(hours=zh+(zm/60))
+        timezone = datetime.timezone(timezone_hours)
+        date = datetime.datetime(year, month, day, hour, minute, second, 0, timezone)
 
         # Apply daylight balance.
-        if self.daylightsaving:
-            self.time -= 1.0
-            self.dhour -= 1
-
-        # If daylight hour decrease resulted in negative value, the datetime
-        # is moved to previous day.
-        if self.time < 0.0:
-            self.time += Time.HOURSPERDAY
-            self.year, self.month, self.day = util.decrDay(self.year, self.month, self.day)
-            self.dhour += int(Time.HOURSPERDAY)
-            self.dyear, self.dmonth, self.dday = self.year, self.month, self.day
-
-        # For datetime with timezone calculate timezone offset.
-        if zt == Time.ZONE:
-            ztime = zh+zm/60.0
-            if self.plus:
-                self.time-=ztime
-            else:
-                self.time+=ztime
-        # Calculate local mean time.
-        elif zt == Time.LOCALMEAN:
-            t = (place.deglon+place.minlon/60.0)*4.0 #long * 4min
-            if place.east:
-                self.time-=t/60.0
-            else:
-                self.time+=t/60.0
-
-        # Adjust year to negative number on dates before Christ.
-        if bc:
-            self.year = 1-self.year
-
-        # Check over/underflow of hours from previous time adjustments.
-        if self.time >= Time.HOURSPERDAY:
-            self.time -= Time.HOURSPERDAY
-            self.year, self.month, self.day = util.incrDay(self.year, self.month, self.day)
-        elif self.time < 0.0:
-            self.time += Time.HOURSPERDAY
-            self.year, self.month, self.day = util.decrDay(self.year, self.month, self.day)
+        if daylightsaving:
+            date = date + datetime.timedelta(hours=-1)
 
         # Set calendar type to use based on time options.
         calflag = astrology.SE_GREG_CAL
-        if self.cal == Time.JULIAN:
-            calflag = astrology.SE_JUL_CAL
 
         # Convert date to Julian Day.
         self.jd = swisseph.julday(self.year, self.month, self.day, self.time, calflag)
-
-        if zt == Time.LOCALAPPARENT:#LAT
-            ret, te, serr = swisseph.time_equ(self.jd)
-            self.jd += te #LMT
-            #Back to h,m,s(self.time) from julianday fromat
-            self.year, self.month, self.day, self.time = swisseph.revjul(self.jd, calflag)
-            #To GMT
-            t = (place.deglon+place.minlon/60.0)*4.0 #long * 4min
-            if place.east:
-                self.time-=t/60.0
-            else:
-                self.time+=t/60.0
-
-            #check over/underflow
-            if self.time >= Time.HOURSPERDAY:
-                self.time -= Time.HOURSPERDAY
-                self.year, self.month, self.day = util.incrDay(self.year, self.month, self.day)
-            elif self.time < 0.0:
-                self.time += Time.HOURSPERDAY
-                self.year, self.month, self.day = util.decrDay(self.year, self.month, self.day)
-
-            #GMT in JD (julianday)
-            self.jd = swisseph.julday(self.year, self.month, self.day, self.time, calflag)
 
         self.sidTime = swisseph.sidtime(self.jd) #GMT
 
