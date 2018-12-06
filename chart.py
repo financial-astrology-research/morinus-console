@@ -15,10 +15,7 @@ import options
 import hours
 import almutens
 import fortune
-# ###########################################
-# Roberto change – V 7.3.0
 import firdaria
-# ###########################################
 import munfortune
 import arabicparts
 import antiscia
