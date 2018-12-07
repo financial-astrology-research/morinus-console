@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import pytz
 import math
 import datetime
 import astrology
@@ -24,7 +25,6 @@ import syzygy
 import util
 import mtexts
 import sys
-
 
 # if long is 'E' or/and lat is 'S' -> negate value
 
@@ -58,25 +58,29 @@ class Time:
         self.plus = plus
         self.zh = zh
         self.zm = zm
+        self.daylightsaving = daylightsaving
 
         self.time = hour+minute/60.0+second/3600.0
 
         self.dyear, self.dmonth, self.dday, self.dhour, self.dmin, self.dsec = year, month, day, hour, minute, second
         # Build date instance.
-        timezone_hours = datetime.timedelta(hours=zh+(zm/60))
-        timezone = datetime.timezone(timezone_hours)
+        timezone_hours = zh + (zm / 60)
+        timezone_delta = datetime.timedelta(hours=timezone_hours)
+        timezone = datetime.timezone(timezone_delta)
         date = datetime.datetime(year, month, day, hour, minute, second, 0, timezone)
-
-        # Apply daylight balance.
+        # Apply daylight balance when applies.
         if daylightsaving:
             date = date + datetime.timedelta(hours=-1)
 
+        # Transform to UTC timezone.
+        date = date.astimezone(pytz.timezone('UTC'))
+        # Aggregate hours, mins, secs as required by swisseph.
+        aggregate_time = date.hour + (date.minute/60.0) + (date.second/3600.0)
         # Set calendar type to use based on time options.
         calflag = astrology.SE_GREG_CAL
 
         # Convert date to Julian Day.
-        self.jd = swisseph.julday(self.year, self.month, self.day, self.time, calflag)
-
+        self.jd = swisseph.julday(date.year, date.month, date.day, aggregate_time, calflag)
         self.sidTime = swisseph.sidtime(self.jd) #GMT
 
         self.ph = None
