@@ -87,13 +87,6 @@ class Time:
         if full:
             self.calcPHs(place)
 
-        self.profy = None
-        self.profm = None
-        self.profd = None
-        self.profho = None
-        self.profmi = None
-        self.profse = None
-
 
     def calcPHs(self, place):
         #Planetary day/hour calculation
