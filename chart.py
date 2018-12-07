@@ -81,7 +81,6 @@ class Time:
 
         # Convert date to Julian Day.
         self.jd = swisseph.julday(date.year, date.month, date.day, aggregate_time, calflag)
-        self.sidTime = swisseph.sidtime(self.jd) #GMT
 
         self.ph = None
         if full:
