@@ -42,7 +42,7 @@ class Time:
     HOURSPERDAY = 24.0
 
     # zt is zonetime, zh is zonehour, zm is zoneminute, full means to calculate everything e.g. FixedStars, MidPoints, ...
-    def __init__(self, year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place, full = True):
+    def __init__(self, year, month, day, hour, minute, second, bc, cal, zone_time, plus, zone_hour, zone_minute, daylightsaving, place, full = True):
         self.year = year
         self.month = month
         self.day = day
@@ -54,49 +54,36 @@ class Time:
         self.second = second
         self.bc = bc
         self.cal = cal
-        self.zt = zt
+        self.zt = zone_time
         self.plus = plus
-        self.zh = zh
-        self.zm = zm
+        self.zh = zone_hour
+        self.zm = zone_minute
         self.daylightsaving = daylightsaving
-        self.jd = self.convert_to_julian(hour, minute, second, year, month, day, zh, zm, daylightsaving)
         self.ph = None
-        if full:
-            self.calcPHs(place)
 
-    def convert_to_julian(self, hour: int, minute: int, second: int, year: int, month: int, day: int, zone_hour: int, zone_minute: int, daylightsaving: bool):
-        """
-        Convert date from Gregorian to Julian calendar.
-
-        :param hour: Time hour.
-        :type hour: int
-        :param minute: Time minute.
-        :type minute: int
-        :param second: Time second.
-        :type second: int
-        :param year: Date year.
-        :type year: int
-        :param month: Date month.
-        :type month: int
-        :param day: Date day.
-        :type day: int
-        :param zh: Timezone hour.
-        :type zh: int
-        :param zm: Timezone minute.
-        :type zm: int
-        :param daylightsaving: Flag if hour needs day light saving adjust.
-        :type daylightsaving: bool
-        """
-
-        self.dyear, self.dmonth, self.dday, self.dhour, self.dmin, self.dsec = year, month, day, hour, minute, second
-        # Build date instance.
+        # Represent date / time as datetime object.
         timezone_hours = zone_hour + (zone_minute / 60)
         timezone_delta = datetime.timedelta(hours=timezone_hours)
         timezone = datetime.timezone(timezone_delta)
-        date = datetime.datetime(year, month, day, hour, minute, second, 0, timezone)
+        self.date = datetime.datetime(year, month, day, hour, minute, second, 0, timezone)
+
         # Apply daylight balance when applies.
         if daylightsaving:
             date = date + datetime.timedelta(hours=-1)
+
+        self.jd = self.convert_to_julian(self.date, daylightsaving)
+        if full:
+            self.calcPHs(place)
+
+    def convert_to_julian(self, date: datetime, daylightsaving: bool):
+        """
+        Convert date from Gregorian to Julian calendar.
+
+        :param date: Date represented as datetime object.
+        :type date: datetime
+        :param daylightsaving: Flag if hour needs day light saving adjust.
+        :type daylightsaving: bool
+        """
 
         # Transform to UTC timezone.
         date = date.astimezone(pytz.timezone('UTC'))
@@ -113,7 +100,7 @@ class Time:
 
     def calcPHs(self, place):
         #Planetary day/hour calculation
-        self.weekday = datetime.datetime(self.dyear, self.dmonth, self.dday, self.dhour, self.dmin, self.dsec).weekday()#only daylightsaving was subtracted
+        self.weekday = self.date.weekday()
         lon = place.deglon+place.minlon/60.0
         if not place.east:
             lon *= -1
