@@ -48,7 +48,7 @@ def printTransits(ls, fh, aspecting_planet = -1, aspected_planet = -1):
 
 # track the execution time
 startTime = datetime.now()
-print "Init process at: "
+print("Init process at: ")
 print(startTime)
 
 # get params
@@ -64,7 +64,7 @@ else:
 try:
    fh = open(file_name, 'w+')
 except IOError:
-   print "Error: can\'t find file %s" % (file_name)
+   print("Error: can\'t find file %s" % (file_name))
    exit()
 
 # open the file to save the transits
@@ -105,7 +105,7 @@ try:
     f.close()
 
 except IOError:
-    print "error loading the chart"
+    print("error loading the chart")
 
 
 opts = options.Options()
@@ -154,9 +154,9 @@ header = "Date\tHour\tPT\tAS\tPR\tHR\tHT\tSI\tLON\tLAT\tSP\tPRLON\tS\t" \
 fh.write(header + '\n')
 
 for year in range(1997, 2014):
-    print "Processing Year -> %d" % (year)
+    print("Processing Year -> %d" % (year))
     for month in range(1, 13):
-        print "\t\tMonth - %d" % (month)
+        print("\t\tMonth - %d" % (month))
         trans = transits.Transits()
         trans.month(year, month, chrt)
         printTransits(trans.transits, fh)

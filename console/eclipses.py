@@ -46,7 +46,7 @@ try:
     f.close()
 
 except IOError:
-    print "error loading the chart"
+    print("error loading the chart")
 
 
 opts = options.Options()
@@ -70,19 +70,19 @@ retflag = swisseph.sol_eclipse_when_loc(tjd, astrology.SEFLG_SWIEPH, ny_place.lo
 #retflag = swisseph.sol_eclipse_when_glob(tjd, astrology.SEFLG_SWIEPH, astrology.SE_ECL_ALLTYPES_SOLAR, False);
 jd = retflag[1][0]
 eclflag = retflag[0][0]
-print eclflag
+print(eclflag)
 year, month, day, time = swisseph.revjul(jd, 1)
-print "%d %d %d" % (year, month, day)
+print("%d %d %d" % (year, month, day))
 
 
 if ((eclflag & astrology.SE_ECL_TOTAL)):
-    print "total\n"
+    print("total\n")
 
 if ((eclflag & astrology.SE_ECL_ANNULAR)):
-    print "annular\n"
+    print("annular\n")
 
 if ((eclflag & astrology.SE_ECL_ANNULAR_TOTAL)):
-    print "ann-tot\n"
+    print("ann-tot\n")
 
 if ((eclflag & astrology.SE_ECL_PARTIAL)):
-    print "partial\n"
+    print("partial\n")
