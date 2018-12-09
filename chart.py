@@ -66,9 +66,7 @@ class Time:
         self.ph = None
 
         # Represent date / time as datetime object.
-        timezone_hours = zone_hour + (zone_minute / 60)
-        timezone_delta = datetime.timedelta(hours=timezone_hours)
-        timezone = datetime.timezone(timezone_delta)
+        timezone = self.prepare_timezone(zone_hour, zone_minute)
         self.date = datetime.datetime(
             year, month, day, hour, minute, second, 0, timezone)
 
@@ -76,19 +74,33 @@ class Time:
         if daylightsaving:
             date = date + datetime.timedelta(hours=-1)
 
-        self.jd = self.convert_to_julian(self.date, daylightsaving)
+        self.jd = self.convert_to_julian(self.date)
         if full:
             self.calcPHs(place)
 
-    def convert_to_julian(self, date: datetime, daylightsaving: bool):
+    def prepare_timezone(self, zone_hour: int, zone_minute: int):
+        """
+        Prepare datetime timezone.
+
+        :param zone_hour: Timezone hour.
+        :type zone_hour: int
+        :param zone_minute: Timezone minute.
+        :type zone_minute: int
+        :return: Datetime timezone object.
+        :rtype: datetime.timezone
+        """
+        timezone_hours = zone_hour + (zone_minute / 60)
+        timezone_delta = datetime.timedelta(hours=timezone_hours)
+        timezone = datetime.timezone(timezone_delta)
+        return timezone
+
+    def convert_to_julian(self, date: datetime):
         """
         Convert date from Gregorian to Julian calendar.
 
         :param date: Date represented as datetime object.
         :type date: datetime
         :param daylightsaving: Flag if hour needs day light saving adjust.
-        :type daylightsaving: bool
-        :return: Converted date to Julian calendar.
         :rtype: int
         """
 
