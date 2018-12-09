@@ -31,7 +31,7 @@ class PrimDir:
 
 	OFFSANGLES = astrology.SE_TRUE_NODE+1
 
-	ASC = OFFSANGLES 
+	ASC = OFFSANGLES
 	DESC = ASC+1
 	MC = DESC+1
 	IC = MC+1
@@ -715,7 +715,7 @@ class PrimDirs:
 					if i == astrology.SE_MOON and ioffs == 0 and self.options.pdsecmotion:
 						for itera in range(self.options.pdsecmotioniter+1):
 							ok, rapl, adlat = self.calcZodSM(i, j, aspectus, rapl-self.ramc)
-					
+
 					if ok:
 						self.create(False, i+ioffs, PrimDir.NONE, PrimDir.MC, j, chart.Chart.CONJUNCTIO, rapl-self.ramc)
 					#IC
@@ -882,7 +882,7 @@ class PrimDirs:
 		#promissors
 		for mid in mids:
 			if not self.options.promplanets[mid.p1] or not self.options.promplanets[mid.p2]:
-				continue		
+				continue
 
 			if self.abort.abort:
 				return
@@ -1445,7 +1445,7 @@ class PrimDirs:
 				arc *= -1
 				direct = False
 			if arc > 180.0:
-				arc = 360.0-arc 
+				arc = 360.0-arc
 				direct = not direct
 
 			lim = PrimDirs.LIMIT
@@ -1455,7 +1455,7 @@ class PrimDirs:
 				arc *= -1
 				direct = False
 			if arc > 180.0:
-				arc = 360.0-arc 
+				arc = 360.0-arc
 				direct = not direct
 
 			lim = PrimDirs.REVOLUTIO
@@ -1478,7 +1478,7 @@ class PrimDirs:
 
 				self.pds.append(pd)
 
-			arc = 360.0-arc 
+			arc = 360.0-arc
 			direct = not direct
 
 		if (arc >= lim or arc <= -lim) or (self.direction == PrimDirs.DIRECT and not direct) or (self.direction == PrimDirs.CONVERSE and direct):
@@ -1523,7 +1523,7 @@ class PrimDirs:
 				ti = self.calcBirthSolarArc(arc)
 		else:
 			if self.options.pdkeys == PrimDirs.CUSTOMER:
-				val = (self.options.pdkeydeg+self.options.pdkeymin/60.0+self.options.pdkeysec/3600.0) 
+				val = (self.options.pdkeydeg+self.options.pdkeymin/60.0+self.options.pdkeysec/3600.0)
 				if val != 0.0:
 					coeff = 1.0/val
 					ti = arc*coeff
@@ -1559,9 +1559,9 @@ class PrimDirs:
 #		Find day in ephemeris
 		while (prSunPos <= prSunPosEnd):
 			y, m, d = util.incrDay(y, m, d)
-			ti = chart.Time(y, m, d, 0, 0, 0, False, self.chart.time.cal, chart.Time.GREENWICH, True, 0, 0, False, self.chart.place, False)
+			ti = chart.event.DateTime(y, m, d, 0, 0, 0, False, self.chart.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, self.chart.place, False)
 			sun = planets.Planet(ti.jd, astrology.SE_SUN, astrology.SEFLG_SWIEPH)
-			
+
 			pos = sun.dataEqu[planets.Planet.RAEQU]
 			if self.options.pdkeyd == PrimDirs.TRUESOLARECLIPTICALARC:
 				pos = sun.data[planets.Planet.LONG]
@@ -1634,9 +1634,9 @@ class PrimDirs:
 #		Find day in ephemeris
 		while (prSunPos >= prSunPosEnd):
 			y, m, d = util.decrDay(y, m, d)
-			ti = chart.Time(y, m, d, 0, 0, 0, False, self.chart.time.cal, chart.Time.GREENWICH, True, 0, 0, False, self.chart.place, False)
+			ti = chart.event.DateTime(y, m, d, 0, 0, 0, False, self.chart.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, self.chart.place, False)
 			sun = planets.Planet(ti.jd, astrology.SE_SUN, astrology.SEFLG_SWIEPH)
-			
+
 			pos = sun.dataEqu[planets.Planet.RAEQU]
 			if self.options.pdkeyd == PrimDirs.TRUESOLARECLIPTICALARC:
 				pos = sun.data[planets.Planet.LONG]
@@ -1689,8 +1689,8 @@ class PrimDirs:
 
 		yn, mn, dn = util.incrDay(y, m, d)
 
-		ti1 = chart.Time(y, m, d, 0, 0, 0, False, self.chart.time.cal, chart.Time.LOCALMEAN, True, 0, 0, False, self.chart.place, False)
-		ti2 = chart.Time(yn, mn, dn, 0, 0, 0, False, self.chart.time.cal, chart.Time.LOCALMEAN, True, 0, 0, False, self.chart.place, False)
+		ti1 = chart.event.DateTime(y, m, d, 0, 0, 0, False, self.chart.time.cal, chart.event.DateTime.LOCALMEAN, True, 0, 0, False, self.chart.place, False)
+		ti2 = chart.event.DateTime(yn, mn, dn, 0, 0, 0, False, self.chart.time.cal, chart.event.DateTime.LOCALMEAN, True, 0, 0, False, self.chart.place, False)
 
 		sun1 = planets.Planet(ti1.jd, astrology.SE_SUN, astrology.SEFLG_SWIEPH)
 		sun2 = planets.Planet(ti2.jd, astrology.SE_SUN, astrology.SEFLG_SWIEPH)
@@ -1743,7 +1743,7 @@ class PrimDirs:
 			diff *= -1
 			direct = False
 		if diff > 180.0:
-			diff = 360.0-diff 
+			diff = 360.0-diff
 			direct = not direct
 
 		if not direct:
@@ -1768,7 +1768,7 @@ class PrimDirs:
 
 		if self.options.pdkeydyn:
 			lines.append(mtexts.txts['DynamicKey']+':\n')
-			lines.append(pdkeysdyn[self.options.pdkeyd]) 
+			lines.append(pdkeysdyn[self.options.pdkeyd])
 			lines.append('\n')
 		else:
 			deg = self.options.pdkeydeg
@@ -1780,7 +1780,7 @@ class PrimDirs:
 				sec = PrimDirs.staticData[self.options.pdkeys][PrimDirs.SEC]
 
 			lines.append(mtexts.txts['StaticKey']+':\n')
-			txt = pdkeysstat[self.options.pdkeys]+' '+str(deg)+mtexts.txts['DegPDList']+' '+str(minu).zfill(2)+mtexts.txts['MinPDList']+' '+str(sec).zfill(2)+mtexts.txts['SecPDList'] 
+			txt = pdkeysstat[self.options.pdkeys]+' '+str(deg)+mtexts.txts['DegPDList']+' '+str(minu).zfill(2)+mtexts.txts['MinPDList']+' '+str(sec).zfill(2)+mtexts.txts['SecPDList']
 			lines.append(txt)
 			lines.append('\n')
 
@@ -1801,7 +1801,7 @@ class PrimDirs:
 			tuptxt = [mtxt]
 
 			#promissors
-			if pd.promasp == chart.Chart.MIDPOINT or pd.sigasp == chart.Chart.RAPTPAR or pd.sigasp == chart.Chart.RAPTCONTRAPAR: 
+			if pd.promasp == chart.Chart.MIDPOINT or pd.sigasp == chart.Chart.RAPTPAR or pd.sigasp == chart.Chart.RAPTCONTRAPAR:
 				formattxt += '%s %s '
 				tuptxt.append(bodies[pd.prom])
 				tuptxt.append(bodies[pd.prom2])
@@ -1872,8 +1872,8 @@ class PrimDirs:
 
 			#D/C
 			formattxt += '%s %s '
-			tuptxt.append(dirtxt)	
-			tuptxt.append('-->')	
+			tuptxt.append(dirtxt)
+			tuptxt.append('-->')
 
 			#significators
 			if pd.sigasp == chart.Chart.PARALLEL or pd.sigasp == chart.Chart.CONTRAPARALLEL:

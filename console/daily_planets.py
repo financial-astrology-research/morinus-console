@@ -75,7 +75,7 @@ def calculateNearestEclipse(ecplanet, chrt, year, month, day, hour, minute = 0, 
     if eclipses_cache.has_key(ecldate):
         lon = eclipses_cache[ecldate]
     else:
-        day_time = chart.Time(eyear, emonth, eday, ehour, eminute, esecond, False, 0, 0, False, 0, 0, 0, chrt.place)
+        day_time = chart.event.DateTime(eyear, emonth, eday, ehour, eminute, esecond, False, 0, 0, False, 0, 0, 0, chrt.place)
         day_chart = chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
         lon = day_chart.planets.planets[planet_id].data[planets.Planet.LONG]
         eclipses_cache[ecldate] = lon
@@ -86,7 +86,7 @@ def calculateNearestEclipse(ecplanet, chrt, year, month, day, hour, minute = 0, 
     sys.stdout.write(''.join(out))
 
 def calculateDailyChart(chrt, year, month, day, hour):
-    day_time = chart.Time(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
+    day_time = chart.event.DateTime(year, month, day, hour, 0, 0, chrt.time.bc, chrt.time.cal, chrt.time.zt, chrt.time.plus, chrt.time.zh, chrt.time.zm, chrt.time.daylightsaving, chrt.place)
     return chart.Chart(chrt.name, chrt.male, day_time, chrt.place, chrt.htype, chrt.notes, chrt.options)
 
 def printPlanetsData(chrt):
@@ -152,7 +152,7 @@ opts = options.Options()
 swisseph.set_ephe_path('../SWEP/Ephem')
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
-time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
+time = chart.event.DateTime(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
 print("Date\t" \

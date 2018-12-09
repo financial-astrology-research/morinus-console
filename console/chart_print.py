@@ -70,7 +70,7 @@ with open('Hors/birthdates.csv', 'rb') as f:
         year, month, day, hour, minute, second = dt.tm_year, dt.tm_mon, dt.tm_mday, dt.tm_hour, dt.tm_min, dt.tm_sec
         zone_hour, zone_minute, zone_second = util.decToDeg(float(row['ZH']))
         symbol = row['Symbol']
-        time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.Time.ZONE, False, zone_hour, 0, False, ny_place)
+        time = chart.event.DateTime(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.event.DateTime.ZONE, False, zone_hour, 0, False, ny_place)
         chrt = chart.Chart(symbol, False, time, ny_place, opts.hsys, 'notes', opts)
         # Print chart positions
         printPlanetsData(chrt)
