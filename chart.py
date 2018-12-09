@@ -59,8 +59,34 @@ class Time:
         self.zh = zh
         self.zm = zm
         self.daylightsaving = daylightsaving
+        self.jd = self.convert_to_julian(hour, minute, second, year, month, day, zh, zm, daylightsaving)
+        self.ph = None
+        if full:
+            self.calcPHs(place)
 
-        self.time = hour+minute/60.0+second/3600.0
+    def convert_to_julian(self, hour: int, minute: int, second: int, year: int, month: int, day: int, zh: int, zm: int, daylightsaving: bool):
+        """
+        Convert date from Gregorian to Julian calendar.
+
+        :param hour: Time hour.
+        :type hour: int
+        :param minute: Time minute.
+        :type minute: int
+        :param second: Time second.
+        :type second: int
+        :param year: Date year.
+        :type year: int
+        :param month: Date month.
+        :type month: int
+        :param day: Date day.
+        :type day: int
+        :param zh: Timezone hour.
+        :type zh: int
+        :param zm: Timezone minute.
+        :type zm: int
+        :param daylightsaving: Flag if hour needs day light saving adjust.
+        :type daylightsaving: bool
+        """
 
         self.dyear, self.dmonth, self.dday, self.dhour, self.dmin, self.dsec = year, month, day, hour, minute, second
         # Build date instance.
@@ -76,15 +102,13 @@ class Time:
         date = date.astimezone(pytz.timezone('UTC'))
         # Aggregate hours, mins, secs as required by swisseph.
         aggregate_time = date.hour + (date.minute/60.0) + (date.second/3600.0)
+        self.time = aggregate_time
         # Set calendar type to use based on time options.
         calflag = astrology.SE_GREG_CAL
 
         # Convert date to Julian Day.
-        self.jd = swisseph.julday(date.year, date.month, date.day, aggregate_time, calflag)
-
-        self.ph = None
-        if full:
-            self.calcPHs(place)
+        julian_date = swisseph.julday(date.year, date.month, date.day, aggregate_time, calflag)
+        return julian_date
 
 
     def calcPHs(self, place):
