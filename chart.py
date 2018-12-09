@@ -88,6 +88,8 @@ class Time:
         :type date: datetime
         :param daylightsaving: Flag if hour needs day light saving adjust.
         :type daylightsaving: bool
+        :return: Converted date to Julian calendar.
+        :rtype: int
         """
 
         # Transform to UTC timezone.
@@ -105,6 +107,7 @@ class Time:
             date.day,
             aggregate_time,
             calflag)
+
         return julian_date
 
     def calcPHs(self, place):
