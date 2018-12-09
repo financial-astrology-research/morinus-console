@@ -64,7 +64,7 @@ class Time:
         if full:
             self.calcPHs(place)
 
-    def convert_to_julian(self, hour: int, minute: int, second: int, year: int, month: int, day: int, zh: int, zm: int, daylightsaving: bool):
+    def convert_to_julian(self, hour: int, minute: int, second: int, year: int, month: int, day: int, zone_hour: int, zone_minute: int, daylightsaving: bool):
         """
         Convert date from Gregorian to Julian calendar.
 
@@ -90,7 +90,7 @@ class Time:
 
         self.dyear, self.dmonth, self.dday, self.dhour, self.dmin, self.dsec = year, month, day, hour, minute, second
         # Build date instance.
-        timezone_hours = zh + (zm / 60)
+        timezone_hours = zone_hour + (zone_minute / 60)
         timezone_delta = datetime.timedelta(hours=timezone_hours)
         timezone = datetime.timezone(timezone_delta)
         date = datetime.datetime(year, month, day, hour, minute, second, 0, timezone)
