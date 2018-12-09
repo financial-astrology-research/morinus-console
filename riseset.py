@@ -23,7 +23,7 @@ class RiseSet:
         self.alt = alt
 
         self.calflag = astrology.SE_GREG_CAL
-        if self.cal == chart.Time.JULIAN:
+        if self.cal == chart.event.DateTime.JULIAN:
             self.calflag = astrology.SE_JUL_CAL
 
 #       self.offs = lon*4.0/1440.0

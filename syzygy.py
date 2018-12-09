@@ -183,10 +183,10 @@ class Syzygy:
 				y, mo, d = util.decrDay(y, mo, d)
 				if y == 0:
 					y = 1
-					tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+					tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 					return True, tim, True
 
-			tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+			tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 
 			sun = planets.Planet(tim.jd, astrology.SE_SUN, self.flags)
 			moon = planets.Planet(tim.jd, astrology.SE_MOON, self.flags)
@@ -214,7 +214,7 @@ class Syzygy:
 			h = 0
 			y, mo, d = util.incrDay(y, mo, d)
 
-		tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+		tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 
 		while True:
 			h, m, s = util.decToDeg(tim.time)
@@ -222,10 +222,10 @@ class Syzygy:
 			y, mo, d, h, m = util.subtractMins(y, mo, d, h, m, 1)
 			if y == 0:
 				y = 1
-				tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+				tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 				return True, tim, True
 
-			tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+			tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 
 			sun = planets.Planet(tim.jd, astrology.SE_SUN, self.flags)
 			moon = planets.Planet(tim.jd, astrology.SE_MOON, self.flags)
@@ -250,7 +250,7 @@ class Syzygy:
 		y, mo, d = tim.year, tim.month, tim.day
 		y, mo, d, h, m = util.addMins(y, mo, d, h, m, 1)
 
-		tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+		tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 
 		while True:
 			h, m, s = util.decToDeg(tim.time)
@@ -258,10 +258,10 @@ class Syzygy:
 			y, mo, d, h, m, s = util.subtractSecs(y, mo, d, h, m, s, 1)
 			if y == 0:
 				y = 1
-				tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+				tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 				return True, tim, True
 
-			tim = chart.Time(y, mo, d, h, m, s, False, tim.cal, chart.Time.GREENWICH, True, 0, 0, False, place, False)
+			tim = chart.event.DateTime(y, mo, d, h, m, s, False, tim.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, place, False)
 
 			sun = planets.Planet(tim.jd, astrology.SE_SUN, self.flags)
 			moon = planets.Planet(tim.jd, astrology.SE_MOON, self.flags)

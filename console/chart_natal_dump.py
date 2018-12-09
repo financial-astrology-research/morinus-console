@@ -116,7 +116,7 @@ if tz[0] == '-':
 else:
   tzplus = True
 
-time = chart.Time(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.Time.ZONE, tzplus, tzh, tzm, False, place)
+time = chart.event.DateTime(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.event.DateTime.ZONE, tzplus, tzh, tzm, False, place)
 chrt = chart.Chart(chart_name, False, time, place, opts.hsys, 'notes', opts)
 # Print chart positions
 printPlanetsData(chrt)

@@ -22,7 +22,7 @@ class EphemCalc:
 		ayanamsha = 0.0
 		if opts.ayanamsha != 0:
 			swisseph.set_sid_mode(opts.ayanamsha-1, 0, 0)
-			tim = chart.Time(self.year, 1, 1, 0, 0, 0, False, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+			tim = chart.event.DateTime(self.year, 1, 1, 0, 0, 0, False, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 			ayanamsha = swisseph.get_ayanamsa_ut(tim.jd)
 
 		plsnum = 7
@@ -39,7 +39,7 @@ class EphemCalc:
 				y = self.year; m = 1; d = 1
 				ar = []
 				for num in range(365):
-					time = chart.Time(y, m, d, 0, 0, 0, False, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+					time = chart.event.DateTime(y, m, d, 0, 0, 0, False, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					pl = planets.Planet(time.jd, i, self.flags)
 					pos = pl.data[planets.Planet.LONG]
 					if opts.ayanamsha != 0:

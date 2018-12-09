@@ -68,10 +68,10 @@ class Transits:
 				break
 
 		#lastday in month-first day in next month
-		time1 = chart.Time(year, month, lastday, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+		time1 = chart.event.DateTime(year, month, lastday, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 
 		year, month = util.incrMonth(year, month)
-		time2 = chart.Time(year, month, 1, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+		time2 = chart.event.DateTime(year, month, 1, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 
 		cnt = len(self.transits)
 
@@ -91,8 +91,8 @@ class Transits:
 			if chrt.options.topocentric:
 				self.flags += astrology.SEFLG_TOPOCTR
 
-		time1 = chart.Time(year, month, day, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
-		time2 = chart.Time(year, month, day+1, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+		time1 = chart.event.DateTime(year, month, day, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
+		time2 = chart.event.DateTime(year, month, day+1, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 
 		cnt = len(self.transits)
 		if planet == Transits.NONE:
@@ -224,38 +224,38 @@ class Transits:
 			for val in range(fr, to):
 				time = None
 				if unit == Transits.HOUR:
-					time1 = chart.Time(time1.year, time1.month, time1.day, val, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+					time1 = chart.event.DateTime(time1.year, time1.month, time1.day, val, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 					time2 = None
 					if val+1 < to:
-						time2 = chart.Time(time1.year, time1.month, time1.day, val+1, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+						time2 = chart.event.DateTime(time1.year, time1.month, time1.day, val+1, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 					else:
 						y, m, d = util.incrDay(time1.year, time1.month, time1.day)
-						time2 = chart.Time(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+						time2 = chart.event.DateTime(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 				elif unit == Transits.MINUTE:
-					time1 = chart.Time(time1.year, time1.month, time1.day, time1.hour, val, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+					time1 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour, val, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 					time2 = None
 					if val+1 < to:
-						time2 = chart.Time(time1.year, time1.month, time1.day, time1.hour, val+1, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+						time2 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour, val+1, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 					else:
 						if time1.hour+1 < 24:
-							time2 = chart.Time(time1.year, time1.month, time1.day, time1.hour+1, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+							time2 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour+1, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 						else:
 							y, m, d = util.incrDay(time1.year, time1.month, time1.day)
-							time2 = chart.Time(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+							time2 = chart.event.DateTime(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 				elif unit == Transits.SECOND:
-					time1 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, val, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+					time1 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour, time1.minute, val, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 					time2 = None
 					if val+1 < to:
-						time2 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute, val+1, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+						time2 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour, time1.minute, val+1, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 					else:
 						if time1.minute+1 < 60:
-							time2 = chart.Time(time1.year, time1.month, time1.day, time1.hour, time1.minute+1, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+							time2 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour, time1.minute+1, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 						else:
 							if time1.hour+1 < 24:
-								time2 = chart.Time(time1.year, time1.month, time1.day, time1.hour+1, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+								time2 = chart.event.DateTime(time1.year, time1.month, time1.day, time1.hour+1, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 							else:
 								y, m, d = util.incrDay(time1.year, time1.month, time1.day)
-								time2 = chart.Time(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.Time.GREENWICH, True, 0, 0, False, chrt.place, False)
+								time2 = chart.event.DateTime(y, m, d, 0, 0, 0, False, chrt.time.cal, chart.event.DateTime.GREENWICH, True, 0, 0, False, chrt.place, False)
 				else:
 #					print 'unit > SECOND'
 					return None

@@ -128,7 +128,7 @@ opts.orbis = [
 
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
-time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place, False)
+time = chart.event.DateTime(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place, False)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts, False)
 
 # calculate astrodinas

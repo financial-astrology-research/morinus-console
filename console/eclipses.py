@@ -56,7 +56,7 @@ opts.exact = 3.0
 # instance of place, time and chart generation
 place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
 ny_place = chart.Place('New York', 74, 0, 0, False, 40, 42, 0, True, 43)
-time = chart.Time(2005, 10, 3, 10, 0, 0, bc, cal, zt, plus, zh, zm, daylightsaving, place)
+time = chart.event.DateTime(2005, 10, 3, 10, 0, 0, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 chrt = chart.Chart(name, male, time, place, htype, notes, opts)
 
 swisseph.set_ephe_path('/Applications/Morinus.app/Contents/Resources/SWEP/Ephem')

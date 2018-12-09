@@ -60,7 +60,7 @@ class FindTime:
 			y, m ,d = util.incrDay(y, m ,d)
 
 		#Because the Sun's velocity is not exactly one degree per day. It is variable. The targetdate (from Sun's long) won't exactly be in the middle of the range
-		tim = chart.Time(y, m, d, 0, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+		tim = chart.event.DateTime(y, m, d, 0, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 		tmpSun = planets.Planet(tim.jd, astrology.SE_SUN, self.flags)
 		lonSun = tmpSun.data[planets.Planet.LONG]
 		lontofind = self.ftdata[astrology.SE_SUN][findtimedlg.FindTimeDlg.LON]
@@ -124,9 +124,9 @@ class FindTime:
 
 	def day(self, year, month, day, planet, pos):
 		y, m, d = util.incrDay(year, month, day)
-		time1 = chart.Time(year, month, day, 0, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
-		time2 = chart.Time(y, m, d, 0, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
-				
+		time1 = chart.event.DateTime(year, month, day, 0, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
+		time2 = chart.event.DateTime(y, m, d, 0, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
+
 		return self.cycleplanet(time1, time2, planet, pos)
 
 
@@ -151,52 +151,52 @@ class FindTime:
 			for val in range(fr, to):
 				time = None
 				if unit == FindTime.HOUR:
-					time1 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, val, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+					time1 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, val, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					time2 = None
 					if val+1 < to:
-						time2 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, val+1, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+						time2 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, val+1, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					else:
 						y, m, d = util.incrDay(int(math.fabs(time1.year)), time1.month, time1.day)
-						time2 = chart.Time(y, m, d, 0, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+						time2 = chart.event.DateTime(y, m, d, 0, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 				elif unit == FindTime.MINUTE:
-					time1 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, val, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+					time1 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, val, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					time2 = None
 					if val+1 < to:
-						time2 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, val+1, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+						time2 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, val+1, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					else:
 						if time1.hour+1 < 24:
-							time2 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour+1, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+							time2 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour+1, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 						else:
 							y, m, d = util.incrDay(int(math.fabs(time1.year)), time1.month, time1.day)
-							time2 = chart.Time(y, m, d, 0, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+							time2 = chart.event.DateTime(y, m, d, 0, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 				elif unit == FindTime.SECOND:
-					time1 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, time1.minute, val, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+					time1 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, time1.minute, val, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					time2 = None
 					if val+1 < to:
-						time2 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, time1.minute, val+1, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+						time2 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, time1.minute, val+1, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 					else:
 						if time1.minute+1 < 60:
-							time2 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, time1.minute+1, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+							time2 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour, time1.minute+1, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 						else:
 							if time1.hour+1 < 24:
-								time2 = chart.Time(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour+1, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+								time2 = chart.event.DateTime(int(math.fabs(time1.year)), time1.month, time1.day, time1.hour+1, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 							else:
 								y, m, d = util.incrDay(int(math.fabs(time1.year)), time1.month, time1.day)
-								time2 = chart.Time(y, m, d, 0, 0, 0, self.bc, chart.Time.GREGORIAN, chart.Time.GREENWICH, True, 0, 0, False, None, False)
+								time2 = chart.event.DateTime(y, m, d, 0, 0, 0, self.bc, chart.event.DateTime.GREGORIAN, chart.event.DateTime.GREENWICH, True, 0, 0, False, None, False)
 				else:
 #					print 'unit > SECOND'
-					return None	
+					return None
 
 				planet1 = planets.Planet(time1.jd, pl, self.flags)
 				planet2 = planets.Planet(time2.jd, pl, self.flags)
-	
+
 				if self.check(planet1, planet2, lon):
 					un = FindTime.OVER
 					if unit == FindTime.HOUR:
 						un = FindTime.MINUTE
 					if unit == FindTime.MINUTE:
 						un = FindTime.SECOND
-				
+
 					if un != FindTime.OVER:
 						return self.get(planet1, planet2, time1, lon, pl, un)
 					else:
@@ -208,7 +208,7 @@ class FindTime:
 							return None
 
 						return (int(math.fabs(time1.year)), time1.month, time1.day, time1.time, time1.jd)
-				
+
 		return None
 
 
