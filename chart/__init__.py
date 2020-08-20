@@ -169,7 +169,7 @@ class Chart:
         self.nolat = nolat
 
         d = swisseph.deltat(time.jd)
-        self.obl = swisseph.calc(time.jd+d, astrology.SE_ECL_NUT, 0)
+        self.obl = swisseph.calc(time.jd+d, astrology.SE_ECL_NUT, 0)[0]
         # true obliquity of the ecliptic
         # mean
         #nutation in long

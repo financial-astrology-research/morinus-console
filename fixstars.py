@@ -18,7 +18,7 @@ class FixStars:
         i = 0
         for k in names:
             self.data.append(['', '', 0.0, 0.0, 0.0, 0.0])
-            dat = swisseph.fixstar_ut(','+k, tjd_ut, flag)
+            dat = swisseph.fixstar_ut(','+k, tjd_ut, flag)[0]
 
             nam = k
             nomnam = ''
@@ -57,9 +57,3 @@ class FixStars:
                     tmp = self.mixed[j]
                     self.mixed[j] = self.mixed[j+1]
                     self.mixed[j+1] = tmp
-
-
-
-
-
-

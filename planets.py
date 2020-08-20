@@ -62,8 +62,8 @@ class Planet:
 		self.speculums = None
 
 		if (ecl == None):
-			self.data = swisseph.calc_ut(tjd_ut, pId, flag)
-			self.dataEqu = swisseph.calc_ut(tjd_ut, pId, flag+astrology.SEFLG_EQUATORIAL)
+			self.data = swisseph.calc_ut(tjd_ut, pId, flag)[0]
+			self.dataEqu = swisseph.calc_ut(tjd_ut, pId, flag+astrology.SEFLG_EQUATORIAL)[0]
 
 			# data[0] : longitude
 			# data[1] : latitude
@@ -880,8 +880,3 @@ class Planets:
 	def calcMundaneWithoutSM(self, da, obl, placelat, ascmc2, raequasc):
 		for pl in range(Planets.PLANETS_NUM):
 			self.planets[pl].calcMundaneWithoutSM(da, obl, placelat, ascmc2, raequasc)
-
-
-
-
-

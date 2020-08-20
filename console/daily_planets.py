@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+sys.path.append('/usr/local/lib/python3.7/site-packages')
 
 from inspect import getmembers
 from pprint import pprint
