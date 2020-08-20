@@ -26,11 +26,12 @@ def dailyPlanets(chrt, start_year, start_month, end_year, end_month, hour):
         for month in range(start_month, end_month+1):
             for day in range(1, 32):
                 if util.checkDate(year, month, day):
-                    day_chart = calculateDailyChart(chrt, year, month, day, hour)
-                    printPlanetsData(day_chart)
-                    # calculateNearestEclipse('sun', chrt, year, month, day, hour)
-                    # calculateNearestEclipse('moon', chrt, year, month, day, hour)
-                    sys.stdout.write('\n')
+                    for current_hour in range(hour, 24):
+                        day_chart = calculateDailyChart(chrt, year, month, day, current_hour)
+                        printPlanetsData(day_chart)
+                        # calculateNearestEclipse('sun', chrt, year, month, day, current_hour)
+                        # calculateNearestEclipse('moon', chrt, year, month, day, current_hour)
+                        sys.stdout.write('\n')
                 else:
                     break
 
@@ -92,7 +93,7 @@ def calculateDailyChart(chrt, year, month, day, hour):
 
 def printPlanetsData(chrt):
     out = []
-    out.append("%d-%d-%d\t" % (chrt.time.year, chrt.time.month, chrt.time.day))
+    out.append("%d-%d-%d\t%d\t" % (chrt.time.year, chrt.time.month, chrt.time.day, chrt.time.hour))
 
     for j in range (planets.Planets.PLANETS_NUM):
         lon = chrt.planets.planets[j].data[planets.Planet.LONG]
@@ -112,51 +113,15 @@ def printPlanetsData(chrt):
 
     sys.stdout.write(''.join(out))
 
-fpath = "/Users/pablocc/Hors/EUR born.hor"
-chrt = None
-
-try:
-    f = open(fpath, 'rb')
-    name = pickle.load(f)
-    male = pickle.load(f)
-    htype = pickle.load(f)
-    bc = pickle.load(f)
-    year = pickle.load(f)
-    month = pickle.load(f)
-    day = pickle.load(f)
-    hour = pickle.load(f)
-    minute = pickle.load(f)
-    second = pickle.load(f)
-    cal = pickle.load(f)
-    zt = pickle.load(f)
-    plus = pickle.load(f)
-    zh = pickle.load(f)
-    zm = pickle.load(f)
-    daylightsaving = pickle.load(f)
-    place = pickle.load(f)
-    deglon = pickle.load(f)
-    minlon = pickle.load(f)
-    seclon = pickle.load(f)
-    east = pickle.load(f)
-    deglat = pickle.load(f)
-    minlat = pickle.load(f)
-    seclat = pickle.load(f)
-    north = pickle.load(f)
-    altitude = pickle.load(f)
-    notes = pickle.load(f)
-    f.close()
-
-except IOError:
-    print("error loading the chart")
-
 opts = options.Options()
 swisseph.set_ephe_path('../SWEP/Ephem')
 # instance of place, time and chart generation
-place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
-time = chart.event.DateTime(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
-chrt = chart.Chart(name, male, time, place, htype, notes, opts)
+# Based on Greenwich place and UTC time.
+place = chart.Place(None, 51, 29, 24, True, 0, 0, 0, True, 0)
+time = chart.event.DateTime(2020, 8, 20, 0, 0, 0, False, 0, 0, True, 0, 0, False, place)
+chrt = chart.Chart("Daily Chart", False, time, place, 0, "", opts)
 
-print("Date\t" \
+print("Date\tHour\t" \
     "SULON\tSULAT\tSUDEC\tSUSP\t" \
     "MOLON\tMOLAT\tMODEC\tMOSP\t" \
     "MELON\tMELAT\tMEDEC\tMESP\t" \
@@ -174,7 +139,6 @@ print("Date\t" \
     "JNLON\tJNLAT\tJNDEC\tJNSP\t" \
     "PALON\tPALAT\tPADEC\tPASP\t" \
     "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
-    "VSLON\tVSLAT\tVSDEC\tVSSP\t" \
-    "ESULON\tESUT\tEMOLON\tEMOT\t")
+    "VSLON\tVSLAT\tVSDEC\tVSSP\t")
 
-dailyPlanets(chrt, 1930, 1, 2030, 12, 2)
+dailyPlanets(chrt, 2000, 1, 2030, 12, 0)
