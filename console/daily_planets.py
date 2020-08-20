@@ -141,4 +141,4 @@ print("Date\tHour\t" \
     "PHLON\tPHLAT\tPHDEC\tPHSP\t" \
     "VSLON\tVSLAT\tVSDEC\tVSSP\t")
 
-dailyPlanets(chrt, 2000, 1, 2030, 12, 0)
+dailyPlanets(chrt, 1980, 1, 2030, 12, 0)
