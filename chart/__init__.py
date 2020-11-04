@@ -5,6 +5,7 @@ import pytz
 import math
 import datetime
 import astrology
+import asteroids
 import swisseph
 import planets
 import houses
@@ -26,6 +27,7 @@ import syzygy
 import util
 import mtexts
 import sys
+
 
 # if long is 'E' or/and lat is 'S' -> negate value
 
@@ -229,6 +231,8 @@ class Chart:
             self.place.lat,
             abovehor)
 
+        self.asteroids = asteroids.Asteroids(self.time.jd, pflag)
+
 # ###########################################
 # Roberto change  V 7.3.0
         self.firdaria = None
@@ -425,15 +429,24 @@ class Chart:
         self.calcSpeeds()
 
         self.aspmatrix = [[Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
-                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
+                          [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(),
+                           Asp(), Asp(), Asp(), Asp(), Asp()],
                           [Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp(), Asp()]]
 
         for i in range(self.planets.PLANETS_NUM-1):
@@ -485,8 +498,10 @@ class Chart:
                                     tmp, i, j)
 
                                 # Check Exact
-                                val1 = self.planets.planets[j].data[0]+self.options.exact
-                                val2 = self.planets.planets[j].data[0]-self.options.exact
+                                val1 = self.planets.planets[j].data[0] + \
+                                    self.options.exact
+                                val2 = self.planets.planets[j].data[0] - \
+                                    self.options.exact
 
                                 if (self.inorbsinister(val1, val2,
                                                        self.planets.planets[i].data[0], a)):
@@ -557,7 +572,8 @@ class Chart:
                         break
 
                     # Check aspects
-                    val1 = self.houses.ascmc[j]+self.options.orbisAscMC[a]+self.options.orbis[i][a]
+                    val1 = self.houses.ascmc[j] + \
+                        self.options.orbisAscMC[a]+self.options.orbis[i][a]
                     val2 = self.houses.ascmc[j]-(
                         self.options.orbisAscMC[a]+self.options.orbis[i][a])
 
@@ -673,8 +689,10 @@ class Chart:
                             self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]-1]
 
                             # Exact
-                            val1 = self.houses.cusps[hidx[j]-1]+self.options.exact
-                            val2 = self.houses.cusps[hidx[j]-1]-self.options.exact
+                            val1 = self.houses.cusps[hidx[j]-1] + \
+                                self.options.exact
+                            val2 = self.houses.cusps[hidx[j]-1] - \
+                                self.options.exact
 
                             if (self.inorbsinister(val1, val2, pllon, a)):
                                 self.aspmatrixH[j][i].exact = True
@@ -695,8 +713,10 @@ class Chart:
                                 self.aspmatrixH[j][i].appl = tmp > self.houses.cusps[hidx[j]-1]
 
                                 # exact
-                                val1 = self.houses.cusps[hidx[j]-1]+self.options.exact
-                                val2 = self.houses.cusps[hidx[j]-1]-self.options.exact
+                                val1 = self.houses.cusps[hidx[j]-1] + \
+                                    self.options.exact
+                                val2 = self.houses.cusps[hidx[j]-1] - \
+                                    self.options.exact
 
                                 if (self.inorbdexter(val1, val2, pllon, a)):
                                     self.aspmatrixH[j][i].exact = True
@@ -890,9 +910,11 @@ class Chart:
         for i in range(num):
             ar = []
             val1 = self.fixstars.data[i][fixstars.FixStars.LON] + \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
             val2 = self.fixstars.data[i][fixstars.FixStars.LON] - \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
 
             for j in range(self.planets.PLANETS_NUM):
                 if (self.inorbsinister(
@@ -914,9 +936,11 @@ class Chart:
             ar = []
 
             val1 = self.fixstars.data[i][fixstars.FixStars.LON] + \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
             val2 = self.fixstars.data[i][fixstars.FixStars.LON] - \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
 
             for j in range(len(ascmc)):
                 if (self.inorbsinister(val1, val2,
@@ -932,9 +956,11 @@ class Chart:
             ar = []
 
             val1 = self.fixstars.data[i][fixstars.FixStars.LON] + \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
             val2 = self.fixstars.data[i][fixstars.FixStars.LON] - \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
 
             for j in range(houses.Houses.HOUSE_NUM):
                 if (j == 0 or j == 3 or j == 6 or j == 9) and (self.houses.hsys == 'P' or self.houses.hsys == 'K' or self.houses.hsys ==
@@ -953,9 +979,11 @@ class Chart:
         lonlof = self.fortune.fortune[fortune.Fortune.LON]
         for i in range(num):
             val1 = self.fixstars.data[i][fixstars.FixStars.LON] + \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
             val2 = self.fixstars.data[i][fixstars.FixStars.LON] - \
-                self.options.fixstars[self.fixstars.data[i][fixstars.FixStars.NOMNAME]]
+                self.options.fixstars[self.fixstars.data[i]
+                                      [fixstars.FixStars.NOMNAME]]
 
             if (self.inorbsinister(val1, val2, lonlof, Chart.CONJUNCTIO)):
                 self.fsaspmatrixlof.append(i)

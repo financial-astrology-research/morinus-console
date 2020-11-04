@@ -1,4 +1,5 @@
 import astrology
+import swisseph
 
 
 class Asteroid:
@@ -7,12 +8,9 @@ class Asteroid:
 	def __init__(self, tjd_ut, aId, flag):
 		self.aId = aId
 
-		rflag, dat, serr = swisseph.calc_ut(tjd_ut, aId, flag)
-		rflag, datEqu, serr = swisseph.calc_ut(tjd_ut, aId, flag+astrology.SEFLG_EQUATORIAL)
-		self.data = (dat[0], dat[1], datEqu[0], datEqu[1])
-
+		self.data = swisseph.calc_ut(tjd_ut, aId, flag)[0]
+		self.dataEqu = swisseph.calc_ut(tjd_ut, aId, flag+astrology.SEFLG_EQUATORIAL)[0]
 		self.name = swisseph.get_planet_name(aId)
-
 
 class Asteroids:
 	"""Calculates the positions of the asteroids"""
@@ -21,10 +19,6 @@ class Asteroids:
 
 	def __init__(self, tjd_ut, flag):
 		self.asteroids = []
-		
+
 		for i in Asteroids.ids:
 			self.asteroids.append(Asteroid(tjd_ut, i, flag))
-
-	
-	
-

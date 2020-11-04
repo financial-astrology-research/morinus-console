@@ -99,17 +99,17 @@ def printPlanetsData(chrt):
         lon = chrt.planets.planets[j].data[planets.Planet.LONG]
         lat = chrt.planets.planets[j].data[planets.Planet.LAT]
         speed = chrt.planets.planets[j].data[planets.Planet.SPLON]
-        decl = chrt.planets.planets[j].dataEqu[1]
+        decl = chrt.planets.planets[j].dataEqu[planets.Planet.DECLEQU]
         #name = chrt.planets.planets[j].name
         #riseset = chrt.riseset.planetRiseSet(j)
         out.append("%.2f\t%.2f\t%.3f\t%.2f\t" % (lon, lat, decl, speed))
 
-    # for asteroid in chrt.asteroids.asteroids:
-    #     lon = asteroid.data[planets.Planet.LONG]
-    #     lat = asteroid.data[planets.Planet.LAT]
-    #     speed = asteroid.data[planets.Planet.SPLON]
-    #     decl = asteroid.dataEqu[1]
-    #     out.append("%.2f\t%.2f\t%.3f\t%.2f\t" % (lon, lat, decl, speed))
+    for asteroid in chrt.asteroids.asteroids:
+        lon = asteroid.data[planets.Planet.LONG]
+        lat = asteroid.data[planets.Planet.LAT]
+        speed = asteroid.data[planets.Planet.SPLON]
+        decl = asteroid.dataEqu[planets.Planet.DECLEQU]
+        out.append("%.2f\t%.2f\t%.3f\t%.2f\t" % (lon, lat, decl, speed))
 
     sys.stdout.write(''.join(out))
 
