@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 GCHART_DESTINATION_PATH = '/tmp'
 
 import sys
-# Add libraries from one level above.
-sys.path.append("..")
+from os import path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+sys.path.append('/usr/local/lib/python3.7/site-packages')
 
 import os
 import swisseph
@@ -25,6 +26,8 @@ from inspect import getmembers
 from pprint import pprint
 from sys import exit
 
+swisseph.set_ephe_path('../SWEP/Ephem')
+
 def printPlanetsData(chrt):
     out = []
     out.append("%s\t" % (chrt.name))
@@ -40,10 +43,11 @@ def printPlanetsData(chrt):
 
     # ASC / MC positions
     # Houses positions
-    for j in range (1, 13):
+    for j in range (0, 12):
         lon = chrt.houses.cusps[j]
-        out.append("%.2f\t" % (lon))
+        #out.append("%.2f\t" % (lon))
 
+    sys.stdout.write(''.join(out))
 
 opts = options.Options()
 mtexts.setLang(opts.langid)
@@ -119,4 +123,4 @@ else:
 time = chart.event.DateTime(year, month, day, hour, minute, second, False, astrology.SE_JUL_CAL, chart.event.DateTime.ZONE, tzplus, tzh, tzm, False, place)
 chrt = chart.Chart(chart_name, False, time, place, opts.hsys, 'notes', opts)
 # Print chart positions
-printPlanetsData(chrt)
+print(printPlanetsData(chrt))
